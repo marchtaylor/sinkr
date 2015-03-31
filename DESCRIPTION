@@ -1,0 +1,15 @@
+Package: sinkr
+Type: Package
+Title: A collection of functions featured on the blog 'me nugget'
+Version: 2.0
+Date: 2015-03-30
+Author: Marc Taylor <ningkiling@gmail.com>
+Maintainer: Marc Taylor <ningkiling@gmail.com>
+Imports:
+    irlba,
+    vegan
+Description: The sinkr package contains a collection of functions featured on
+    "http://menugget.blogspot.com". Some emphasis has been placed multivariate
+    methods and handling of geographic data fields.
+License: MIT + file LICENSE
+URL: https://github.com/menugget/sinkr
