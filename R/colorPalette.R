@@ -1,5 +1,6 @@
 #' @title Color interpolation with uneven step size
-#' @description Color ramp with differing number of steps between color levels. Wrapper for colorRamp
+#' @description Color ramp with differing number of steps between color levels. Wrapper for 
+#' \code{\link[grDevices]{colorRamp}}.
 #' 
 #' @param steps colors to interpolate; must be a valid argument to \code{col2rgb()}.
 #' @param n.steps.between number of color steps in between each color. Allows

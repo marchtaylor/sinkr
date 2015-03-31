@@ -16,7 +16,8 @@ steps have the same weighting.}
 \item{...}{arguments to pass to \code{\link[grDevices]{colorRamp}}.}
 }
 \description{
-Color ramp with differing number of steps between color levels. Wrapper for colorRamp
+Color ramp with differing number of steps between color levels. Wrapper for
+\code{\link[grDevices]{colorRamp}}.
 }
 \details{
 This is a wrapper function for colorRampPalette. It allows for the
