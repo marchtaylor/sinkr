@@ -42,7 +42,6 @@ eofRecon <- function(EOF, pcs=NULL){
 
 	F1_center=EOF$F1_center
 	F1_scale=EOF$F1_scale
-	F1_cols_incl=EOF$F1_cols_incl
 
 	if(is.null(pcs)){pcs=seq(ncol(EOF$u))}
 

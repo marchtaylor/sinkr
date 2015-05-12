@@ -107,10 +107,6 @@ nu=NULL, method=NULL, recursive=FALSE
   if(is.null(method)){
     method <- "svd"
   }
-  
-	#if(method == "irlba"){
-		#require(irlba)
-	#}
 
 	F1 <- as.matrix(F1)
 	F1 <- scale(F1, center=centered, scale=scaled)
