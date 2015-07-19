@@ -55,8 +55,8 @@ sqbin <- function(x, y, xint=NULL, yint=NULL, nxbin=50, nybin=50){
   z[as.numeric(rownames(zbincount))] <- zbincount
   z[z==0] <- NaN
   list(
-    x=xint[-length(xint)]+diff(xint),
-    y=yint[-length(yint)]+diff(yint),
+    x=xint[-length(xint)]+(diff(xint)/2),
+    y=yint[-length(yint)]+(diff(yint)/2),
     z=z,
     xint=xint,
     yint=yint
