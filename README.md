@@ -1,7 +1,7 @@
 sinkr
 =====
 
-An R package containing a collection of functions featured on http://menugget.blogspot.com/
+A collection of functions with emphasis on multivariate methods and handling of geographic datasets
 
 **To load** (using `devtools`):
 ```
