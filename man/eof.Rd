@@ -44,6 +44,7 @@ Results of \code{eof} are returned as a list containing the following components
 \tab \code{u} \tab EOFs.\cr
 \tab \code{Lambda} \tab Singular values.\cr
 \tab \code{A} \tab EOF coefficients (i.e. 'Principal Components').\cr
+\tab \code{tot.var} \tab Total variance of field \code{F1} (from \code{cov4gappy}). \cr
 \tab \code{F1_dim} \tab Dimensions of field \code{F1}.\cr
 \tab \code{F1_center} \tab Vector of center values from each column in field \code{F1}.\cr
 \tab \code{F1_scale} \tab Vector of scale values from each column in field \code{F1}.\cr

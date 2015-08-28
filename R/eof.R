@@ -13,12 +13,13 @@
 #' @param nu Numeric value. Defines the number of EOFs to return. Defaults to 
 #' return the full set of EOFs.
 #' @param method Method for matrix decomposition ('\code{svd}', '\code{eigen}', 
-#' '\code{irlba}'). Defaults to 'svd' when \code{method = NULL}. Use of 'irlba' can 
+#' '\code{irlba}'). Defaults to 'svd' when \code{method = NULL} and 'irlba' when
+#' \code{method = NULL} and \code{recursive = TRUE}. Use of 'irlba' can 
 #' dramatically speed up computation time when \code{recursive = TRUE} but may
-#' produce errors in computing trailing EOFs. Therefore, this option is only advisable when
-#' the field \code{F1} is large and when only a partial decomposition is desired
-#' (i.e. \code{nu << dim(F1)[2]}). All methods should give identical 
-#' results when \code{recursive=TRUE}.
+#' produce errors in computing trailing EOFs. Therefore, this option is only 
+#' advisable when the field \code{F1} is large and when only a partial 
+#' decomposition is desired (i.e. \code{nu << dim(F1)[2]}).
+#' All methods should give identical results when \code{recursive=TRUE}.
 #' \code{svd} and \code{eigen} give similar results for non-gappy fields, 
 #' but will differ slightly with gappy fields due to decomposition of a 
 #' nonpositive definite covariance matrix. Specifically, \code{eigen}  will produce 
@@ -41,6 +42,7 @@
 #' \tab \code{u} \tab EOFs.\cr
 #' \tab \code{Lambda} \tab Singular values.\cr
 #' \tab \code{A} \tab EOF coefficients (i.e. 'Principal Components').\cr
+#' \tab \code{tot.var} \tab Total variance of field \code{F1} (from \code{cov4gappy}). \cr
 #' \tab \code{F1_dim} \tab Dimensions of field \code{F1}.\cr
 #' \tab \code{F1_center} \tab Vector of center values from each column in field \code{F1}.\cr
 #' \tab \code{F1_scale} \tab Vector of scale values from each column in field \code{F1}.\cr
@@ -104,7 +106,9 @@ centered=TRUE, scaled=FALSE,
 nu=NULL, method=NULL, recursive=FALSE
 ){
 
-  if(is.null(method)){
+  if(is.null(method) & recursive){
+    method <- "irlba"
+  } else {
     method <- "svd"
   }
 
@@ -120,9 +124,9 @@ nu=NULL, method=NULL, recursive=FALSE
 	}	
 
 	if(recursive){
-		u <- matrix(0, dim(F1)[2], nu)
+  	u <- matrix(0, F1_dim[2], nu)
 		Lambda <- rep(0, nu)
-		A <- matrix(0, dim(F1)[1], nu)
+		A <- matrix(0, F1_dim[1], nu)
 		F1.i <- F1
 		C.i <- cov4gappy(F1.i)
     tot.var <- sum(diag(C.i))
