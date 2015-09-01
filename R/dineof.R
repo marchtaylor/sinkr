@@ -110,8 +110,6 @@
 #'
 dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5){
 
-	#require(irlba)
-
 	if(is.null(n.max)){
 		n.max=dim(Xo)[2]
 	}	
@@ -167,7 +165,7 @@ dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5){
 	Xa[ref.pos] <- Xo[ref.pos]
 
 	RESULT <- list(
-		Xa=Xa, n.eof=n.eof, RMS=RMS, NEOF=NEOF
+		Xa=Xa, n.eof=n.eof, RMS=RMS, NEOF=NEOF, ref.pos=ref.pos
 	)
 	
 	RESULT

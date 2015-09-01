@@ -21,12 +21,13 @@ scaled prior to the analysis. Defaults to 'TRUE'}
 return the full set of EOFs.}
 
 \item{method}{Method for matrix decomposition ('\code{svd}', '\code{eigen}',
-'\code{irlba}'). Defaults to 'svd' when \code{method = NULL}. Use of 'irlba' can
+'\code{irlba}'). Defaults to 'svd' when \code{method = NULL} and 'irlba' when
+\code{method = NULL} and \code{recursive = TRUE}. Use of 'irlba' can
 dramatically speed up computation time when \code{recursive = TRUE} but may
-produce errors in computing trailing EOFs. Therefore, this option is only advisable when
-the field \code{F1} is large and when only a partial decomposition is desired
-(i.e. \code{nu << dim(F1)[2]}). All methods should give identical
-results when \code{recursive=TRUE}.
+produce errors in computing trailing EOFs. Therefore, this option is only
+advisable when the field \code{F1} is large and when only a partial
+decomposition is desired (i.e. \code{nu << dim(F1)[2]}).
+All methods should give identical results when \code{recursive=TRUE}.
 \code{svd} and \code{eigen} give similar results for non-gappy fields,
 but will differ slightly with gappy fields due to decomposition of a
 nonpositive definite covariance matrix. Specifically, \code{eigen}  will produce
