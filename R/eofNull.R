@@ -94,7 +94,12 @@ eofNull <- function(
   }
   
   result <- list(Lambda=Lambda, Lambda.orig=E$Lambda)
-  result$n.sig <- max(which(E$Lambda > apply(Lambda, 2, quantile, probs=0.95)))
+  aboveNull <- as.numeric(E$Lambda > apply(Lambda, 2, quantile, probs=0.95))
+  RLE <- rle(aboveNull)
+  if(RLE$values[1]==1){
+    result$n.sig <- RLE$length[1]
+  } else {
+    result$n.sig <- 0
+  }
   result
-  
 }
