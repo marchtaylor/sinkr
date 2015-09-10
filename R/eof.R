@@ -106,10 +106,12 @@ centered=TRUE, scaled=FALSE,
 nu=NULL, method=NULL, recursive=FALSE
 ){
 
-  if(is.null(method) & recursive){
+  if(missing(method) & recursive){
     method <- "irlba"
   } else {
-    method <- "svd"
+    if(missing(method)){
+          method <- "svd"
+    }
   }
 
 	F1 <- as.matrix(F1)
