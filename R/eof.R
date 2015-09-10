@@ -209,7 +209,8 @@ nu=NULL, method=NULL, recursive=FALSE
 		u=u, Lambda=Lambda, A=A,
 		nu=nu, tot.var=tot.var,
 		F1_dim=F1_dim,
-		F1_center=F1_center, F1_scale=F1_scale
+		F1_center=F1_center, F1_scale=F1_scale,
+    method=method, recursive=recursive
 	)
 	
 	RESULT
