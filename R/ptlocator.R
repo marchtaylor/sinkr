@@ -40,6 +40,7 @@ ptlocator <- function(n=1, x, y, col=rgb(1,0,0,0.5), pch=20, ...){
     pos.i <- which.min(sqrt((c(ptxsc)-c(xsc))^2 + (c(ptysc)-c(ysc))^2))
     points(x[pos.i], y[pos.i], col=col, pch=pch, ...)
     pos[i] <- pos.i
+    print(paste("x =", x[pos.i], "y =", y[pos.i]))
   }
   pos    
 }
