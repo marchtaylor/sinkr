@@ -5,6 +5,7 @@ Version: 2.0
 Date: 2015-03-31
 Author: Marc Taylor <ningkiling@gmail.com>
 Maintainer: Marc Taylor <ningkiling@gmail.com>
+Depends: R (>= 2.10)
 Imports:
     irlba,
     vegan
