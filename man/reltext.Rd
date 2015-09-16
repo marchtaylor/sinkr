@@ -8,6 +8,10 @@ reltext(relx = 0.5, rely = 0.5, labels = seq_along(relx), ...)
 }
 \arguments{
 \item{relx,rely}{numeric vectors of coordinates where the text labels should be written.}
+
+\item{labels}{label argument passed to code{\link[graphics]{text}}}
+
+\item{...}{other parameters passed to code{\link[graphics]{text}}}
 }
 \description{
 \code{reltext} adds text using relative x,y plot coordinates. Wrapper for

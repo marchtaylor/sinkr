@@ -3,6 +3,9 @@
 #' \code{\link[graphics]{text}}.
 #'
 #' @param relx,rely numeric vectors of coordinates where the text labels should be written.
+#' @param labels label argument passed to code{\link[graphics]{text}}
+#' @param ... other parameters passed to code{\link[graphics]{text}}
+#' 
 #' @keywords text, plotting
 #' @export
 #' @examples

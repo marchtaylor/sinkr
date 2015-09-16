@@ -27,9 +27,7 @@
 #' 
 #' ### Ex 2. EOF of slp
 #' \donttest{
-#' library(maps)
-#' 
-#' # Calculate monthly anomaly
+#‘ # Calculate monthly anomaly
 #' slp.anom <- fieldAnomaly(slp$field, as.POSIXlt(slp$date), level="monthly")
 #' 
 #' # PCA
@@ -47,7 +45,6 @@
 #' ncolor <- 25
 #' plot(slp$grid, col=val2col(pca$rotation[,neof], zlim=zlim, col=pal(ncolor)), 
 #'      pch=".", cex=30,  ylab="", xlab="")
-#' map("world", add=TRUE)
 #' # plot 2: color scale
 #' par(mar=c(3,0,1,4))
 #' imageScale(pca$rotation[,neof], axis.pos=4, zlim=zlim, col=pal(ncolor))

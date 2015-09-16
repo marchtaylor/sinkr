@@ -29,7 +29,6 @@
 #' 
 #' ### Ex 2. EOF of sst
 #' \donttest{
-#' library(maps)
 #' 
 #' # PCA
 #' incl <- which(colSums(is.na(sst$field)) == 0) # remove columns corresponding to land
@@ -48,7 +47,6 @@
 #' ncolor <- 25
 #' plot(sst$grid[incl,], col=val2col(pca$rotation[,neof], zlim=zlim, col=pal(ncolor)), 
 #'      pch=".", cex=30,  ylab="", xlab="")
-#' map("world", add=TRUE)
 #' # plot 2: color scale
 #' par(mar=c(3,0,1,4))
 #' imageScale(pca$rotation[,neof], axis.pos=4, zlim=zlim, col=pal(ncolor))

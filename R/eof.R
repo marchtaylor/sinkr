@@ -106,10 +106,10 @@ centered=TRUE, scaled=FALSE,
 nu=NULL, method=NULL, recursive=FALSE
 ){
 
-  if(missing(method) & recursive){
+  if(is.null(method) & recursive){
     method <- "irlba"
   } else {
-    if(missing(method)){
+    if(is.null(method)){
           method <- "svd"
     }
   }
