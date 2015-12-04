@@ -5,12 +5,14 @@ Version: 2.0
 Date: 2015-03-31
 Author: Marc Taylor <ningkiling@gmail.com>
 Maintainer: Marc Taylor <ningkiling@gmail.com>
-Depends: R (>= 2.10)
+Depends:
+    R (>= 2.10)
 Imports:
     irlba,
     vegan
-Description: The sinkr package contains a collection of functions with 
+Description: The sinkr package contains a collection of functions with
     some emphasis on multivariate
     methods and handling of geographic data fields.
 License: MIT + file LICENSE
 URL: https://github.com/marchtaylor/sinkr
+RoxygenNote: 5.0.1
