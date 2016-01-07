@@ -7,11 +7,11 @@
 earthDist(lon1, lat1, lon2, lat2)
 }
 \arguments{
-\item{lon1}{longitude 1 (in decimal degrees)}
+\item{lon1}{Longitude 1 (in decimal degrees)}
 
 \item{lat1}{Latitude 1 (in decimal degrees)}
 
-\item{lon2}{longitude 2 (in decimal degrees)}
+\item{lon2}{Longitude 2 (in decimal degrees)}
 
 \item{lat2}{Latitude 2 (in decimal degrees)}
 }
