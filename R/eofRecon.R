@@ -6,6 +6,10 @@
 #' @param EOF An object resulting from the function \code{eof}.
 #' @param pcs The principal components (PCs) to use in the reconstruction
 #'   (defaults to the full set of PCs: \code{pcs=seq(ncol(EOF$u))})
+#' @param newpcs A matrix of new principal coordinate to use in the 
+#' reconstruction. This would typically come from a gappy dataset whose missing 
+#' values are to be predicted based on the EOF loadings of a the EOF object (see \code{}).
+#' 
 #'   
 #' @examples
 #' set.seed(1)
@@ -38,15 +42,26 @@
 #' 
 #' @export
 #' 
-eofRecon <- function(EOF, pcs=NULL){
+eofRecon <- function(EOF, pcs=NULL, newpcs=NULL){
 
 	F1_center=EOF$F1_center
 	F1_scale=EOF$F1_scale
 
-	if(is.null(pcs)){pcs=seq(ncol(EOF$u))}
+	if(is.null(pcs) & is.null(newpcs)){
+	  pcs <- seq(ncol(EOF$u))
+	}
+	if(is.null(pcs) & !is.null(newpcs)){
+	  pcs <- seq(ncol(newpcs))
+	}
 
 	#F1 reconstruction then reverse scale then reverse center
-	F1_recon <- EOF$A[,pcs] %*% t(EOF$u[,pcs])
+	if(is.null(newpcs)){
+	  F1_recon <- EOF$A[,pcs] %*% t(EOF$u[,pcs])  
+	}
+	if(!is.null(newpcs)){
+	  F1_recon <- newpcs[,pcs] %*% t(EOF$u[,pcs])  
+	}
+	
 
 	if(!is.null(F1_scale)){
 		F1_recon <- scale(F1_recon, center=FALSE, scale=1/F1_scale)

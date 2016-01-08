@@ -118,7 +118,7 @@ eofBoot <- function(
     }
   }
   result$sig <- sig
-  result$n.sig <- min(which(sig == 0)) - 1
+  result$n.sig <- if(length(max(which(sig == 1))) > 0){max(which(sig == 1))} else {0}
   result
   
 }

@@ -48,15 +48,15 @@ N.S.ratio <- 0.1 # the Noise to Signal ratio for adding noise to data
 x <- (seq(m)*2*pi)/m
 t <- (seq(n)*2*pi)/n
 Xt <- 
- outer(sin(x), sin(t)) + 
- outer(sin(2.1*x), sin(2.1*t)) + 
- outer(sin(3.1*x), sin(3.1*t)) +
- outer(tanh(x), cos(t)) + 
- outer(tanh(2*x), cos(2.1*t)) + 
- outer(tanh(4*x), cos(0.1*t)) + 
- outer(tanh(2.4*x), cos(1.1*t)) + 
- tanh(outer(x, t, FUN="+")) + 
- tanh(outer(x, 2*t, FUN="+")
+  outer(sin(x), sin(t)) + 
+  outer(sin(2.1*x), sin(2.1*t)) + 
+  outer(sin(3.1*x), sin(3.1*t)) +
+  outer(tanh(x), cos(t)) + 
+  outer(tanh(2*x), cos(2.1*t)) + 
+  outer(tanh(4*x), cos(0.1*t)) + 
+  outer(tanh(2.4*x), cos(1.1*t)) + 
+  tanh(outer(x, t, FUN="+")) + 
+  tanh(outer(x, 2*t, FUN="+")
 )
 
 # Color palette
