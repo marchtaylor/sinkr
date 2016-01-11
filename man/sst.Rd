@@ -27,8 +27,10 @@ within the lat/lon range 180 W - 70 W and 30 S - 30 N, and spanning the years 19
 \examples{
 
 ### Ex 1. Plot of single month
+library(maps)
 data(sst)
 plot(sst$grid, col=val2col(sst$field[1000,]), pch=".", cex=30)
+map("world", add=TRUE)
 
 
 

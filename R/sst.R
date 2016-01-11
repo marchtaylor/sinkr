@@ -22,8 +22,10 @@
 #' @examples
 #' 
 #' ### Ex 1. Plot of single month
+#' library(maps)
 #' data(sst)
 #' plot(sst$grid, col=val2col(sst$field[1000,]), pch=".", cex=30)
+#' map("world", add=TRUE)
 #' 
 #' 
 #' 

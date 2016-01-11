@@ -84,6 +84,35 @@
 #' mtext("Gappy", side=3, line=0)
 #' axis(1, labels=paste("EOF", 1:4), at=c(3, 8, 13, 18), las=2, tick=FALSE)
 #' par(op)
+#' 
+#' 
+#' ### EOF of climate field example
+#' library(maps) # required package to add map
+#' 
+#' # load data
+#' data(sst)
+#' names(sst)
+#' 
+#' # EOF
+#' E <- eof(sst$field, nu=10)
+#' 
+#' # Plot of EOF loading and PC
+#' eof.num <- 2 # EOF number to plot
+#' layout(matrix(c(1,3,2,3),nrow=2, ncol=2), widths=c(5,1), heights=c(3,3), respect=TRUE)
+#' op <- par(ps=10, cex=1)
+#' par(mar=c(4,4,1,1))
+#' PAL <- colorPalette(c("blue", "cyan", "grey90", "yellow", "red"), c(10,1,1,10))
+#' ZLIM <- c(-1,1)*max(abs(E$u[,eof.num]))
+#' COL <- val2col(E$u[,eof.num], col=PAL(100), zlim=ZLIM)
+#' plot(lat ~ lon, data=sst$grid, pch=22, bg=COL, col=COL, cex=2)
+#' map("world", add=TRUE)
+#' par(mar=c(4,0,1,4))
+#' imageScale(E$u[,eof.num], col=PAL(100), zlim=ZLIM, axis.pos=4)
+#' par(mar=c(4,4,1,4))
+#' plot(sst$date, E$A[,eof.num], t="l", xlab="date", ylab="")
+#' lines(loess.smooth(sst$date, E$A[,eof.num], span=1/3), col=rgb(0.5,0.5,1), lwd=2) # smoothed signal
+#' abline(h=0, v=seq(as.Date("1000-01-01"), as.Date("2100-01-01"), by="10 years"), col=8, lty=3)
+#' par(op)
 #'
 #' 
 #' @references

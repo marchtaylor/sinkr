@@ -32,7 +32,7 @@
 #' par(op)
 #' 
 #' # Use of transparency in palette (via alpha=TRUE)
-#' op <- par(mar=c(0,0,0,0))
+#' op <- par(mar=c(2,2,2,2))
 #' snow <- replace(volcano,  volcano<150, NaN) * 1e-8*volcano^3
 #' elevation.pal <- colorPalette(c("black", "blue", "red"), c(1,6))
 #' snow.pal <- colorPalette(c(rgb(0.9,0.9,0.9,0), rgb(0.9,0.9,0.9,1)), alpha=TRUE)

@@ -78,7 +78,7 @@ Xo <- replace(Xp, gaps, NaN)
 
 # The dineof "interpolated" field
 set.seed(1)
-RES <- dineof(Xo)
+RES <- dineof(Xo, delta.rms = 1e-03) # lower 'delta.rms' for higher resolved interpolation
 Xa <- RES$Xa
 
 # Visualization all fields

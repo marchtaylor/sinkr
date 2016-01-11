@@ -20,8 +20,10 @@
 #' @examples
 #' 
 #' ### Ex 1. Plot of single month
+#' library(maps)
 #' data(slp)
 #' plot(slp$grid, col=val2col(slp$field[1000,]), pch=".", cex=30)
+#' map("world", add=TRUE)
 #' 
 #' 
 #' 

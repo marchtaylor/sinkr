@@ -9,6 +9,7 @@ Depends:
     R (>= 2.10)
 Imports:
     irlba,
+    maps,
     vegan
 Description: The sinkr package contains a collection of functions with
     some emphasis on multivariate
