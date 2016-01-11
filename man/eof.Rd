@@ -112,6 +112,7 @@ E <- eof(sst$field, nu=10)
 
 # Plot of EOF loading and PC
 eof.num <- 2 # EOF number to plot
+op <- par(no.readonly=TRUE)
 layout(matrix(c(1,3,2,3),nrow=2, ncol=2), widths=c(5,1), heights=c(3,3), respect=TRUE)
 op <- par(ps=10, cex=1)
 par(mar=c(4,4,1,1))

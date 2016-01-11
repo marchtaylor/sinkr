@@ -13,7 +13,7 @@
 #' consider unique \code{format(x,"\%m\%d")} strings.
 #' 
 #' @examples
-#' ### create synthetic data (contains annual and day signal)
+### create synthetic data (contains annual and day signal)
 #' set.seed(1)
 #' Time <- seq.Date(as.Date("1990-01-01"), as.Date("1996-12-31"), by="day")
 #' Space <- seq(pi,2*pi,,10)
@@ -29,14 +29,14 @@
 #' # anomaly by month (removes "Signal1")
 #' Z.anom <- fieldAnomaly(y=Z, x=Time, level="month")
 #' zran <- c(-1,1) * max(abs(range(Z, Z.anom)))
-#' pal <- colorPalette(c("blue4", "cyan", "grey90", "grey90", "yellow", "red4"), c(100,1,1,1,100))
+#' pal <- colorPalette(c("blue4", "cyan", "grey90", "yellow", "red4"), c(20,1,1,20))
 #' op <- par(no.readonly=TRUE)
 #' layout(matrix(c(1,2,3,3), nrow=2, ncol=2), widths=c(4,1), heights=c(2,2))
 #' par(mar=c(5,5,3,1))
-#' image(Time, Space, Z, col=pal(1000), zlim=zran, main="Original")
-#' image(Time, Space, Z.anom, col=pal(1000), zlim=zran, main="Anomaly")
+#' image(Time, Space, Z, col=pal(101), zlim=zran, main="Original")
+#' image(Time, Space, Z.anom, col=pal(101), zlim=zran, main="Anomaly")
 #' par(mar=c(5,0,3,5))
-#' imageScale(Z, col=pal(1000), zlim=zran, axis.pos=4)
+#' imageScale(Z, col=pal(101), zlim=zran, axis.pos=4)
 #' mtext("Value", side=4, line=3)
 #' par(op)
 #' 
@@ -44,14 +44,14 @@
 #' # anomaly by day of year (i.e. date, removes "Signal1" and "Signal2")
 #' Z.anom <- fieldAnomaly(y=Z, x=Time, level="day")
 #' zran <- c(-1,1) * max(abs(range(Z, Z.anom)))
-#' pal <- colorPalette(c("blue4", "cyan", "grey90", "grey90", "yellow", "red4"), c(100,1,1,1,100))
+#' pal <- colorPalette(c("blue4", "cyan", "grey90", "yellow", "red4"), c(20,1,1,20))
 #' op <- par(no.readonly=TRUE)
 #' layout(matrix(c(1,2,3,3), nrow=2, ncol=2), widths=c(4,1), heights=c(2,2))
 #' par(mar=c(5,5,3,1))
-#' image(Time, Space, Z, col=pal(1000), zlim=zran, main="Original")
-#' image(Time, Space, Z.anom, col=pal(1000), zlim=zran, main="Anomaly")
+#' image(Time, Space, Z, col=pal(101), zlim=zran, main="Original")
+#' image(Time, Space, Z.anom, col=pal(101), zlim=zran, main="Anomaly")
 #' par(mar=c(5,0,3,5))
-#' imageScale(Z, col=pal(1000), zlim=zran, axis.pos=4)
+#' imageScale(Z, col=pal(101), zlim=zran, axis.pos=4)
 #' mtext("Value", side=4, line=3)
 #' par(op)
 #' 
@@ -59,14 +59,14 @@
 #' # anomaly by julian day (day of year, removes "Signal1" and "Signal2")
 #' Z.anom <- fieldAnomaly(y=Z, x=Time, level="julian")
 #' zran <- c(-1,1) * max(abs(range(Z, Z.anom)))
-#' pal <- colorPalette(c("blue4", "cyan", "grey90", "grey90", "yellow", "red4"), c(100,1,1,1,100))
+#' pal <- colorPalette(c("blue4", "cyan", "grey90", "yellow", "red4"), c(20,1,1,20))
 #' op <- par(no.readonly=TRUE)
 #' layout(matrix(c(1,2,3,3), nrow=2, ncol=2), widths=c(4,1), heights=c(2,2))
 #' par(mar=c(5,5,3,1))
-#' image(Time, Space, Z, col=pal(1000), zlim=zran, main="Original")
-#' image(Time, Space, Z.anom, col=pal(1000), zlim=zran, main="Anomaly")
+#' image(Time, Space, Z, col=pal(101), zlim=zran, main="Original")
+#' image(Time, Space, Z.anom, col=pal(101), zlim=zran, main="Anomaly")
 #' par(mar=c(5,0,3,5))
-#' imageScale(Z, col=pal(1000), zlim=zran, axis.pos=4)
+#' imageScale(Z, col=pal(101), zlim=zran, axis.pos=4)
 #' mtext("Value", side=4, line=3)
 #' par(op)
 #' 
@@ -92,14 +92,13 @@
 #' sqrt(mean(Z.anom^2))
 #' plot(Time, Z.anom, t="l")
 #' 
-#' # here is an issue!!
 #' Z.anom <- fieldAnomaly(y=Zalt, x=Time, level="julian")
 #' sqrt(mean(Z.anom^2))
 #' plot(Time, Z.anom, t="l")
 #' 
 #' 
 #' @export
-#' 
+#'
 fieldAnomaly <- function(y, x, level="month"){ 
 
 	y <- as.matrix(y)
