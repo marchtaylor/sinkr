@@ -61,13 +61,14 @@ eofRecon <- function(EOF, pcs=NULL, newpcs=NULL){
 	if(!is.null(newpcs)){
 	  F1_recon <- newpcs[,pcs] %*% t(EOF$u[,pcs])  
 	}
-	
 
 	if(!is.null(F1_scale)){
 		F1_recon <- scale(F1_recon, center=FALSE, scale=1/F1_scale)
+		attr(F1_recon, "scaled:scale") <- NULL
 	}
 	if(!is.null(F1_center)){
 		F1_recon <- scale(F1_recon, center=-1*F1_center, scale=FALSE)
+		attr(F1_recon, "scaled:center") <- NULL
 	}
 
 	F1_recon
