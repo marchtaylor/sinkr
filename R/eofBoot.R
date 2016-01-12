@@ -118,7 +118,12 @@ eofBoot <- function(
     }
   }
   result$sig <- sig
-  result$n.sig <- if(length(max(which(sig == 1))) > 0){max(which(sig == 1))} else {0}
+  RLE <- rle(sig)
+  if(RLE$values[1]==1){
+    result$n.sig <- RLE$length[1]
+  } else {
+    result$n.sig <- 0
+  }
   result
   
 }
