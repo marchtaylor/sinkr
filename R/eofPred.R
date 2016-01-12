@@ -30,24 +30,21 @@
 #' 
 #' # Predict PCs of validation set
 #' pred <- eofPred(Etrain, newdata=valid)
-#' # plot against full data-derived PCs 
-#' SIGN <- sign(diag(cor(Efull$A[-tmp,], pred)))
-#' plot(c(Efull$A[-tmp,]), c( t(t(pred)*SIGN) ), col=rep(seq(ncol(Efull$A)), 
-#'  each=nrow(Efull$A[-tmp,])) )
+#' # plot against full data-derived PCs
+#' SIGN <- diag(sign(diag(cor(Efull$A[-tmp,], pred)))) # correction for differing sign
+#' matplot(Efull$A[-tmp,] %*% SIGN, pred)
 #' abline(0,1, col=8)
-#' legend("topleft", legend=paste("PC", seq(ncol(Efull$A[-tmp,]))), 
-#'  col=seq(ncol(Efull$A[-tmp,])), lty=0, pch=1)
-#' 
+#' legend("topleft", legend=paste("PC", seq(ncol(pred))), 
+#'        col=seq(ncol(pred)), lty=0, pch=1)
 #' 
 #' # Predict PCs of full set
 #' pred <- eofPred(Efull, newdata=iris[,1:4])
 #' # plot against full data-derived PCs (should be equal)
-#' SIGN <- sign(diag(cor(Efull$A, pred)))
-#' plot(c(Efull$A), c( t(t(pred)*SIGN) ), col=rep(seq(ncol(Efull$A)), 
-#'  each=nrow(Efull$A)) )
+#' SIGN <- diag(sign(diag(cor(Efull$A, pred)))) # correction for differing sign
+#' matplot(Efull$A %*% SIGN, pred)
 #' abline(0,1, col=8)
-#' legend("topleft", legend=paste("PC", seq(ncol(Efull$A))), 
-#'  col=seq(ncol(Efull$A)), lty=0, pch=1)
+#' legend("topleft", legend=paste("PC", seq(ncol(pred))), 
+#'        col=seq(ncol(pred)), lty=0, pch=1)
 #' 
 #' 
 #' ### gappy example
@@ -71,13 +68,12 @@
 #' 
 #' # Predict PCs of validation set
 #' pred <- eofPred(Etrain, newdata=validg)
-#' # plot against full data-derived PCs 
-#' SIGN <- sign(diag(cor(Efullg$A[-tmp,], pred)))
-#' plot(c(Efullg$A[-tmp,]), c( t(t(pred)*SIGN) ), col=rep(seq(ncol(Efullg$A[-tmp,])), 
-#'  each=nrow(Efullg$A[-tmp,])))
-#' legend("topleft", legend=paste("PC", seq(ncol(Efullg$A[-tmp,]))), 
-#'  col=seq(ncol(Efullg$A[-tmp,])), lty=0, pch=1)
+#' # plot against full data-derived PCs
+#' SIGN <- diag(sign(diag(cor(Efullg$A[-tmp,], pred)))) # correction for differing sign
+#' matplot(Efullg$A[-tmp,] %*% SIGN, pred)
 #' abline(0,1, col=8)
+#' legend("topleft", legend=paste("PC", seq(ncol(pred))), 
+#'        col=seq(ncol(pred)), lty=0, pch=1)
 #' 
 #' # Reconstruction and measurement of error against non-gappy data
 #' usePCs <- seq(1) # Efull.n.sig = 1
@@ -104,9 +100,20 @@ eofPred <- function(EOF, newdata=NULL, pcs=NULL){
     newdata <- scale(newdata, center=FALSE, scale=F1_scale)
   }
   
-  # Predict principal components 
+#   # Predict principal components 
+#   A_coeff <- replace(newdata, which(is.na(newdata)), 0) %*% as.matrix(EOF$u[,pcs])  
+#   #A_coeff
+  
+  #setup for norm
+  newdata_val <- replace(newdata, which(!is.na(newdata)), 1)
+  newdata_val <- replace(newdata_val, which(is.na(newdata_val)), 0)
+  
+  #calc of expansion coefficient and scaling norm
   A_coeff <- replace(newdata, which(is.na(newdata)), 0) %*% as.matrix(EOF$u[,pcs])  
-  A_coeff
+  A_norm <- newdata_val %*% as.matrix(EOF$u[,pcs])^2
+  A <- A_coeff / A_norm
+  
+  A
 }
 
 
