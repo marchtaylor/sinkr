@@ -71,7 +71,9 @@ plot(Et$A, col=iris$Species)
 
 # Compare to results of 'prcomp'
 Pt <- prcomp(iris[,1:4])
-plot(Et$A, Pt$x) # Sign may be different
+SIGN <- diag(sign(diag(cor(Et$A, Pt$x)))) # correction for differing sign
+matplot(Et$A \%*\% SIGN, Pt$x)
+abline(0,1, col=8)
 
 # Compare to a gappy dataset (sign of loadings may differ between methods)
 iris.gappy <- as.matrix(iris[,1:4])
