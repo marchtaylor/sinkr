@@ -40,7 +40,7 @@ image(matrix(seq(20), nrow=20, ncol=1), col=pal(20), axes=FALSE)
 }
 par(op)
 
-# Application to \\code{image} plot
+# Application to image plot
 relief.pal <- colorRampPalette(gmtColors("relief"))
 op <- par(mar=c(1,1,1,1))
 image(volcano, col=relief.pal(100), axes=FALSE)

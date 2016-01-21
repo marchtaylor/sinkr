@@ -28,7 +28,7 @@
 #' }
 #' par(op)
 #' 
-#' # Application to \code{image} plot
+#' # Application to image plot
 #' relief.pal <- colorRampPalette(gmtColors("relief"))
 #' op <- par(mar=c(1,1,1,1))
 #' image(volcano, col=relief.pal(100), axes=FALSE)
