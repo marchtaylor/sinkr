@@ -23,7 +23,7 @@ If ref.pos = NULL, then either 30 or 1\% of the non-gap values
 \item{method}{Method to use for matrix decomposition (\code{"irlba"} or \code{"svd"}).
 Default is \code{method="irlba"}, which is more computationally efficient
 for large matrices. Use \code{method="svd"} for small matrices where a full set of EOFs
-will need to be produced before \code{delta.rms} is achieved.}
+will need to be produced before \code{delta.rms} converges.}
 }
 \value{
 Results of \code{dineof} are returned as a list 
@@ -130,7 +130,10 @@ set.seed(1)
 RES <- dineof(iris2g, delta.rms = 1e-02) 
 
 # using method="svd" is better
-RES <- dineof(iris2g, delta.rms = 1e-02, method="svd") 
+set.seed(1)
+RES <- dineof(iris2g, delta.rms = 1e-02, method="svd",
+ ref.pos = RES$ref.pos
+)  
 
 # plot results
 plot(iris2, RES$Xa, 
@@ -145,7 +148,7 @@ sqrt(mean((iris2[gaps] - RES$Xa[gaps])^2, na.rm=TRUE)) # root mean square error
 
 # Note: The use of dineof on small matrices may result in
 # an overfitted interpolation if too many reference points are used.
-# Use of eof(, recursive=TRUE) may provide better estimates - i.e. "LSEOF" method
+# Use of eof(, recursive=TRUE) may provide better estimates - i.e. "RSEOF" method
 # Example:
 
 # EOF

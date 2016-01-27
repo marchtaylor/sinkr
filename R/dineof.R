@@ -20,7 +20,7 @@
 #' @param method Method to use for matrix decomposition (\code{"irlba"} or \code{"svd"}).
 #' Default is \code{method="irlba"}, which is more computationally efficient
 #' for large matrices. Use \code{method="svd"} for small matrices where a full set of EOFs
-#' will need to be produced before \code{delta.rms} is achieved.
+#' will need to be produced before \code{delta.rms} converges.
 #' 
 #' @return Results of \code{dineof} are returned as a list 
 #' containing the following components:
@@ -117,7 +117,10 @@
 #' RES <- dineof(iris2g, delta.rms = 1e-02) 
 #' 
 #' # using method="svd" is better
-#' RES <- dineof(iris2g, delta.rms = 1e-02, method="svd") 
+#' set.seed(1)
+#' RES <- dineof(iris2g, delta.rms = 1e-02, method="svd",
+#'  ref.pos = RES$ref.pos
+#' )  
 #' 
 #' # plot results
 #' plot(iris2, RES$Xa, 
@@ -210,6 +213,7 @@ dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="irlba")
 				n.eof.best <- n.eof
 			}
 		}
+	  # Add EOF and check for improvement
 		n.eof <- n.eof + 1
 		rms.prev <- rms.now
 		if(method == "irlba"){
