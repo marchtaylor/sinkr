@@ -4,7 +4,8 @@
 \alias{dineof}
 \title{DINEOF (Data Interpolating Empirical Orthogonal Functions)}
 \usage{
-dineof(Xo, n.max = NULL, ref.pos = NULL, delta.rms = 1e-05)
+dineof(Xo, n.max = NULL, ref.pos = NULL, delta.rms = 1e-05,
+  method = "irlba")
 }
 \arguments{
 \item{Xo}{A gappy data field.}
@@ -18,6 +19,11 @@ If ref.pos = NULL, then either 30 or 1\% of the non-gap values
 (which ever is larger) will be sampled at random.}
 
 \item{delta.rms}{The threshold for RMS convergence.}
+
+\item{method}{Method to use for matrix decomposition (\code{"irlba"} or \code{"svd"}).
+Default is \code{method="irlba"}, which is more computationally efficient
+for large matrices. Use \code{method="svd"} for small matrices where a full set of EOFs
+will need to be produced before \code{delta.rms} is achieved.}
 }
 \value{
 Results of \code{dineof} are returned as a list 
@@ -41,8 +47,8 @@ matrix which can then be subjected to a final EOF decomposition with
 }
 \examples{
 # Make synthetic data field
-m=50
-n=100
+m <- 50
+n <- 100
 frac.gaps <- 0.5 # the fraction of data with NaNs
 N.S.ratio <- 0.1 # the Noise to Signal ratio for adding noise to data
 x <- (seq(m)*2*pi)/m
@@ -104,6 +110,65 @@ box()
 mtext("t", side=1, line=0.5)
 mtext("x", side=2, line=0.5)
 par(op)
+
+
+
+\donttest{
+### Example with iris dataset
+iris2 <- as.matrix(iris[,1:4]) # only use numeric morphometric data
+frac.gaps <- 0.3 # fraction NaN values
+
+# make gappy dataset
+set.seed(1)
+gaps <- sample(seq(length(iris2)), frac.gaps*length(iris2))
+iris2g <- replace(iris2, gaps, NaN)
+
+# The dineof "interpolated" field
+# irlba should produce warning due to large percentage of total singular values
+# used in interpolation
+set.seed(1)
+RES <- dineof(iris2g, delta.rms = 1e-02) 
+
+# using method="svd" is better
+RES <- dineof(iris2g, delta.rms = 1e-02, method="svd") 
+
+# plot results
+plot(iris2, RES$Xa, 
+     col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
+     pch=as.numeric(iris$Species)
+)
+abline(0,1,col=8, lty=1)
+legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
+legend("bottomright", legend=levels(iris$Species), pch=1:3, bty = "n")
+sqrt(mean((iris2[gaps] - RES$Xa[gaps])^2, na.rm=TRUE)) # root mean square error
+
+
+# Note: The use of dineof on small matrices may result in
+# an overfitted interpolation if too many reference points are used.
+# Use of eof(, recursive=TRUE) may provide better estimates - i.e. "LSEOF" method
+# Example:
+
+# EOF
+E <- eof(iris2g, recursive = TRUE)
+
+# Determine number of significant EOFs
+En <- eofNull(iris2g, recursive = TRUE, nperm = 99)
+En$n.sig
+
+# reconstruction with significant EOFs
+R <- eofRecon(E, pcs = seq(En$n.sig))
+R[-gaps] <- iris2g[-gaps] # replace non-gap values
+
+# plot interpolated values
+plot(iris2, R, 
+     col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
+     pch=as.numeric(iris$Species)
+)
+abline(0,1,col=8, lty=1)
+legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
+legend("bottomright", legend=levels(iris$Species), pch=1:3, bty = "n")
+sqrt(mean((iris2[gaps] - R[gaps])^2, na.rm=TRUE)) # root mean square error
+}
 
 
 }
