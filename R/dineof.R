@@ -132,7 +132,7 @@
 #' 
 #' # Note: The use of dineof on small matrices may result in
 #' # an overfitted interpolation if too many reference points are used.
-#' # Use of eof(, recursive=TRUE) may provide better estimates - i.e. "LSEOF" method
+#' # Use of eof(, recursive=TRUE) may provide better estimates - i.e. "RSEOF" method
 #' # Example:
 #' 
 #' # EOF
