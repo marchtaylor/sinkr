@@ -53,7 +53,7 @@ isin.convert <- function(grd=NULL, coord=NULL, polygons=FALSE){
 	if(!missing(grd)){
 		#calc. coord
 		cumNlon <- c(0,cumsum(Nlon))
-		g.row <- sapply(grd, fun = function(x){max(which(cumNlon < x))})
+		g.row <- sapply(grd, FUN = function(x){max(which(cumNlon < x))})
 		g.col <- grd - cumNlon[g.row]
 		#calc. lonlat
 		g.lat = lat[g.row]
