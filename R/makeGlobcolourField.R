@@ -17,8 +17,6 @@ makeGlobcolourField <- function(
 	latRan=c(-16,-4),
 	greps=c(".nc", "GSM", "MO")
 ){
-	require("ncdf4")
-	require("Matrix")
 	
 	#Import data
 	grd <- list()
@@ -38,10 +36,10 @@ makeGlobcolourField <- function(
 		iter <- iter+1
 		nc <- ncdf4::nc_open(paste(dataPath,as.character(list_obs$file_name[j]),sep=""))
 		# nc <- open.ncdf(paste(dataPath,as.character(list_obs$file_name[j]),sep=""))   # old version using package "ncdf"
-		idxrow = ncvar_get(nc, varid="row")
-		idxcol = ncvar_get(nc, varid="col")
-		val = ncvar_get(nc, varid="CHL1_mean")
-		nc_close(nc)
+		idxrow = ncdf4::ncvar_get(nc, varid="row")
+		idxcol = ncdf4::ncvar_get(nc, varid="col")
+		val = ncdf4::ncvar_get(nc, varid="CHL1_mean")
+		ncdf4::nc_close(nc)
 		rm("nc")
 		isin <- isin.convert(coord=data.frame(row=idxrow, col=idxcol))
 		keep <- which(isin$lon >= lonRan[1] & isin$lon <= lonRan[2] & isin$lat >= latRan[1] & isin$lat <= latRan[2])
@@ -75,7 +73,7 @@ makeGlobcolourField <- function(
 	DB$grdid <- grd.lut$id[match(DB$grd, grd.lut$grd)]
  
 	#Create sparse matrix
-	field <- sparseMatrix(i=DB$dateid, j=DB$grdid, x=DB$chl)
+	field <- Matrix::sparseMatrix(i=DB$dateid, j=DB$grdid, x=DB$chl)
 	dim(field)
  
 	#Convert field object to class matrix and give appropriate row and column names
