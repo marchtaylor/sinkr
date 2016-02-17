@@ -1,7 +1,7 @@
 Package: sinkr
 Type: Package
 Title: sinkr
-Version: 2.0
+Version: 1.2.0
 Date: 2015-03-31
 Author: Marc Taylor <ningkiling@gmail.com>
 Maintainer: Marc Taylor <ningkiling@gmail.com>
