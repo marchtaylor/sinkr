@@ -1,0 +1,23 @@
+#' Create a sequence of defined length over range of a vector
+#'
+#' @param x Numeric vector
+#' @param length.out Length of sequence to create 
+#' @param rel.ext Relative extention of sequence limits. 
+#' Default \code{rel.xt = c(0,0)} maintains original range of \code{x} 
+#' @param ... Additional parameters to pass to \code{\link[base]{seq}}
+#'
+#' @return Vector
+#' @export
+#'
+#' @examples
+#' x <- 1:5
+#' seqRan(x, 10) # using original range of x
+#' seqRan(x, 10, c(-0.1, 0.1)) # using extended range of x
+#' 
+seqRan <- function(x, length.out=NULL, rel.ext=c(0,0), ...){
+  xran <- range(x)
+  xspan <- diff(xran)
+  xran <- xran + xspan*rel.ext
+  return(seq(xran[1], xran[2], length.out = length.out, ...))
+}
+
