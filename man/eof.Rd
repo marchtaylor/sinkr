@@ -21,18 +21,16 @@ scaled prior to the analysis. Defaults to 'TRUE'}
 return the full set of EOFs.}
 
 \item{method}{Method for matrix decomposition ('\code{svd}', '\code{eigen}', 
-'\code{irlba}'). Defaults to 'svd' when \code{method = NULL} and 'irlba' when
-\code{method = NULL} and \code{recursive = TRUE}. Use of 'irlba' can 
-dramatically speed up computation time when \code{recursive = TRUE} but may
-produce errors in computing trailing EOFs. Therefore, this option is only 
-advisable when the field \code{F1} is large and when only a partial 
-decomposition is desired (i.e. \code{nu << dim(F1)[2]}).
-All methods should give identical results when \code{recursive=TRUE}.
-\code{svd} and \code{eigen} give similar results for non-gappy fields, 
-but will differ slightly with gappy fields due to decomposition of a 
-nonpositive definite covariance matrix. Specifically, \code{eigen}  will produce 
-negative eigenvalues for trailing EOFs, while singular values derived from \code{svd} 
-will be strictly positive.}
+'\code{irlba}', '\code{svds}'). Defaults to 'svd' when \code{method = NULL} 
+and \code{recursive = TRUE}.
+Use of 'svds' or 'irlba" is recommended when \code{recursive = TRUE} 
+due to faster computation speed.
+All methods should give identical results when \code{recursive = TRUE}. 
+When \code{recursive = FALSE}, \code{svd} and \code{eigen} give similar 
+results for non-gappy fields, but will differ slightly with gappy fields 
+due to decomposition of a nonpositive definite covariance matrix. 
+Specifically, \code{eigen} will produce negative eigenvalues for trailing 
+EOFs, while singular values derived from \code{svd} will be strictly positive.}
 
 \item{recursive}{Logical. When \code{TRUE}, the function follows the method of
 "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF) (Taylor et al. 2013). 
@@ -57,11 +55,17 @@ via a covariance matrix (\code{cov4gappy} function) and is especially designed t
 gappy data (i.e. containing missing values - NaN)
 }
 \details{
-Taylor et al. (2013) demonstrated that the RSEOF approach more accurately 
-estimates EOFs from a gappy field than the traditional LSEOF method. 
-Pre-treatment of gappy fields through in EOF interpolation (\code{\link[sinkr]{dineof}}) 
-may provide the most accurate EOFs, although computation time is substantially longer 
-than RSEOF.
+Taylor et al. (2013) demonstrated that the RSEOF approach 
+(i.e. \code{recursive = TRUE}) more accurately estimates EOFs from a 
+gappy field than the traditional LSEOF method. 
+Pre-treatment of gappy fields through in EOF interpolation 
+(\code{\link[sinkr]{dineof}}) may provide the most accurate EOFs. 
+RSEOF can be much faster in cases where 
+the number of columns in \code{F1} is smaller than the number of rows.
+Method \code{\link[rARPACK]{svds}} appears to provide a better estimate of trailing
+EOFs than \code{\link[irlba]{irlba}}. 
+Faster computation time with \code{\link[rARPACK]{svds}} may not result in 
+\code{recursive = TRUE} due to computation of only leading vectors.
 }
 \examples{
 

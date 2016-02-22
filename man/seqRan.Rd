@@ -4,15 +4,16 @@
 \alias{seqRan}
 \title{Create a sequence of defined length over range of a vector}
 \usage{
-seqRan(x, length.out = NULL, relExt = c(0, 0), ...)
+seqRan(x, length.out = NULL, rel.ext = c(0, 0), ...)
 }
 \arguments{
 \item{x}{Numeric vector}
 
-\item{length.out}{Length of sequence to create}
+\item{length.out}{Length of sequence to create, Defaults to length
+of \code{x}.}
 
-\item{relExt}{Relative extention of sequence limits. Default \code{relExt = c(0,0)} maintains 
-original range of \code{x}}
+\item{rel.ext}{Relative extention of sequence limits. 
+Default \code{rel.xt = c(0,0)} maintains original range of \code{x}}
 
 \item{...}{Additional parameters to pass to \code{\link[base]{seq}}}
 }
@@ -23,7 +24,8 @@ Vector
 Create a sequence of defined length over range of a vector
 }
 \examples{
-x <- 1:5
+x <- c(0,1,3,4)
+seqRan(x) # default settings. Returns vector of length of x
 seqRan(x, 10) # using original range of x
 seqRan(x, 10, c(-0.1, 0.1)) # using extended range of x
 
