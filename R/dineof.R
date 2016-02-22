@@ -17,10 +17,19 @@
 #' If ref.pos = NULL, then either 30 or 1\% of the non-gap values 
 #' (which ever is larger) will be sampled at random.
 #' @param delta.rms The threshold for RMS convergence.
-#' @param method Method to use for matrix decomposition (\code{"irlba"} or \code{"svd"}).
-#' Default is \code{method="irlba"}, which is more computationally efficient
+#' @param method Method to use for matrix decomposition (\code{"irlba"}, \code{"svd"}, 
+#' or \code{"svds"}).
+#' Default is \code{method="svds"}, which is more computationally efficient
 #' for large matrices. Use \code{method="svd"} for small matrices where a full set of EOFs
-#' will need to be produced before \code{delta.rms} converges.
+#' will need to be produced before \code{delta.rms} converges. \code{method="irlba"}  
+#' can also be used for partial decomposition, and is included for consistency with 
+#' previous versions of the sinkr package, but is now replaced by 
+#' \code{method="svds"} as a default method due to better performance.
+#' 
+#' @details Method \code{\link[rARPACK]{svds}} is now the default as it provides 
+#' better estimates of trailing EOFs than \code{\link[irlba]{irlba}} and can be 
+#' computationally faster during later iterations where multiple singular vectors 
+#' are calculated. 
 #' 
 #' @return Results of \code{dineof} are returned as a list 
 #' containing the following components:
@@ -174,7 +183,7 @@
 #' @export
 #' 
 #'
-dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="irlba"){
+dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="svds"){
 
 	if(is.null(n.max)){
 		n.max=dim(Xo)[2]
@@ -201,6 +210,9 @@ dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="irlba")
 			if(method == "svd"){
 			  SVDi <- svd(Xa)	  
 			}
+			if(method == "svds"){
+			  SVDi <- rARPACK::svds(Xa, k=n.eof)	  
+			}
 			RECi <- as.matrix(SVDi$u[,seq(n.eof)]) %*% as.matrix(diag(SVDi$d[seq(n.eof)], n.eof, n.eof)) %*% t(as.matrix(SVDi$v[,seq(n.eof)]))
 			Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]
 			rms.now <- sqrt(mean((Xa[ref.pos] - Xo[ref.pos])^2))
@@ -221,6 +233,9 @@ dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="irlba")
 		}
 		if(method == "svd"){
 		  SVDi <- svd(Xa)	  
+		}
+		if(method == "svds"){
+		  SVDi <- rARPACK::svds(Xa, k=n.eof)	  
 		}
 		RECi <- as.matrix(SVDi$u[,seq(n.eof)]) %*% as.matrix(diag(SVDi$d[seq(n.eof)], n.eof, n.eof)) %*% t(as.matrix(SVDi$v[,seq(n.eof)]))
 		Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]
