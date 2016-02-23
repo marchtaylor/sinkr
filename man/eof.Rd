@@ -22,11 +22,7 @@ return the full set of EOFs.}
 
 \item{method}{Method for matrix decomposition ('\code{svd}', '\code{eigen}', 
 '\code{irlba}', '\code{svds}'). Defaults to 'svd' when \code{method = NULL} 
-<<<<<<< HEAD
 and 'svds' when \code{method = NULL} and \code{recursive = TRUE}.
-=======
-and \code{recursive = TRUE}.
->>>>>>> cfc9ca200122da8218763c76e16826cbb5fb7de7
 Use of 'svds' or 'irlba" is recommended when \code{recursive = TRUE} 
 due to faster computation speed.
 All methods should give identical results when \code{recursive = TRUE}. 
@@ -63,19 +59,12 @@ Taylor et al. (2013) demonstrated that the RSEOF approach
 (i.e. \code{recursive = TRUE}) more accurately estimates EOFs from a 
 gappy field than the traditional LSEOF method. 
 Pre-treatment of gappy fields through in EOF interpolation 
-<<<<<<< HEAD
 (\code{\link[sinkr]{dineof}}) may provide the most accurate estimate of EOFs. 
-RSEOF can be much faster in cases where the number of columns in \code{F1} 
+However, RSEOF can be much faster in cases where the number of columns in \code{F1} 
 is smaller than the number of rows.
-=======
-(\code{\link[sinkr]{dineof}}) may provide the most accurate EOFs. 
-RSEOF can be much faster in cases where 
-the number of columns in \code{F1} is smaller than the number of rows.
->>>>>>> cfc9ca200122da8218763c76e16826cbb5fb7de7
-Method \code{\link[rARPACK]{svds}} appears to provide a better estimate of trailing
-EOFs than \code{\link[irlba]{irlba}}. 
-Faster computation time with \code{\link[rARPACK]{svds}} may not result in 
-\code{recursive = TRUE} due to computation of only leading vectors.
+Faster computation time with \code{\link[rARPACK]{svds}} over 
+\code{\link[irlba]{irlba}} may not result when  
+\code{recursive = TRUE} due to computation of leading vectors only.
 }
 \examples{
 
