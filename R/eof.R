@@ -7,22 +7,18 @@
 #' @param F1 A data field. The data should be arraunged as samples in the column 
 #' dimension (typically each column is a time series for a spatial location).
 #' @param centered Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-#' centered prior to the analysis. Defaults to 'TRUE'
+#' centered prior to the analysis. Defaults to \code{TRUE}
 #' @param scaled Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-#' scaled prior to the analysis. Defaults to 'TRUE'
+#' scaled prior to the analysis. Defaults to \code{TRUE}
 #' @param nu Numeric value. Defines the number of EOFs to return. Defaults to 
 #' return the full set of EOFs.
-#' @param method Method for matrix decomposition ('\code{svd}', '\code{eigen}', 
-#' '\code{irlba}', '\code{svds}'). Defaults to 'svd' when \code{method = NULL} 
-#' and 'svds' when \code{method = NULL} and \code{recursive = TRUE}.
-#' Use of 'svds' or 'irlba" is recommended when \code{recursive = TRUE} 
-#' due to faster computation speed.
-#' All methods should give identical results when \code{recursive = TRUE}. 
-#' When \code{recursive = FALSE}, \code{svd} and \code{eigen} give similar 
-#' results for non-gappy fields, but will differ slightly with gappy fields 
-#' due to decomposition of a nonpositive definite covariance matrix. 
-#' Specifically, \code{eigen} will produce negative eigenvalues for trailing 
-#' EOFs, while singular values derived from \code{svd} will be strictly positive.
+#' @param method Method for matrix decomposition (\code{\link[base]{svd}}, 
+#' \code{\link[base]{eigen}}, \code{\link[irlba]{irlba}}, 
+#' \code{\link[rARPACK]{svds}}). 
+#' Defaults to \code{"svd"} when \code{method = NULL} and \code{"svds"} when 
+#' \code{method = NULL} and \code{recursive = TRUE}.
+#' Use of \code{"svds"} or \code{"irlba"} calculates a partial SVD, which is 
+#' recommended when \code{recursive = TRUE} due to faster computation speed.
 #' @param recursive Logical. When \code{TRUE}, the function follows the method of
 #' "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF) (Taylor et al. 2013). 
 #' RSEOF is a modification of a least squares EOF approach for gappy data (LSEOF)
@@ -32,12 +28,21 @@
 #' (i.e. \code{recursive = TRUE}) more accurately estimates EOFs from a 
 #' gappy field than the traditional LSEOF method. 
 #' Pre-treatment of gappy fields through in EOF interpolation 
-#' (\code{\link[sinkr]{dineof}}) may provide the most accurate estimate of EOFs. 
-#' However, RSEOF can be much faster in cases where the number of columns in \code{F1} 
+#' (\code{\link[sinkr]{dineof}}) may provide the most accurate estimate of EOFs; 
+#' however, RSEOF can be much faster in cases where the number of columns in \code{F1} 
 #' is smaller than the number of rows.
-#' Faster computation time with \code{\link[rARPACK]{svds}} over 
-#' \code{\link[irlba]{irlba}} may not result when  
-#' \code{recursive = TRUE} due to computation of leading vectors only.
+#' 
+#' All methods should give identical results when \code{recursive = TRUE}, despite 
+#' differences in calculation time. 
+#' When \code{recursive = FALSE}, \code{"svd"} and \code{"eigen"} give similar 
+#' results for non-gappy fields, but will differ with gappy fields 
+#' due to decomposition of a nonpositive definite covariance matrix, as calculated 
+#' with \code{\link[sinkr]{cov4gappy}}. 
+#' Specifically, \code{"eigen"} will produce negative eigenvalues for trailing 
+#' EOFs, while singular values derived from \code{"svd"} will be strictly positive.
+#' Faster computation time with \code{"svds"} over 
+#' \code{"irlba"} may not result when  
+#' \code{recursive = TRUE} due to the iterative computation of leading vectors only. 
 #' 
 #' @return Results of \code{eof} are returned as a list containing the following components:
 #' \tabular{rll}{

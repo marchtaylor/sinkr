@@ -15,19 +15,17 @@ dineof(Xo, n.max = NULL, ref.pos = NULL, delta.rms = 1e-05,
 
 \item{ref.pos}{A vector of non-gap reference positions by which 
 errors will be assessed via root mean squared error ("RMS"). 
-If ref.pos = NULL, then either 30 or 1\% of the non-gap values 
+If ref.pos = NULL, then either 30 or 1 \% of the non-gap values 
 (which ever is larger) will be sampled at random.}
 
 \item{delta.rms}{The threshold for RMS convergence.}
 
-\item{method}{Method to use for matrix decomposition (\code{"irlba"}, \code{"svd"}, 
-or \code{"svds"}).
+\item{method}{Method to use for matrix decomposition (\code{\link[base]{svd}}, 
+\code{\link[irlba]{irlba}}, \code{\link[rARPACK]{svds}}).
 Default is \code{method="svds"}, which is more computationally efficient
-for large matrices. Use \code{method="svd"} for small matrices where a full set of EOFs
-will need to be produced before \code{delta.rms} converges. \code{method="irlba"}  
-can also be used for partial decomposition, and is included for consistency with 
-previous versions of the sinkr package, but is now replaced by 
-\code{method="svds"} as a default method due to better performance.}
+for large matrices. \code{method="irlba"} can also be used for partial 
+decomposition, and is included for consistency with 
+previous versions of the sinkr package.}
 }
 \value{
 Results of \code{dineof} are returned as a list 
@@ -44,14 +42,15 @@ This function is based on the
 DINEOF (Data Interpolating Empirical Orthogonal Functions) 
 procedure described by Beckers and Rixon (2003). The procedure has been
 shown to accurately determine Emprirical Orthogonal Functions (EOFs) from 
-gappy data sets (Taylor et al. 2013). Rather than directly return the EOFs, 
+gappy data sets (Taylor et al. 2013) that are used for data 
+reconstruction. Rather than directly return the EOFs, 
 the results of the \code{dineof} function is a fully interpolated 
 matrix which can then be subjected to a final EOF decomposition with 
 \code{eof}, \code{prcomp}, or other EOF/PCA function of preference.
 }
 \details{
-Method \code{\link[rARPACK]{svds}} is now the default as it provides 
-better estimates of trailing EOFs than \code{\link[irlba]{irlba}} and can be 
+Method \code{"svds"} is now the default as it provides 
+better estimates of trailing EOFs than \code{"irlba"} and can be 
 computationally faster during later iterations where multiple singular vectors 
 are calculated.
 }
