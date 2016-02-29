@@ -22,7 +22,7 @@ return the full set of EOFs.}
 
 \item{method}{Method for matrix decomposition (\code{\link[base]{svd}}, 
 \code{\link[base]{eigen}}, \code{\link[irlba]{irlba}}, 
-\code{\link[rARPACK]{svds}}). 
+\code{\link[RSpectra]{svds}}). 
 Defaults to \code{"svd"} when \code{method = NULL} and \code{"svds"} when 
 \code{method = NULL} and \code{recursive = TRUE}.
 Use of \code{"svds"} or \code{"irlba"} calculates a partial SVD, which is 

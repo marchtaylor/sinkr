@@ -19,7 +19,7 @@
 #' (which ever is larger) will be sampled at random.
 #' @param delta.rms The threshold for RMS convergence.
 #' @param method Method to use for matrix decomposition (\code{\link[base]{svd}}, 
-#' \code{\link[irlba]{irlba}}, \code{\link[rARPACK]{svds}}).
+#' \code{\link[irlba]{irlba}}, \code{\link[RSpectra]{svds}}).
 #' Default is \code{method="svds"}, which is more computationally efficient
 #' for large matrices. \code{method="irlba"} can also be used for partial 
 #' decomposition, and is included for consistency with 
@@ -210,7 +210,7 @@ dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="svds"){
 			  SVDi <- svd(Xa)	  
 			}
 			if(method == "svds"){
-			  SVDi <- rARPACK::svds(Xa, k=n.eof)	  
+			  SVDi <- RSpectra::svds(Xa, k=n.eof)	  
 			}
 			RECi <- as.matrix(SVDi$u[,seq(n.eof)]) %*% as.matrix(diag(SVDi$d[seq(n.eof)], n.eof, n.eof)) %*% t(as.matrix(SVDi$v[,seq(n.eof)]))
 			Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]
@@ -234,7 +234,7 @@ dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="svds"){
 		  SVDi <- svd(Xa)	  
 		}
 		if(method == "svds"){
-		  SVDi <- rARPACK::svds(Xa, k=n.eof)	  
+		  SVDi <- RSpectra::svds(Xa, k=n.eof)	  
 		}
 		RECi <- as.matrix(SVDi$u[,seq(n.eof)]) %*% as.matrix(diag(SVDi$d[seq(n.eof)], n.eof, n.eof)) %*% t(as.matrix(SVDi$v[,seq(n.eof)]))
 		Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]

@@ -14,7 +14,7 @@
 #' return the full set of EOFs.
 #' @param method Method for matrix decomposition (\code{\link[base]{svd}}, 
 #' \code{\link[base]{eigen}}, \code{\link[irlba]{irlba}}, 
-#' \code{\link[rARPACK]{svds}}). 
+#' \code{\link[RSpectra]{svds}}). 
 #' Defaults to \code{"svd"} when \code{method = NULL} and \code{"svds"} when 
 #' \code{method = NULL} and \code{recursive = TRUE}.
 #' Use of \code{"svds"} or \code{"irlba"} calculates a partial SVD, which is 
@@ -186,7 +186,7 @@ nu=NULL, method=NULL, recursive=FALSE
 				L <- irlba::irlba(C.i, nu=1, nv=1) 
 			}
 		  if(method == "svds"){
-		    L <- rARPACK::svds(C.i, k=1, nu=1, nv=1) 
+		    L <- RSpectra::svds(C.i, k=1, nu=1, nv=1) 
 		  }
 						
 			u[,i] <- L$u[,1]
@@ -232,7 +232,7 @@ nu=NULL, method=NULL, recursive=FALSE
 			L <- irlba::irlba(C, nu=nu, nv=nu)
 		}
 		if(method == "svds"){
-		  L <- rARPACK::svds(C, k=nu, nu=nu, nv=nu) 
+		  L <- RSpectra::svds(C, k=nu, nu=nu, nv=nu) 
 		}
 
 		#setup for norm

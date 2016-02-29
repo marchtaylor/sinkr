@@ -21,7 +21,7 @@ If ref.pos = NULL, then either 30 or 1 \% of the non-gap values
 \item{delta.rms}{The threshold for RMS convergence.}
 
 \item{method}{Method to use for matrix decomposition (\code{\link[base]{svd}}, 
-\code{\link[irlba]{irlba}}, \code{\link[rARPACK]{svds}}).
+\code{\link[irlba]{irlba}}, \code{\link[RSpectra]{svds}}).
 Default is \code{method="svds"}, which is more computationally efficient
 for large matrices. \code{method="irlba"} can also be used for partial 
 decomposition, and is included for consistency with 
