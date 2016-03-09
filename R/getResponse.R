@@ -3,7 +3,7 @@
 #' @param formula or fitted model object
 #'
 #' @return a vector of response variable names as character strings
-#' @details Should work for lm, glm, and gam objects - maybe others as well.
+#' @details Works for lm, glm, gam and gls model objects - maybe others as well.
 #' @export
 #'
 #' @examples

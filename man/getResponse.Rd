@@ -16,7 +16,7 @@ a vector of response variable names as character strings
 Return response variable name from a fitted model
 }
 \details{
-Should work for lm, glm, and gam objects - maybe others as well.
+Works for lm, glm, gam and gls model objects - maybe others as well.
 }
 \examples{
 getResponse(formula(y ~ x)) # single response variable

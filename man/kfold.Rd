@@ -18,7 +18,7 @@ a list containing sample numbers in each partition
 Determine k-fold partitions for a given number of samples
 }
 \details{
-For specific use in cross validation (see \code{\link[sinkr]{cv.nperm}})
+For specific use in cross validation (see \code{\link{cv.nperm}})
 }
 \examples{
 res <- kfold(100,6)

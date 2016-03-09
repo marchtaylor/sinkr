@@ -4,7 +4,7 @@
 #' @param k number of partitions
 #'
 #' @return a list containing sample numbers in each partition
-#' @details For specific use in cross validation (see \code{\link[sinkr]{cv.nperm}})
+#' @details For specific use in cross validation (see \code{\link{cv.nperm}})
 #' @export
 #'
 #' @examples

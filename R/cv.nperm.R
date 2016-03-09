@@ -10,9 +10,9 @@
 #'
 #' @examples
 #' # make data
-#' set.seed(1)
+#' set.seed(1111)
 #' n <- 100
-#' x <- rlnorm(n, meanlog = 0.25, sdlog = 1.5)
+#' x <- sort(rlnorm(n, meanlog = 0.25, sdlog = 1.5))
 #' a <- 0
 #' b <- 100
 #' cv <- 0.5
@@ -43,8 +43,8 @@
 #'     formula = formula(y ~ x - 1)
 #'   )
 #' )
-#' sqrt(mean((res$valid - res$pred)^2)) # root mean squared error
-#' median(abs((res$valid - res$pred)/res$pred * 100)) # median absolute percent error
+#' sqrt(mean((res[,1] - res[,2])^2)) # root mean squared error
+#' median(abs((res[,1] - res[,2])/res[,2] * 100)) # median absolute percent error
 #' 
 #' 
 #' # log LM
@@ -55,8 +55,8 @@
 #'     formula = formula(log(y) ~ log(x))
 #'   )
 #' )
-#' sqrt(mean((exp(res$valid) - exp(res$pred))^2)) # root mean squared error
-#' median(abs((exp(res$valid) - exp(res$pred))/exp(res$pred) * 100)) # median absolute percent error
+#' sqrt(mean((exp(res[,1]) - exp(res[,2]))^2)) # root mean squared error
+#' median(abs((exp(res[,1]) - exp(res[,2]))/exp(res[,2]) * 100)) # median absolute percent error
 #' 
 #' 
 #' # GLM
@@ -68,8 +68,8 @@
 #'     family = Gamma(link = "identity")
 #'   )
 #' )
-#' sqrt(mean((res$valid - res$pred)^2)) # root mean squared error
-#' median(abs((res$valid - res$pred)/res$pred * 100)) # median absolute percent error
+#' sqrt(mean((res[,1] - res[,2])^2)) # root mean squared error
+#' median(abs((res[,1] - res[,2])/res[,2] * 100)) # median absolute percent error
 #' 
 #' 
 #' 
