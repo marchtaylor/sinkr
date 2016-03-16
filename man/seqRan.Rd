@@ -4,7 +4,7 @@
 \alias{seqRan}
 \title{Create a sequence of defined length over range of a vector}
 \usage{
-seqRan(x, length.out = NULL, rel.ext = c(0, 0), ...)
+seqRan(x, length.out = NULL, rel.ext = c(0, 0), na.rm = TRUE, ...)
 }
 \arguments{
 \item{x}{Numeric vector}

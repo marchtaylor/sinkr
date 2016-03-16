@@ -16,9 +16,9 @@
 #' seqRan(x, 10) # using original range of x
 #' seqRan(x, 10, c(-0.1, 0.1)) # using extended range of x
 #' 
-seqRan <- function(x, length.out=NULL, rel.ext=c(0,0), ...){
+seqRan <- function(x, length.out=NULL, rel.ext=c(0,0), na.rm=TRUE, ...){
   if(is.null(length.out)) length.out <- length(x)
-  xran <- range(x)
+  xran <- range(x, na.rm=na.rm)
   xspan <- diff(xran)
   xran <- xran + xspan*rel.ext
   return(seq(xran[1], xran[2], length.out = length.out, ...))
