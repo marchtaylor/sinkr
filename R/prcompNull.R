@@ -71,7 +71,12 @@ prcompNull <- function(x, retx = TRUE, center = TRUE, scale. = FALSE,
   }
   
   result <- list(Lambda=Lambda, Lambda.orig=E$sdev^2)
-  result$n.sig <- max(which(E$sdev^2 > apply(Lambda, 2, quantile, probs=0.95)))
+  aboveNull <- as.numeric(E$sdev^2 > apply(Lambda, 2, quantile, probs=0.95))
+  RLE <- rle(aboveNull)
+  if(RLE$values[1]==1){
+    result$n.sig <- RLE$length[1]
+  } else {
+    result$n.sig <- 0
+  }
   result
-  
 }
