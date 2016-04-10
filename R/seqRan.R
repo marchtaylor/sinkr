@@ -4,7 +4,8 @@
 #' @param length.out Length of sequence to create, Defaults to length
 #' of \code{x}.
 #' @param rel.ext Relative extention of sequence limits. 
-#' Default \code{rel.xt = c(0,0)} maintains original range of \code{x} 
+#' Default \code{rel.xt = c(0,0)} maintains original range of \code{x}
+#' @param na.rm Logical. Should NAs be removed (see \code{\link[base]{range}})
 #' @param ... Additional parameters to pass to \code{\link[base]{seq}}
 #'
 #' @return Vector

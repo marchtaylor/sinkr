@@ -15,6 +15,8 @@ of \code{x}.}
 \item{rel.ext}{Relative extention of sequence limits. 
 Default \code{rel.xt = c(0,0)} maintains original range of \code{x}}
 
+\item{na.rm}{Logical. Should NAs be removed (see \code{\link[base]{range}})}
+
 \item{...}{Additional parameters to pass to \code{\link[base]{seq}}}
 }
 \value{
