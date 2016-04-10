@@ -96,7 +96,11 @@ prcompBoot <- function(
     }
   }
   result$sig <- sig
-  result$n.sig <- min(which(sig == 0)) - 1
+  RLE <- rle(sig)
+  if(RLE$values[1]==1){
+    result$n.sig <- RLE$length[1]
+  } else {
+    result$n.sig <- 0
+  }
   result
-  
 }
