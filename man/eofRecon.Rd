@@ -12,9 +12,9 @@ eofRecon(EOF, pcs = NULL, newpcs = NULL)
 \item{pcs}{The principal components (PCs) to use in the reconstruction
 (defaults to the full set of PCs: \code{pcs=seq(ncol(EOF$u))})}
 
-\item{newpcs}{A matrix of new principal coordinate to use in the 
+\item{newpcs}{An (optional) matrix of new principal coordinates to use in the 
 reconstruction. This would typically come from a gappy dataset whose missing 
-values are to be predicted based on the EOF loadings of a the EOF object (see \code{}).}
+values are to be predicted based on the EOF loadings of a the EOF object (see \code{eofPred}).}
 }
 \description{
 This function reconstructs the original field from an EOF object of the 

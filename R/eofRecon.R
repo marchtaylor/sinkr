@@ -6,9 +6,9 @@
 #' @param EOF An object resulting from the function \code{eof}.
 #' @param pcs The principal components (PCs) to use in the reconstruction
 #'   (defaults to the full set of PCs: \code{pcs=seq(ncol(EOF$u))})
-#' @param newpcs A matrix of new principal coordinate to use in the 
+#' @param newpcs An (optional) matrix of new principal coordinates to use in the 
 #' reconstruction. This would typically come from a gappy dataset whose missing 
-#' values are to be predicted based on the EOF loadings of a the EOF object (see \code{}).
+#' values are to be predicted based on the EOF loadings of a the EOF object (see \code{eofPred}).
 #' 
 #'   
 #' @examples
