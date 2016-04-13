@@ -10,7 +10,7 @@
 #' 3) Re-calculation of the matrix with the new singular values
 #' 
 #' @param MAT A matrix.
-#' @param EXP An exponent to apply to the matrix \code{MAT}.
+#' @param EXP An exponent to apply to the matrix \code{MAT}. Default = -1
 #' @param tol Tolerance level for non-zero singular values.
 #' 
 #' @return A matrix
@@ -67,7 +67,7 @@
 #' 
 #' @export
 #' 
-expmat <- function(MAT, EXP, tol=NULL){
+expmat <- function(MAT, EXP=-1, tol=NULL){
 	MAT <- as.matrix(MAT)
 	matdim <- dim(MAT)
 	if(is.null(tol)){
