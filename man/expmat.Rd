@@ -4,12 +4,12 @@
 \alias{expmat}
 \title{Exponentiation of a matrix}
 \usage{
-expmat(MAT, EXP, tol = NULL)
+expmat(MAT, EXP = -1, tol = NULL)
 }
 \arguments{
 \item{MAT}{A matrix.}
 
-\item{EXP}{An exponent to apply to the matrix \code{MAT}.}
+\item{EXP}{An exponent to apply to the matrix \code{MAT}. Default = -1}
 
 \item{tol}{Tolerance level for non-zero singular values.}
 }

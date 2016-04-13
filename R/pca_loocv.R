@@ -1,7 +1,7 @@
 #' Principal component analysis "leave-one-out" cross-validation
 #'
 #' @param X Matrix to be subjected to svd
-#' @param npc.max The maximum number of principal components to test.
+#' @param npc.max The maximum number of principal components to test. Default=ncol(X)
 #'
 #' @return Matrix of square error values for each element in X  
 #' 
@@ -10,25 +10,26 @@
 #'
 #' @examples
 #' 
-#' library(MASS)
 #' X <- as.matrix(iris[,1:4])
 #' res <- pca_loocv(X)
-#' res <- lapply(res, colSums)
-#' COL <- 2:4
+#' res2 <- lapply(res, colSums)
+#' res2
 #' 
+#' COL <- 2:4
+#' LTY <- 1:3
 #' op <- par(mar=c(4,4,2,1), tcl=-0.25, mgp=c(2.5,0.5,0))
 #' for(i in seq(res)){
 #'   if(i==1) {
-#'     plot(res[[i]], t="n", ylim=range(unlist(res)), main="iris", xlab="n PCs", ylab="PRESS")
+#'     plot(res2[[i]], t="n", ylim=range(unlist(res2)), main="iris", xlab="n PCs", ylab="PRESS")
 #'     grid()
 #'   } 
-#'   lines(res[[i]], t="b", bg=c(NaN,COL[i])[(res[[i]]==min(res[[i]])) + 1], col=COL[i], pch=21)
+#'   lines(res2[[i]], t="b", bg=c(NaN,COL[i])[(res2[[i]]==min(res2[[i]])) + 1], col=COL[i], lty=LTY[i], pch=21)
 #' }
-#' legend("topleft", legend=c("naive", "approximate", "pseudoinverse"), col=COL, lty=1, pch=21, bty="n")
+#' legend("topright", legend=c("naive", "approximate", "pseudoinverse"), col=COL, lty=LTY, pch=21, bty="n")
 #' par(op)
 #' 
 #' 
-pca_loocv <- function(X, npc.max=25){
+pca_loocv <- function(X, npc.max=ncol(X)){
   error1 <- matrix(NaN, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
   error2 <- matrix(NaN, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
   error3 <- matrix(NaN, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
@@ -44,12 +45,12 @@ pca_loocv <- function(X, npc.max=25){
         err2 <- Xtest %*% (diag(length(diag(P))) - P + diag(diag(P)))
         err3 <- array(NaN, dim=dim(Xtest))
         for(k in 1:dim(Xtest)[2]){
-          proj = Xtest[,-k] %*% t(ginv(V[-k,1:j])) %*% t(V[,1:j])
+          proj = Xtest[,-k] %*% t(expmat(V[-k,1:j])) %*% t(V[,1:j])
           err3[k] = Xtest[k] - proj[k]
         }
-        error1[n,j] <- sum(err1^2)
-        error2[n,j] <- sum(err2^2)
-        error3[n,j] <- sum(err3^2)
+        error1[n,j] <- sum(sqrt(err1^2))
+        error2[n,j] <- sum(sqrt(err2^2))
+        error3[n,j] <- sum(sqrt(err3^2))
     }
   }
   res <- list(
