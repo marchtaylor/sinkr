@@ -30,12 +30,15 @@ LTY <- 1:3
 op <- par(mar=c(4,4,2,1), tcl=-0.25, mgp=c(2.5,0.5,0))
 for(i in seq(res)){
   if(i==1) {
-    plot(res2[[i]], t="n", ylim=range(unlist(res2)), main="iris", xlab="n PCs", ylab="PRESS")
+    plot(res2[[i]], t="n", ylim=range(unlist(res2)), 
+     main="iris", xlab="n PCs", ylab="PRESS")
     grid()
   } 
-  lines(res2[[i]], t="b", bg=c(NaN,COL[i])[(res2[[i]]==min(res2[[i]])) + 1], col=COL[i], lty=LTY[i], pch=21)
+  lines(res2[[i]], t="b", bg=c(NaN,COL[i])[(res2[[i]]==min(res2[[i]])) + 1],
+   col=COL[i], lty=LTY[i], pch=21)
 }
-legend("topright", legend=c("naive", "approximate", "pseudoinverse"), col=COL, lty=LTY, pch=21, bty="n")
+legend("topright", legend=c("naive", "approximate", "pseudoinverse"),
+ col=COL, lty=LTY, pch=21, bty="n")
 par(op)
 
 
