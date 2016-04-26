@@ -93,7 +93,7 @@ Xo <- replace(Xp, gaps, NaN)
 
 # The dineof "interpolated" field
 set.seed(1)
-RES <- dineof(Xo, delta.rms = 1e-03) # lower 'delta.rms' for higher resolved interpolation
+RES <- dineof(Xo, delta.rms = 1e-02) # lower 'delta.rms' for higher resolved interpolation
 Xa <- RES$Xa
 
 # Visualization all fields
@@ -122,7 +122,7 @@ par(op)
 
 
 
-\donttest{
+
 ### Example with iris dataset
 iris2 <- as.matrix(iris[,1:4]) # only use numeric morphometric data
 frac.gaps <- 0.3 # fraction NaN values
@@ -145,9 +145,10 @@ RES <- dineof(iris2g, delta.rms = 1e-02, method="svd",
 )  
 
 # plot results
+op <- par(mfrow=c(1,2), mar=c(3,3,3,1))
 plot(iris2, RES$Xa, 
      col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
-     pch=as.numeric(iris$Species)
+     pch=as.numeric(iris$Species), main = "Imputation w/ DINEOF"
 )
 abline(0,1,col=8, lty=1)
 legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
@@ -174,13 +175,14 @@ R[-gaps] <- iris2g[-gaps] # replace non-gap values
 # plot interpolated values
 plot(iris2, R, 
      col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
-     pch=as.numeric(iris$Species)
+     pch=as.numeric(iris$Species), main = "Recon. w/ sig. EOFS only"
 )
 abline(0,1,col=8, lty=1)
 legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
 legend("bottomright", legend=levels(iris$Species), pch=1:3, bty = "n")
 sqrt(mean((iris2[gaps] - R[gaps])^2, na.rm=TRUE)) # root mean square error
-}
+
+par(op)
 
 
 }

@@ -4,21 +4,29 @@
 \alias{eofRecon}
 \title{EOF reconstruction (Empirical Orthogonal Functions analysis)}
 \usage{
-eofRecon(EOF, pcs = NULL, newpcs = NULL)
+eofRecon(EOF, pcs = NULL, newpcs = NULL, uncenter = TRUE,
+  unscale = TRUE)
 }
 \arguments{
-\item{EOF}{An object resulting from the function \code{eof}.}
+\item{EOF}{An object resulting from the function \link[sinkr]{eof}.}
 
 \item{pcs}{The principal components (PCs) to use in the reconstruction
 (defaults to the full set of PCs: \code{pcs=seq(ncol(EOF$u))})}
 
 \item{newpcs}{An (optional) matrix of new principal coordinates to use in the 
 reconstruction. This would typically come from a gappy dataset whose missing 
-values are to be predicted based on the EOF loadings of a the EOF object (see \code{eofPred}).}
+values are to be predicted based on the EOF loadings of a the EOF object 
+(see \link[sinkr]{eofPred}).}
+
+\item{uncenter}{Logical. Should reconstructed matrix be un-centered (e.g. if 
+\code{centered = TRUE} was used in link{eof}). Default is \code{TRUE}.}
+
+\item{unscale}{Logical. Should reconstructed matrix be un-centered (e.g. if 
+\code{scaled = TRUE} was used in link{eof}). Default is \code{TRUE}.}
 }
 \description{
 This function reconstructs the original field from an EOF object of the 
-function \code{eof}.
+function \link[sinkr]{eof}.
 }
 \examples{
 set.seed(1)

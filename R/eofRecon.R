@@ -1,14 +1,19 @@
 #' EOF reconstruction (Empirical Orthogonal Functions analysis)
 #' 
 #' This function reconstructs the original field from an EOF object of the 
-#' function \code{eof}.
+#' function \link[sinkr]{eof}.
 #' 
-#' @param EOF An object resulting from the function \code{eof}.
+#' @param EOF An object resulting from the function \link[sinkr]{eof}.
 #' @param pcs The principal components (PCs) to use in the reconstruction
 #'   (defaults to the full set of PCs: \code{pcs=seq(ncol(EOF$u))})
 #' @param newpcs An (optional) matrix of new principal coordinates to use in the 
 #' reconstruction. This would typically come from a gappy dataset whose missing 
-#' values are to be predicted based on the EOF loadings of a the EOF object (see \code{eofPred}).
+#' values are to be predicted based on the EOF loadings of a the EOF object 
+#' (see \link[sinkr]{eofPred}).
+#' @param uncenter Logical. Should reconstructed matrix be un-centered (e.g. if 
+#' \code{centered = TRUE} was used in link{eof}). Default is \code{TRUE}.
+#' @param unscale Logical. Should reconstructed matrix be un-centered (e.g. if 
+#' \code{scaled = TRUE} was used in link{eof}). Default is \code{TRUE}.
 #' 
 #'   
 #' @examples
@@ -42,10 +47,7 @@
 #' 
 #' @export
 #' 
-eofRecon <- function(EOF, pcs=NULL, newpcs=NULL){
-
-	F1_center=EOF$F1_center
-	F1_scale=EOF$F1_scale
+eofRecon <- function(EOF, pcs=NULL, newpcs=NULL, uncenter=TRUE, unscale=TRUE){
 
 	if(is.null(pcs) & is.null(newpcs)){
 	  pcs <- seq(ncol(EOF$u))
@@ -61,17 +63,17 @@ eofRecon <- function(EOF, pcs=NULL, newpcs=NULL){
 	if(!is.null(newpcs)){
 	  F1_recon <- newpcs[,pcs] %*% t(EOF$u[,pcs])  
 	}
+	
+	# add center and scale attributes
+	attr(F1_recon, "scaled:center") <- EOF$F1_center
+  attr(F1_recon, "scaled:scale") <- EOF$F1_scale
 
-	if(!is.null(F1_scale)){
-		F1_recon <- scale(F1_recon, center=FALSE, scale=1/F1_scale)
-		attr(F1_recon, "scaled:scale") <- NULL
-	}
-	if(!is.null(F1_center)){
-		F1_recon <- scale(F1_recon, center=-1*F1_center, scale=FALSE)
-		attr(F1_recon, "scaled:center") <- NULL
+  #un-center and un-scale
+	if(uncenter | unscale){
+	  F1_recon <- unscale(x=F1_recon, uncenter=uncenter, unscale=unscale)
 	}
 
-	F1_recon
+	return(F1_recon)
 
 }
 

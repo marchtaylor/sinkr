@@ -4,7 +4,8 @@
 \alias{woldcv}
 \title{Wold's PCA cross-validation procedure}
 \usage{
-woldcv(dat, fracValid = 0.2, centered = TRUE, scaled = FALSE, ...)
+woldcv(dat, fracValid = 0.2, centered = TRUE, scaled = FALSE,
+  uncenter.recon = TRUE, unscale.recon = TRUE, ...)
 }
 \arguments{
 \item{dat}{Dataset (matrix)}
@@ -12,9 +13,15 @@ woldcv(dat, fracValid = 0.2, centered = TRUE, scaled = FALSE, ...)
 \item{fracValid}{Fraction of data to use for each validation. Will determine the
 number of cross-validation groups (Default=0.2)}
 
-\item{centered}{Center data (logical). Passed to \link{eof}}
+\item{centered}{Center data (logical). Passed to \link{eof}. Default = TRUE.}
 
-\item{scaled}{Scale data (logical). Passed to \link{eof}}
+\item{scaled}{Scale data (logical). Passed to \link{eof} Default = FALSE.}
+
+\item{uncenter.recon}{Logical. Compare eof reconstruction to uncentered dat. If 
+centered = FALSE, then this has no effect. Default = TRUE.}
+
+\item{unscale.recon}{Logical. Compare eof reconstruction to unscaleded dat. If 
+scaled = FALSE, then this has no effect. Default = TRUE.}
 
 \item{...}{Additional parameters to pass to \link{eof}}
 }
@@ -24,24 +31,63 @@ cross-validation, number of values used in validation (npred), number of groups
 used in cross-validation (ngroups)
 }
 \description{
-Wold's PCA cross-validation procedure
+Performs a cross-validation procedure for EOF/PCA according 
+to an interpolation routine for substituted missing values
 }
 \examples{
 
+### wine dataset example
 data(wine)
 dat <- as.matrix(wine[,-1])
-res <- woldcv(dat, fracValid=0.2, centered=TRUE, scaled=TRUE)
+
+# uncenter and unscale reconstruction
+res <- woldcv(dat, fracValid=0.1, centered=TRUE, scaled=TRUE, 
+  uncenter.recon = TRUE, unscale.recon = TRUE)
+op <- par(mfrow=c(1,2))
 plot(res$SS, t="b"); which.min(res$SS)
 plot(res$RMSECV, t="b"); which.min(res$RMSECV)
+par(op)
+res$ngroups
+res$npred
 
+# Comparison to centered and scaled data
+res <- woldcv(dat, fracValid=0.1, centered=TRUE, scaled=TRUE,
+  uncenter.recon = FALSE, unscale.recon = FALSE)
+op <- par(mfrow=c(1,2))
+plot(res$SS, t="b"); which.min(res$SS)
+plot(res$RMSECV, t="b"); which.min(res$RMSECV)
+par(op)
+res$ngroups
+res$npred
+
+
+
+### iris dataset example
 data(iris)
 dat <- as.matrix(iris[,-5])
-res <- woldcv(dat, fracValid=0.3, centered=TRUE, scaled=FALSE)
+
+# uncenter and unscale reconstruction
+res <- woldcv(dat, fracValid=0.1, centered=TRUE, scaled=TRUE, 
+  uncenter.recon = TRUE, unscale.recon = TRUE)
+op <- par(mfrow=c(1,2))
 plot(res$SS, t="b"); which.min(res$SS)
 plot(res$RMSECV, t="b"); which.min(res$RMSECV)
+par(op)
+res$ngroups
+res$npred
+
+# comparison to centered and scaled data
+res <- woldcv(dat, fracValid=0.2, centered=TRUE, scaled=TRUE,
+  uncenter.recon = FALSE, unscale.recon = FALSE)
+op <- par(mfrow=c(1,2))
+plot(res$SS, t="b"); which.min(res$SS)
+plot(res$RMSECV, t="b"); which.min(res$RMSECV)
+par(op)
+res$ngroups
+res$npred
 
 }
 \references{
-Wold S (1978) Technometrics 20:397–405
+Wold S (1978) Technometrics 20:397-405
 }
 

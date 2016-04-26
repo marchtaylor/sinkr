@@ -38,8 +38,8 @@
 #' @references 
 #' Forina M., Lanteri S. Armanino C., Casolino C., Casale M., Oliveri, P. (2008). 
 #' V-PARVUS. An Extendible Pachage of programs for esplorative data analysis, 
-#' classification and regression analysis. Dip. Chimica e Tecnologie Farmaceutiche ed Alimentari, 
-#' Universita' di Genova.
+#' classification and regression analysis. Dip. Chimica e Tecnologie Farmaceutiche ed 
+#' Alimentari, Universita' di Genova.
 #' @usage data(wine)
 #' @keywords datasets multivariate
 #' @examples
@@ -55,7 +55,8 @@
 #' abline(h=0, v=0, lty=3, col=8)
 #' points(pca, col=COL[wine$Type])
 #' for(i in seq(levels(wine$Type))){
-#'   ordiellipse(pca, wine$Type, show.groups=levels(wine$Type)[i], conf=0.95, draw="lines", col=COL[i]) #[levels(wine$Type)])
+#'   ordiellipse(pca, wine$Type, show.groups=levels(wine$Type)[i], conf=0.95, draw="lines",
+#'    col=COL[i]) #[levels(wine$Type)])
 #' }
 #' 
 #' 
