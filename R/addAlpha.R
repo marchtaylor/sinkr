@@ -10,8 +10,8 @@
 #' 
 #' @examples
 #' # Make background image
-#' x <- seq(-180, 180,, 30)
-#' y <- seq(-90, 90,, 30)
+#' x <- seq(-180, 180, length.out=30)
+#' y <- seq(-90, 90, length.out=30)
 #' grd <- expand.grid(x=x,y=y)
 #' z <- sqrt(grd$x^2+grd$y^2)
 #' dim(z) <- c(length(x), length(y))
