@@ -47,12 +47,12 @@
 matrixPoly <- function(x, y, z, n=NULL){
 	if(missing(z)) stop("Must define matrix 'z'")
 	if(missing(n)) n=seq(z)
-	if(missing(x)) x <- seq(0,1,,dim(z)[1])
-	if(missing(y)) y <- seq(0,1,,dim(z)[2])
+	if(missing(x)) x <- seq(0, 1, length.out = dim(z)[1])
+	if(missing(y)) y <- seq(0, 1, length.out = dim(z)[2])
 	poly <- vector(mode="list", length(n))
 	for(i in seq(n)){
-		ROW <- ((n[i]-1) %% dim(z)[1]) +1
-		COL <- ((n[i]-1) %/% dim(z)[1]) +1
+		ROW <- row(z)[n[i]] # ((n[i]-1) %% dim(z)[1]) +1
+		COL <- col(z)[n[i]] # ((n[i]-1) %/% dim(z)[1]) +1
 
 		dist.left <- (x[ROW]-x[ROW-1])/2
 		dist.right <- (x[ROW+1]-x[ROW])/2

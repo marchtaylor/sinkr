@@ -17,7 +17,7 @@ or a positive integer i meaning palette()[i].}
 }
 \description{
 Takes a vector of colors and adds an alpha channel 
-at the given level of transparency.
+at the given level of transparency. See also \code{\link[grDevices]{adjustcolor}}.
 }
 \examples{
 # Make background image

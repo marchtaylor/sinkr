@@ -1,6 +1,6 @@
 #' @title Add alpha channel (transparency) to colors
 #' @description Takes a vector of colors and adds an alpha channel 
-#' at the given level of transparency.
+#' at the given level of transparency. See also \code{\link[grDevices]{adjustcolor}}.
 #' @param COLORS Vector of any of the three kinds of R color specifications, 
 #' i.e., either a color name (as listed by colors()), 
 #' a hexadecimal string of the form "#rrggbb" or "#rrggbbaa" (see rgb), 
