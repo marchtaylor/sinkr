@@ -1,5 +1,6 @@
 sinkr
 =====
+[![Build Status](https://api.travis-ci.org/marchtaylor/sinkr.svg?branch=master)](https://travis-ci.org/marchtaylor/sinkr)
 
 A collection of functions with emphasis on multivariate methods and handling of geographic datasets
 
