@@ -1,5 +1,5 @@
 language: r
-
+sudo: false
 cache: packages
 
 notifications:
