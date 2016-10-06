@@ -8,6 +8,9 @@
 #' @return A vector of hexadecimal codings for colors 
 #' (as in \code{\link[grDevices]{rgb}}).
 #' 
+#' @importFrom graphics par layout image polygon mtext box locator lines axis plot
+#' @importFrom grDevices rainbow
+#' 
 #' @examples
 #' \donttest{
 #' # Make synthetic data

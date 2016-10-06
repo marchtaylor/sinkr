@@ -4,6 +4,8 @@
 #'
 #' @return a vector of response variable names as character strings
 #' @details Works for lm, glm, gam and gls model objects - maybe others as well.
+#' 
+#' @importFrom stats terms
 #' @export
 #'
 #' @examples

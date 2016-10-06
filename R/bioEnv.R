@@ -71,6 +71,9 @@
 #' 
 #' @keywords Mantel_test Primer
 #' 
+#' @importFrom utils combn
+#' @importFrom stats cor.test
+#' 
 #' @export
 #' 
 bioEnv <- function(fix.mat, var.mat, 

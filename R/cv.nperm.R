@@ -6,7 +6,6 @@
 #' @param argList List of arguments to pass to modelFun
 #'
 #' @return dataframe of validation (i.e. response) and prediction values
-#' @export
 #'
 #' @examples
 #' # make data
@@ -71,6 +70,11 @@
 #' sqrt(mean((res[,1] - res[,2])^2)) # root mean squared error
 #' median(abs((res[,1] - res[,2])/res[,2] * 100)) # median absolute percent error
 #' 
+#' 
+#' @importFrom stats lm glm predict
+#' @importFrom nlme gls
+#' 
+#' @export
 #' 
 #' 
 cv.nperm <- function(modelfun="lm", k=4, nperm=10, argList=NULL){

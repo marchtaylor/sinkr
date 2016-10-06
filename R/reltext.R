@@ -7,6 +7,8 @@
 #' @param ... other parameters passed to \code{\link[graphics]{text}}
 #' 
 #' @keywords text, plotting
+#' 
+#' @importFrom graphics text par
 #' @export
 #' @examples
 #' # Make data

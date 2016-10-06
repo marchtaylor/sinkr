@@ -32,6 +32,11 @@
 #' 
 #' @return A plot with stream visualization added
 #' 
+#' @importFrom graphics plot polygon par
+#' @importFrom grDevices rainbow
+#' @importFrom stats runif smooth.spline
+#' 
+#' 
 #' 
 #' @examples
 #' #Create data

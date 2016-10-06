@@ -26,6 +26,8 @@
 #' pos <- ptlocator(10, x, y)
 #' pos}
 #' 
+#' 
+#' @importFrom graphics locator points
 #' @export
 #' 
 ptlocator <- function(n=1, x, y, col=rgb(1,0,0,0.5), pch=20, ...){

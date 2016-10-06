@@ -87,6 +87,7 @@ points(res$Lambda.orig)
 abline(v=res$n.sig+0.5, lty=2, col=4)
 mtext(paste("Non-mixed PCs =", res$n.sig), side=3, line=0.5, col=4)
 
+
 }
 \references{
 Babamoradi, H., van den Berg, F., Rinnan, A, 2013. Bootstrap based 

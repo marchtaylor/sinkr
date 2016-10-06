@@ -16,6 +16,8 @@
 #' @param ylim y-axis limits. If \code{ylim=NULL}, defaults to \code{c(0, 1.2*max(apply(y,1,sum)}.
 #' @param ... Other plot arguments
 #' 
+#' @importFrom graphics plot polygon par
+#' @importFrom grDevices rainbow 
 #' 
 #' @examples
 #' #Create data

@@ -18,6 +18,7 @@
 #' @references
 #' \url{http://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session}
 #' 
+#' @importFrom utils object.size
 #' @examples
 #' x1 <- matrix(rnorm(10000), 100, 100)
 #' x2 <- as.data.frame(matrix(rnorm(1000), 100, 10))

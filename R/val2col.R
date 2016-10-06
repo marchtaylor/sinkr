@@ -12,6 +12,8 @@
 #' is unused and the algorithm used follows \code{\link[base]{cut}}, so intervals are 
 #' closed on the right and open on the left except for the lowest interval 
 #' which is closed at both ends.
+#' 
+#' @importFrom grDevices heat.colors
 #' @export
 #' @examples
 #' set.seed(1)

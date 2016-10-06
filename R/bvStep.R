@@ -106,6 +106,9 @@
 #' }
 #' 
 #' @keywords Mantel_test Primer algorithm
+#' @importFrom stats cor.test
+#' @importFrom utils combn
+#' 
 #' @export
 #' 
 bvStep <- function(fix.mat, var.mat, 

@@ -47,6 +47,8 @@
 #' abline(v=res$n.sig+0.5, lty=2, col=4)
 #' mtext(paste("Significant PCs =", res$n.sig), side=3, line=0.5, col=4)
 #' 
+#' @importFrom stats prcomp quantile
+#' 
 #' @export
 #' 
 prcompNull <- function(x, retx = TRUE, center = TRUE, scale. = FALSE,

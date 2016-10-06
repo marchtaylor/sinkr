@@ -21,6 +21,9 @@
 #' @param ylim Limits for the y-axis.
 #' @param ... Additional graphical parameters to pass to the \code{\link[graphics]{image}} function.
 #' 
+#' 
+#' @importFrom grDevices heat.colors
+#' @importFrom graphics plot polygon box axis
 #' @export
 #' @examples
 #' # Make color palettes
