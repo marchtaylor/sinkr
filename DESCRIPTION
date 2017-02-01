@@ -12,7 +12,8 @@ Imports:
     RSpectra,
     vegan,
     Matrix,
-    nlme
+    nlme,
+    GA
 Suggests:
     maps
 Description: The sinkr package contains a collection of functions with

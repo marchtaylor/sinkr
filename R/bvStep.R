@@ -49,6 +49,9 @@
 #' Clarke, K. R & Ainsworth, M. 1993. A method of linking multivariate community structure to environmental variables. 
 #' Marine Ecology Progress Series, 92, 205-219. 
 #' 
+#' 
+#' @importFrom utils flush.console
+#' 
 #' @examples
 #' \donttest{
 #' 
@@ -230,7 +233,9 @@ output.best=10
 		}
 
 		RES_TOT <- rbind(RES_TOT, RES[2:dim(RES)[1],])
-		print(paste(round((i/num.restarts)*100,3), "% finished"))
+		replicate(1, clearConsoleLine())
+		cat(paste(round((i/num.restarts)*100,3), "% finished", "\n"))
+		flush.console()
 	}
 	
 	RES_TOT <- unique(RES_TOT[,3:5])
