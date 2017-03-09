@@ -37,4 +37,3 @@ plot(spirographR(a.rad=4.1, b.rad=-6, rev=100, bc=2.3), t="l", col=5, lwd=1)
 par(op)
 
 }
-

@@ -27,4 +27,3 @@ abline(h=50, col=8, lty=2)
 points(res, x[res], pch=20, col=2)
 
 }
-

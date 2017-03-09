@@ -39,4 +39,3 @@ image(x,y,z2, col=COLORS, add=TRUE)
 
 }
 \keyword{color}
-

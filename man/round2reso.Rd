@@ -27,4 +27,3 @@ points(xr, col=2, pch=20)
 arrows(x0=seq(n), x1=seq(n), y0=x, y1=xr, length=0.1)
 
 }
-

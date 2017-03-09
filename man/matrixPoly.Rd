@@ -54,4 +54,3 @@ sapply(poly, function(X){polygon(X, col=rgb(1,0,0,0.4), border=1)})
 box()
 
 }
-

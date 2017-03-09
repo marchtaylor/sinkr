@@ -56,4 +56,3 @@ imageScale(sqbin.res$z, col=jetPal(20), axis.pos=4)
 par(op)
 
 }
-

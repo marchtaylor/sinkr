@@ -48,4 +48,3 @@ plot(x,y, pch=21, bg=Col)
 abline(h=c(-Inf, -2, -1, 0, 1, 2, Inf), col=8, lty=2)
 
 }
-

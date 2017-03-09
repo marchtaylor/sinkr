@@ -41,4 +41,3 @@ rm(list=c("x1", "x2", "x3"))
 \references{
 \url{http://stackoverflow.com/questions/1358003/tricks-to-manage-the-available-memory-in-an-r-session}
 }
-

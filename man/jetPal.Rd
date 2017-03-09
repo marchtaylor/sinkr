@@ -18,4 +18,3 @@ but does not cycle back to the lower color level
 \examples{
 image(volcano, col=jetPal(50))
 }
-

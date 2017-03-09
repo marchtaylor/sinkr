@@ -38,4 +38,3 @@ map("world", add=TRUE)
 \keyword{climate}
 \keyword{datasets}
 \keyword{field}
-

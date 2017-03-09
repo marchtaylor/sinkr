@@ -48,4 +48,3 @@ abline(0,1,col=8)
 \keyword{PCA}
 \keyword{covariance}
 \keyword{gappy}
-

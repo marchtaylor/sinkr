@@ -157,4 +157,3 @@ Empirical Orthogonal Functions Derived from Gappy Data. J. Climate,
 \keyword{EOF}
 \keyword{PCA}
 \keyword{gappy}
-

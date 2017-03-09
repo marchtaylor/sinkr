@@ -78,4 +78,3 @@ m2 = rbind(
 zapsmall( solve(m2) ) == zapsmall( expmat(m2,-1) )
 
 }
-

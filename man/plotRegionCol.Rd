@@ -37,4 +37,3 @@ plotRegionCol(col="grey30", grid=TRUE, grid.col="grey50", lwd=0.5)
 points(dist~speed, data=cars, pch=21, bg="white")
 
 }
-

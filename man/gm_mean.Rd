@@ -39,4 +39,3 @@ gm_mean(df[2,] / df[1,]) # equal
 From \href{http://stackoverflow.com/a/25555105/1199289}{stackoverflow answer}
 posted by \href{https://stackoverflow.com/users/935950/paul-mcmurdie}{Paul McMurdie}
 }
-

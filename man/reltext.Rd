@@ -49,4 +49,3 @@ reltext(c(0,0.95), c(0.95, 0.05), pos=c(4,3), col=c(3,4), labels=c("text1", "tex
 }
 \keyword{plotting}
 \keyword{text,}
-

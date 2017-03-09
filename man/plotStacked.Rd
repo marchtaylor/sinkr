@@ -85,4 +85,3 @@ plotStacked(x,y2, xlim=c(100, 400), ylim=c(0, 1.2*max(apply(y2,1,sum), na.rm=TRU
 order.method="max", yaxs="i", col=z, border=1, lwd=0.25)
 
 }
-

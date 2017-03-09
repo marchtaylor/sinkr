@@ -37,4 +37,3 @@ with column and row identifiers, \code{coord}. See Globcolour's "Product
 User Guide" for fulther details of the ISIN grid 
 (\url{http://www.globcolour.info/products_description.html}).
 }
-

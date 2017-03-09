@@ -27,4 +27,3 @@ length(res) # partition indices
 lapply(res, length) # number of samples in each partition
 
 }
-

@@ -48,4 +48,3 @@ par(op)
 
 }
 \keyword{color}
-

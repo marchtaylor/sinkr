@@ -41,4 +41,3 @@ legend("topleft", legend=paste("y", 1:4, sep=""), col=COLS, lwd=3)
 }
 
 }
-

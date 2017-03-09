@@ -69,4 +69,3 @@ confidence limits in principal component analysis - A case study,
 Chemometrics and Intelligent Laboratory Systems, Volume 120,
 pp. 97-105. doi:10.1016/j.chemolab.2012.10.007.
 }
-

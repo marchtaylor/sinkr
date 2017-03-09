@@ -38,4 +38,3 @@ points(endPos$lon, endPos$lat)
 
 }
 \keyword{geographic}
-

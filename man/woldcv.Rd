@@ -90,4 +90,3 @@ res$npred
 \references{
 Wold S (1978) Technometrics 20:397-405
 }
-

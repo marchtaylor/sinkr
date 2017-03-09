@@ -58,4 +58,3 @@ col=c(2:4)[iris$Species], main="recursive=FALSE")
 abline(0, 1, col=1, lwd=2) 
 
 }
-

@@ -55,4 +55,3 @@ par(op)
 
 }
 \keyword{color}
-

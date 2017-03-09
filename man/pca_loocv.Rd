@@ -45,4 +45,3 @@ par(op)
 \references{
 \url{http://stats.stackexchange.com/a/115477/10675}
 }
-

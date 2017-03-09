@@ -1,8 +1,8 @@
 Package: sinkr
 Type: Package
 Title: Collection of functions with emphasis in multivariate data analysis   
-Version: 0.4
-Date: 2016-11-07
+Version: 0.5
+Date: 2017-03-09
 Author: Marc Taylor <ningkiling@gmail.com>
 Maintainer: Marc Taylor <ningkiling@gmail.com>
 Depends:
@@ -20,4 +20,4 @@ Description: The sinkr package contains a collection of functions with
     some emphasis on multivariate methods and handling of geographic data fields.
 License: GPL-3
 URL: https://github.com/marchtaylor/sinkr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

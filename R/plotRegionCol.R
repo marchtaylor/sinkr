@@ -30,6 +30,8 @@
 #' 
 plotRegionCol <- function(col="grey90", grid=FALSE, grid.col="white", ...){
   usr <- par()$usr
+  if(par()$xlog) usr[1:2] <- 10^usr[1:2]
+  if(par()$ylog) usr[3:4] <- 10^usr[3:4]
   rect(usr[1], usr[3], usr[2], usr[4], col=col)
   if(grid){
     grid(col=grid.col, ...)

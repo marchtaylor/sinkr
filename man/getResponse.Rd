@@ -31,4 +31,3 @@ fit <- glm(y ~ x)
 getResponse(fit) # usin a fitted glm model
 
 }
-

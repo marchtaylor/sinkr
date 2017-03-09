@@ -72,4 +72,3 @@ paste(colnames(varespec)[as.logical(fit@solution)], collapse=",")
 }
 
 }
-

@@ -107,4 +107,3 @@ plot(Time, Z.anom, t="l")
 
 
 }
-

@@ -26,4 +26,3 @@ lines(y2, col=2)
 plot(y, y2)
 
 }
-

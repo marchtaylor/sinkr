@@ -200,4 +200,3 @@ Empirical Orthogonal Functions Derived from Gappy Data. J. Climate,
 \keyword{PCA}
 \keyword{algorithm}
 \keyword{gappy}
-

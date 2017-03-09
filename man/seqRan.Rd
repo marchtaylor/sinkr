@@ -32,4 +32,3 @@ seqRan(x, 10) # using original range of x
 seqRan(x, 10, c(-0.1, 0.1)) # using extended range of x
 
 }
-
