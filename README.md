@@ -15,9 +15,6 @@ install_github("marchtaylor/sinkr")
 
 **to cite**
 ```
-> citation("sinkr")
+citation("sinkr")
 ```
 
-Marc Taylor (2017). sinkr: Collection of functions with emphasis in
-multivariate data analysis. R package version 0.6.
-https://github.com/marchtaylor/sinkr
