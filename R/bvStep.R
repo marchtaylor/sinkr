@@ -233,7 +233,7 @@ output.best=10
 		}
 
 		RES_TOT <- rbind(RES_TOT, RES[2:dim(RES)[1],])
-		replicate(1, clearConsoleLine())
+		# replicate(1, clearConsoleLine())
 		cat(paste(round((i/num.restarts)*100,3), "% finished", "\n"))
 		flush.console()
 	}
