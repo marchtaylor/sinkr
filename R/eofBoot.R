@@ -92,12 +92,11 @@ eofBoot <- function(
   Lambda <- matrix(NaN, nrow=nperm, ncol=length(E$Lambda))
   #For each permutation
   for(p in seq(nperm)){
-    # Randomly reorganize dimensions of scaled field
-    samp.p <- NaN*seq(nrow(F1))
-    for(i in seq(nrow(F1))){
-      samp.p[i] <- sample(nrow(F1), 1)
-    }
+    # Randomly subsample rows of scaled field
+    # (with replacement; i.e. non-parametric bootstrapping) 
+    samp.p <- sample(nrow(F1), nrow(F1), replace = TRUE)
     F1.tmp  <- F1[samp.p,]
+    
     # Conduct EOF
     E.tmp <- eof(F1.tmp, centered = centered, scaled = scaled, nu = nu, method = method,
                  recursive = recursive)

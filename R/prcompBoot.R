@@ -71,12 +71,11 @@ prcompBoot <- function(
   Lambda <- matrix(NaN, nrow=nperm, ncol=length(E$sdev))
   #For each permutation
   for(p in seq(nperm)){
-    # Randomly reorganize dimensions of scaled field
-    samp.p <- NaN*seq(nrow(x))
-    for(i in seq(nrow(x))){
-      samp.p[i] <- sample(nrow(x), 1)
-    }
+    # Randomly subsample rows of scaled field
+    # (with replacement; i.e. non-parametric bootstrapping) 
+    samp.p <- sample(nrow(x), nrow(x), replace = TRUE)
     x.tmp  <- x[samp.p,]
+    
     # Conduct EOF
     E.tmp <- prcomp(x.tmp, retx = retx, center = center, scale. = scale.,
                     tol = tol)

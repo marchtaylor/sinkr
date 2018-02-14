@@ -54,16 +54,22 @@
 prcompNull <- function(x, retx = TRUE, center = TRUE, scale. = FALSE,
                           tol = NULL, nperm=99
 ){
+  x <- as.matrix(x)
+  
   E <- prcomp(x, retx = retx, center = center, scale. = scale.,
               tol = tol)
+  
   Lambda <- matrix(NaN, nrow=nperm, ncol=length(E$sdev))
   #For each permutation
   for(p in seq(nperm)){
-    # Randomly reorganize dimensions of scaled field
-    x.tmp <- x
-    for(i in seq(ncol(x.tmp))){
-      x.tmp[,i] <- x.tmp[,i][sample(nrow(x.tmp))]
-    }
+    # Randomly shuffle values in each column of scaled field
+    tmp <- vector("list", ncol(x))
+    NROW <- nrow(x)
+    tmp <- lapply(tmp, FUN = function(x){sample(NROW)})
+    tmp <- do.call("cbind", tmp)
+    tmp <- ((col(tmp)-1) * nrow(tmp)) + tmp
+    x.tmp <- as.matrix(array(x[c(tmp)], dim = dim(x)))
+    
     # Conduct EOF
     E.tmp <- prcomp(x.tmp, retx = retx, center = center, scale. = scale.,
                     tol = tol)

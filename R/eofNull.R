@@ -75,17 +75,22 @@ eofNull <- function(
   F1, centered = TRUE, scaled = FALSE, nu = NULL, method = NULL,
   recursive = FALSE, nperm=99
 ){
+  F1 <- as.matrix(F1)
+  
   E <- eof(F1=F1, centered = centered, scaled = scaled, nu = nu, method = method,
            recursive = recursive)
   
   Lambda <- matrix(NaN, nrow=nperm, ncol=length(E$Lambda))
   #For each permutation
   for(p in seq(nperm)){
-    # Randomly reorganize dimensions of scaled field
-    F1.tmp <- F1
-    for(i in seq(ncol(F1.tmp))){
-      F1.tmp[,i] <- F1.tmp[,i][sample(nrow(F1.tmp))]
-    }
+    # Randomly shuffle values in each column of scaled field
+    tmp <- vector("list", ncol(F1))
+    NROW <- nrow(F1)
+    tmp <- lapply(tmp, FUN = function(x){sample(NROW)})
+    tmp <- do.call("cbind", tmp)
+    tmp <- ((col(tmp)-1) * nrow(tmp)) + tmp
+    F1.tmp <- as.matrix(array(F1[c(tmp)], dim = dim(F1)))
+    
     # Conduct EOF
     E.tmp <- eof(F1.tmp, centered = centered, scaled = scaled, 
                  nu = nu, method = method, recursive = recursive)
