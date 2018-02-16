@@ -25,8 +25,8 @@ corresponding \code{x} and \code{y} coordinates for the dimensions of \code{z}.
 \examples{
 # Make sythetic data
 set.seed(1)
-m=8
-n=10
+m <- 8
+n <- 10
 x <- seq(m)
 y <- seq(n)
 z <- matrix(runif(m*n), nrow=m, ncol=n)

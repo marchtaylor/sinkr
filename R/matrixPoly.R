@@ -14,8 +14,8 @@
 #' @examples
 #' # Make sythetic data
 #' set.seed(1)
-#' m=8
-#' n=10
+#' m <- 8
+#' n <- 10
 #' x <- seq(m)
 #' y <- seq(n)
 #' z <- matrix(runif(m*n), nrow=m, ncol=n)
@@ -50,7 +50,7 @@ matrixPoly <- function(x, y, z, n=NULL){
 	if(missing(x)) x <- seq(0, 1, length.out = dim(z)[1])
 	if(missing(y)) y <- seq(0, 1, length.out = dim(z)[2])
 	poly <- vector(mode="list", length(n))
-	for(i in seq(n)){
+	for(i in seq(length(n))){
 		ROW <- row(z)[n[i]] # ((n[i]-1) %% dim(z)[1]) +1
 		COL <- col(z)[n[i]] # ((n[i]-1) %/% dim(z)[1]) +1
 
