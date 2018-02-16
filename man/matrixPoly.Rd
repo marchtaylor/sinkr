@@ -53,4 +53,9 @@ poly <- matrixPoly(x2, y2, z=z, n=N)
 sapply(poly, function(X){polygon(X, col=rgb(1,0,0,0.4), border=1)})
 box()
 
+# Ex 4 - volcano with snow
+image(volcano, col=jetPal(20))
+poly <- matrixPoly(z=volcano, n=which(volcano > 175)) # snow line = 180
+sapply(poly, function(X){polygon(X, col=rgb(1,1,1,0.75), border=NA)})
+
 }
