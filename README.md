@@ -5,7 +5,7 @@ sinkr :put_litter_in_its_place:
 [![GitHub release](https://img.shields.io/github/release/marchtaylor/sinkr.svg)](https://github.com/marchtaylor/sinkr/releases)
 
 
-A collection of functions with emphasis on multivariate methods and handling of geographic datasets
+A collection of functions with emphasis on multivariate methods and handling of geographic datasets.
 
 **To load** (using `devtools`):
 ```
