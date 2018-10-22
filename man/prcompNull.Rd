@@ -4,8 +4,8 @@
 \alias{prcompNull}
 \title{Calculate significance of EOFs compared to a null model (prcomp version)}
 \usage{
-prcompNull(x, retx = TRUE, center = TRUE, scale. = FALSE, tol = NULL,
-  nperm = 99)
+prcompNull(x, retx = TRUE, center = TRUE, scale. = FALSE,
+  tol = NULL, nperm = 99)
 }
 \arguments{
 \item{x, retx, center, scale., tol}{See \code{\link[stats]{prcomp}} 

@@ -4,8 +4,8 @@
 \alias{prcompBoot}
 \title{Calculate number of non-mixed EOFs (prcomp version)}
 \usage{
-prcompBoot(x, retx = TRUE, center = TRUE, scale. = FALSE, tol = NULL,
-  nperm = 99)
+prcompBoot(x, retx = TRUE, center = TRUE, scale. = FALSE,
+  tol = NULL, nperm = 99)
 }
 \arguments{
 \item{x, retx, center, scale., tol}{See \code{\link[stats]{prcomp}} 

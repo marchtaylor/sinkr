@@ -6,8 +6,8 @@
 \usage{
 mantelGA(fix.mat, var.mat, fix.dist.method = "bray",
   var.dist.method = "euclidean", scale.fix = FALSE, scale.var = TRUE,
-  popSize = 50, parallel = FALSE, maxiter = 100, nBits = ncol(var.mat),
-  ...)
+  popSize = 50, parallel = FALSE, maxiter = 100,
+  nBits = ncol(var.mat), ...)
 }
 \arguments{
 \item{fix.mat}{The "fixed" matrix of community or environmental sample by variable values}

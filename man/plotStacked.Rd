@@ -5,8 +5,8 @@
 \title{Stacked plot}
 \usage{
 plotStacked(x, y, order.method = "as.is", ylab = "", xlab = "",
-  border = NULL, lwd = 1, col = rainbow(length(y[1, ])), ylim = NULL,
-  ...)
+  border = NULL, lwd = 1, col = rainbow(length(y[1, ])),
+  ylim = NULL, ...)
 }
 \arguments{
 \item{x}{A vector of values}

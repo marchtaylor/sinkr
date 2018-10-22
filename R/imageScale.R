@@ -43,7 +43,7 @@
 #' levs <- pretty(range(volcano), 5)
 #' contour(seq(dim(volcano)[1]), seq(dim(volcano)[2]), volcano, levels=levs, add=TRUE)
 #' #Add scale
-#' par(mar=c(3,1,1,1))
+#' par(mar=c(3,1,0,1))
 #' imageScale(volcano, col=pal.1(length(breaks)-1), breaks=breaks-1e-8,axis.pos=1)
 #' abline(v=levs)
 #' box()
@@ -57,7 +57,7 @@
 #' levs=breaks
 #' contour(seq(dim(volcano)[1]), seq(dim(volcano)[2]), volcano, levels=levs, add=TRUE)
 #' #Add scale
-#' par(mar=c(1,1,1,3))
+#' par(mar=c(1,0,1,3))
 #' imageScale(volcano, col=pal.2(length(breaks)-1), breaks=breaks-1e-8, 
 #' axis.pos=4, add.axis=FALSE)
 #' axis(4,at=breaks, las=2)
@@ -90,10 +90,10 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
  plot(1, 1, t="n", ylim=YLIM, xlim=XLIM, axes=FALSE, xlab="", ylab="", xaxs="i", yaxs="i", ...)  
  for(i in seq(poly)){
   if(axis.pos %in% c(1,3)){
-   polygon(poly[[i]], c(0,0,1,1), col=col[i], border=col[i])
+   polygon(poly[[i]], c(0,0,1,1), col=col[i], border=col[i], lwd = 0.01)
   }
   if(axis.pos %in% c(2,4)){
-   polygon(c(0,0,1,1), poly[[i]], col=col[i], border=col[i])
+   polygon(c(0,0,1,1), poly[[i]], col=col[i], border=col[i], lwd = 0.01)
   }
  }
  box()
