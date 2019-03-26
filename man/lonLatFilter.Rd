@@ -24,7 +24,7 @@ Vector of position inclusion in the defined lon/lat borders
 }
 \description{
 \code{lonLatFilter} Tests whether lon/lat positions fall within a defined 
-box of lon/lat borders (location on border returns \code{TRUE}
+box of lon/lat borders. Exact matches with southern and western borders are included.
 }
 \examples{
 set.seed(1)

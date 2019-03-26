@@ -1,6 +1,6 @@
 #' @title Filter lon/lat positions that fall within defined boundaries
 #' @description \code{lonLatFilter} Tests whether lon/lat positions fall within a defined 
-#' box of lon/lat borders (location on border returns \code{TRUE}
+#' box of lon/lat borders. Exact matches with southern and western borders are included.
 #' 
 #' @param lon_vector Longitude 1 (in decimal degrees)
 #' @param lat_vector Latitude 1 (in decimal degrees)
@@ -28,17 +28,21 @@
 #' 
 #' @export
 #' 
-lonLatFilter <- function (lon_vector, lat_vector, west, east, south, north) 
-{
-	if(west>east) {
-		lon_vector_new=replace(lon_vector, which(lon_vector<0), lon_vector[which(lon_vector<0)]+360)
-		east_new=east+360
+lonLatFilter <- function(lon_vector, lat_vector, west, east, south, north){
+	
+  if(west>east) {
+		lon_vector_new = replace(lon_vector, which(lon_vector<0), lon_vector[which(lon_vector<0)]+360)
+		east_new = east + 360
 	} else {
-	lon_vector_new=lon_vector
-	east_new=east
+  	lon_vector_new = lon_vector
+  	east_new = east
 	}
 
-	res <- (lon_vector_new < east_new & lon_vector_new > west & lat_vector < north & lat_vector > south)
-  res
+	res <- lon_vector_new < east_new & 
+	  lon_vector_new >= west & 
+	  lat_vector < north & 
+	  lat_vector >= south
+	
+  return(res)
   
 }
