@@ -17,8 +17,10 @@
 #' 
 #' \donttest{
 #' library(png)
-#' # myurl <- "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Jupiter_%28transparent%29.png/242px-Jupiter_%28transparent%29.png"
-#' myurl <- "https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png"
+#' # myurl <- "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/
+#' #   Jupiter_%28transparent%29.png/242px-Jupiter_%28transparent%29.png"
+#' myurl <- "https://upload.wikimedia.org/wikipedia/commons/4/47/
+#'   PNG_transparency_demonstration_1.png"
 #' z <- tempfile()
 #' download.file(myurl,z,mode="wb")
 #' pic <- readPNG(z)
