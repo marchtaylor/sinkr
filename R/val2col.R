@@ -13,7 +13,6 @@
 #' closed on the right and open on the left except for the lowest interval 
 #' which is closed at both ends.
 #' 
-#' @importFrom grDevices heat.colors
 #' @export
 #' @examples
 #' set.seed(1)

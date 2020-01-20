@@ -4,8 +4,15 @@
 \alias{spirographR}
 \title{Make a sprirograph-like design}
 \usage{
-spirographR(x = 0, y = 0, a.rad = 1, b.rad = -4, bc = -2,
-  rev = 4, n.per.rev = 360)
+spirographR(
+  x = 0,
+  y = 0,
+  a.rad = 1,
+  b.rad = -4,
+  bc = -2,
+  rev = 4,
+  n.per.rev = 360
+)
 }
 \arguments{
 \item{x, y}{Center coordinates of stationary circle 'a'}

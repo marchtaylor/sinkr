@@ -4,8 +4,15 @@
 \alias{woldcv}
 \title{Wold's PCA cross-validation procedure}
 \usage{
-woldcv(dat, fracValid = 0.2, centered = TRUE, scaled = FALSE,
-  uncenter.recon = TRUE, unscale.recon = TRUE, ...)
+woldcv(
+  dat,
+  fracValid = 0.2,
+  centered = TRUE,
+  scaled = FALSE,
+  uncenter.recon = TRUE,
+  unscale.recon = TRUE,
+  ...
+)
 }
 \arguments{
 \item{dat}{Dataset (matrix)}

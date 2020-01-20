@@ -4,9 +4,16 @@
 \alias{bioEnv}
 \title{Clarke and Ainsworth's BIO-ENV routine}
 \usage{
-bioEnv(fix.mat, var.mat, fix.dist.method = "bray",
-  var.dist.method = "euclidean", scale.fix = FALSE, scale.var = TRUE,
-  output.best = 10, var.max = ncol(var.mat))
+bioEnv(
+  fix.mat,
+  var.mat,
+  fix.dist.method = "bray",
+  var.dist.method = "euclidean",
+  scale.fix = FALSE,
+  scale.var = TRUE,
+  output.best = 10,
+  var.max = ncol(var.mat)
+)
 }
 \arguments{
 \item{fix.mat}{The "fixed" matrix of community or environmental sample by variable values}

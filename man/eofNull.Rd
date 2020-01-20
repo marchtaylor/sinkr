@@ -4,8 +4,15 @@
 \alias{eofNull}
 \title{Calculate significance of EOFs compared to a null model (eof version)}
 \usage{
-eofNull(F1, centered = TRUE, scaled = FALSE, nu = NULL,
-  method = NULL, recursive = FALSE, nperm = 99)
+eofNull(
+  F1,
+  centered = TRUE,
+  scaled = FALSE,
+  nu = NULL,
+  method = NULL,
+  recursive = FALSE,
+  nperm = 99
+)
 }
 \arguments{
 \item{F1}{A data field. The data should be arraunged as samples in the column 

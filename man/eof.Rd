@@ -4,8 +4,14 @@
 \alias{eof}
 \title{EOF (Empirical Orthogonal Functions analysis)}
 \usage{
-eof(F1, centered = TRUE, scaled = FALSE, nu = NULL, method = NULL,
-  recursive = FALSE)
+eof(
+  F1,
+  centered = TRUE,
+  scaled = FALSE,
+  nu = NULL,
+  method = NULL,
+  recursive = FALSE
+)
 }
 \arguments{
 \item{F1}{A data field. The data should be arraunged as samples in the column 

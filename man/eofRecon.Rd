@@ -4,8 +4,7 @@
 \alias{eofRecon}
 \title{EOF reconstruction (Empirical Orthogonal Functions analysis)}
 \usage{
-eofRecon(EOF, pcs = NULL, newpcs = NULL, uncenter = TRUE,
-  unscale = TRUE)
+eofRecon(EOF, pcs = NULL, newpcs = NULL, uncenter = TRUE, unscale = TRUE)
 }
 \arguments{
 \item{EOF}{An object resulting from the function \link[sinkr]{eof}.}

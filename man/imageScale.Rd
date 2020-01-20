@@ -4,8 +4,17 @@
 \alias{imageScale}
 \title{Make a color scale to accompany an image or other plot}
 \usage{
-imageScale(z, zlim, col = heat.colors(12), breaks, axis.pos = 1,
-  add.axis = TRUE, xlim = NULL, ylim = NULL, ...)
+imageScale(
+  z,
+  zlim,
+  col = heat.colors(12),
+  breaks,
+  axis.pos = 1,
+  add.axis = TRUE,
+  xlim = NULL,
+  ylim = NULL,
+  ...
+)
 }
 \arguments{
 \item{z}{A vector or matrix of values.}

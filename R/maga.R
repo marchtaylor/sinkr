@@ -76,14 +76,14 @@
 #'  var.dist.method="bray",
 #'  scale.fix = TRUE,
 #'  scale.var = FALSE,
-#'  popSize = nrow(suggestedSol),
+#'  popSize = nrow(suggestedSol)*3,
 #'  parallel = FALSE,
 #'  maxiter = 200,
 #'  run = 100,
-#'  pcrossover = 0.3,
-#'  pmutation = function(...) GA::ga_pmutation(..., p0=1, p=0.3),
-#'  seed = 1111, 
-#'  suggestions = suggestedSol
+#'  pcrossover = 0.05,
+#'  pmutation = 0.1, #function(...) GA::ga_pmutation(..., p0=1, p=0.3),
+#'  seed = 1, 
+#'  suggestions = rbind(suggestedSol, suggestedSol)
 #' )
 #' plot(fit3)
 #' 
@@ -126,7 +126,8 @@ maga <- function(
   # gaMonitorObj <<- list()
   
   fitnessFun <- function(PARS, var.mat, fix.dist, var.dist.method){
-    vars.incl <- seq(ncol(var.mat))[as.logical(PARS)]
+    if(sum(PARS)==0) PARS[sample(length(PARS), 1)] <- 1
+    vars.incl <- seq(ncol(var.mat))[which(as.logical(PARS))]
     if(length(vars.incl) != 0){
       var.dist <- suppressWarnings(
         vegan::vegdist(as.matrix(var.mat[,vars.incl]), 
@@ -181,6 +182,7 @@ maga <- function(
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @return
+#' @export
 #'
 magaMonitor <- function(object, digits = getOption("digits"), ...){
   

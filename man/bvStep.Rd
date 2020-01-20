@@ -4,11 +4,22 @@
 \alias{bvStep}
 \title{Clarke and Ainsworth's BVSTEP routine}
 \usage{
-bvStep(fix.mat, var.mat, fix.dist.method = "bray",
-  var.dist.method = "euclidean", scale.fix = FALSE, scale.var = TRUE,
-  max.rho = 0.95, min.delta.rho = 0.001, random.selection = TRUE,
-  prop.selected.var = 0.2, num.restarts = 10,
-  var.always.include = NULL, var.exclude = NULL, output.best = 10)
+bvStep(
+  fix.mat,
+  var.mat,
+  fix.dist.method = "bray",
+  var.dist.method = "euclidean",
+  scale.fix = FALSE,
+  scale.var = TRUE,
+  max.rho = 0.95,
+  min.delta.rho = 0.001,
+  random.selection = TRUE,
+  prop.selected.var = 0.2,
+  num.restarts = 10,
+  var.always.include = NULL,
+  var.exclude = NULL,
+  output.best = 10
+)
 }
 \arguments{
 \item{fix.mat}{The "fixed" matrix of community or environmental sample by variable values}

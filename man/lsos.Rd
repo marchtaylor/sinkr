@@ -4,8 +4,14 @@
 \alias{lsos}
 \title{List top n objects by size}
 \usage{
-lsos(pos = 1, pattern, order.by = "Size", decreasing = TRUE,
-  head = TRUE, n = 10)
+lsos(
+  pos = 1,
+  pattern,
+  order.by = "Size",
+  decreasing = TRUE,
+  head = TRUE,
+  n = 10
+)
 }
 \arguments{
 \item{pos}{where to look for the object (see \code{\link[base]{get}}, 'Details'); 

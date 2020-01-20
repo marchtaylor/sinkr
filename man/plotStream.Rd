@@ -4,9 +4,21 @@
 \alias{plotStream}
 \title{Stream plot}
 \usage{
-plotStream(x, y, order.method = "as.is", frac.rand = 0.1, spar = 0.2,
-  center = TRUE, ylab = "", xlab = "", border = NULL, lwd = 1,
-  col = rainbow(length(y[1, ])), ylim = NULL, ...)
+plotStream(
+  x,
+  y,
+  order.method = "as.is",
+  frac.rand = 0.1,
+  spar = 0.2,
+  center = TRUE,
+  ylab = "",
+  xlab = "",
+  border = NULL,
+  lwd = 1,
+  col = rainbow(length(y[1, ])),
+  ylim = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{A vector of values}

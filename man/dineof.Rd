@@ -4,8 +4,7 @@
 \alias{dineof}
 \title{DINEOF (Data Interpolating Empirical Orthogonal Functions)}
 \usage{
-dineof(Xo, n.max = NULL, ref.pos = NULL, delta.rms = 1e-05,
-  method = "svds")
+dineof(Xo, n.max = NULL, ref.pos = NULL, delta.rms = 1e-05, method = "svds")
 }
 \arguments{
 \item{Xo}{A gappy data field.}
