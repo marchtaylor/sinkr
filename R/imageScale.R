@@ -23,6 +23,7 @@
 #' 
 #' 
 #' @importFrom graphics plot polygon box axis
+#' @importFrom grDevices heat.colors
 #' @export
 #' @examples
 #' # Make color palettes

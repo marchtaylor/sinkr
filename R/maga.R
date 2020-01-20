@@ -16,6 +16,7 @@
 #' for evaluating the fitness function.
 #' @param maxiter the maximum number of iterations to run before the GA search is halted.
 #' @param nBits passed to ga
+#' @param seed numeric. A seed value to pass to ga
 #' @param ... Additional arguments passed to ga
 #'
 #' @return ga results
@@ -49,7 +50,13 @@
 #' res <- magaBest(fit, output.best = 10)
 #' res$order.by.best
 #' res$order.by.i.comb
-#' plot(res)
+#'
+#' pop <- attr(res, "pop")
+#' plot(n.var~rho, pop, col = adjustcolor(1, 0.1), 
+#' pch = ".", cex = 5)
+#' lines(n.var~rho, res$order.by.i.comb, 
+#'   t = "o", col = 2, pch = 20)
+#'  
 #' 
 #' 
 #' 
@@ -271,26 +278,4 @@ magaBest <- function(fit, output.best = 10){
 	return(out)
 }
 
-
-
-#' plot results from magaBest
-#'
-#' @param res results of call to `magaBest`
-#'
-#' @return a plot
-#' @export
-#'
-#' @examples
-#' 
-#' 
-#' 
-#' 
-plot.magaBest <- function(res){
-  
-  pop <- attr(res, "pop")
-  plot(rho ~ n.var, pop, col = adjustcolor(1, 0.1), 
-  pch = ".", cex = 5)
-  lines(rho ~ n.var, res$order.by.i.comb, 
-    t = "o", col = 2, pch = 20)
-}
 
