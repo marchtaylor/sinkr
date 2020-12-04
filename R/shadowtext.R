@@ -18,6 +18,9 @@
 #' 
 #' @references  \url{https://stackoverflow.com/a/25632536/1199289}
 #' 
+#' @importFrom graphics strwidth strheight
+#' @importFrom grDevices xy.coords
+#' 
 #' @export
 #'
 #' @examples
