@@ -17,11 +17,10 @@
 #' 
 #' @examples
 #' if(interactive()){
-#' 
 #' set.seed(1)
 #' n <- 200
-#' x <- sort(runif(n, min=0, max=10*pi))
-#' y <- sin(x) + rnorm(n, sd=0.2)
+#' x <- sort(runif(n, min = 0, max = 10*pi))
+#' y <- sin(x) + rnorm(n, sd = 0.2)
 #' 
 #' # Select 10 points at maxima and minima 
 #' plot(x, y)
