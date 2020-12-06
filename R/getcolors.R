@@ -11,7 +11,7 @@
 #' @importFrom graphics par layout image polygon mtext box locator lines axis plot
 #' 
 #' @examples
-#' \donttest{
+#' if(interactive()){
 #' # Make synthetic data
 #' set.seed(1)
 #' n <- 100

@@ -18,7 +18,7 @@ The \code{getcolors} function allows one to select from a visual palette of
 216 colors (i.e. color combinations from 6 levels of red, green, and blue).
 }
 \examples{
-\donttest{
+if(interactive()){
 # Make synthetic data
 set.seed(1)
 n <- 100

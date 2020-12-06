@@ -12,7 +12,7 @@
 #' @importFrom grDevices rainbow
 #' 
 #' @examples
-#' \donttest{
+#' if(interactive()){
 #' # Make synthetic data
 #' set.seed(1)
 #' n <- 100
