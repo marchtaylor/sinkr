@@ -7,7 +7,7 @@
 imageScale(
   z,
   zlim,
-  col = heat.colors(12),
+  col = hcl.colors(12, "YlOrRd", rev = TRUE),
   breaks,
   axis.pos = 1,
   add.axis = TRUE,

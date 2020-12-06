@@ -23,7 +23,7 @@
 #' 
 #' 
 #' @importFrom graphics plot polygon box axis
-#' @importFrom grDevices heat.colors
+#' @importFrom grDevices hcl.colors
 #' @export
 #' @examples
 #' # Make color palettes
@@ -66,7 +66,7 @@
 #' par(op)
 #' 
 #' 
-imageScale <- function(z, zlim, col = heat.colors(12),
+imageScale <- function(z, zlim, col = hcl.colors(12, "YlOrRd", rev = TRUE),
 breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
  if(!missing(breaks)){
   if(length(breaks) != (length(col)+1)){stop("must have one more break than colour")}

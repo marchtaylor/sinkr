@@ -4,7 +4,7 @@
 \alias{ptlocator}
 \title{Data point locator}
 \usage{
-ptlocator(n = 1, x, y, col = rgb(1, 0, 0, 0.5), pch = 20, ...)
+ptlocator(n = NULL, x, y, col = rgb(1, 0, 0, 0.5), pch = 20, ...)
 }
 \arguments{
 \item{n}{Number of points to select}
@@ -31,15 +31,16 @@ Colored points are filled in for the data point that has the lowest distance to 
 clicked location, and the result gives the vector positions of the closest x, y data points.
 }
 \examples{
-\donttest{set.seed(1)
+if(interactive()){
+set.seed(1)
 n <- 200
-x <- sort(runif(n, min=0, max=10*pi))
-y <- sin(x) + rnorm(n, sd=0.2)
+x <- sort(runif(n, min = 0, max = 10*pi))
+y <- sin(x) + rnorm(n, sd = 0.2)
 
 # Select 10 points at maxima and minima 
 plot(x, y)
-pos <- ptlocator(10, x, y)
-pos}
+(pos <- ptlocator(10, x, y))
+}
 
 
 }
