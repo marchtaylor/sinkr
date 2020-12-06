@@ -17,6 +17,7 @@
 #' 
 #' @examples
 #' if(interactive()){
+#' 
 #' set.seed(1)
 #' n <- 200
 #' x <- sort(runif(n, min=0, max=10*pi))
