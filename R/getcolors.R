@@ -43,7 +43,7 @@ getcolors <- function(n){
 	GRD <- expand.grid(x=X, y=Y)
 	Z <- matrix(0, nrow=length(X), ncol=length(Y))
 
-	LEV <- seq(0,1,,N) 
+	LEV <- seq(0, 1, length.out = N) 
 	R <- matrix(rep(LEV, each=N^2), nrow=length(X), ncol=length(Y))
 	G <- matrix(rep(rep(LEV, each=N), N), nrow=length(X), ncol=length(Y))
 	B <- matrix(rep(LEV, N^2), nrow=length(X), ncol=length(Y))

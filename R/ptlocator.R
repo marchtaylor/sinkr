@@ -16,7 +16,6 @@
 #' @return A vector of point indices
 #' 
 #' @examples
-#' if(interactive()){
 #' set.seed(1)
 #' n <- 200
 #' x <- sort(runif(n, min = 0, max = 10*pi))
@@ -24,15 +23,15 @@
 #' 
 #' # Select 10 points at maxima and minima 
 #' plot(x, y)
-#' pos <- ptlocator(10, x, y)
-#' pos
-#' }
+#' # (pos <- ptlocator(10, x, y)) # run this line
+#' 
 #' 
 #' 
 #' @importFrom graphics locator points
 #' @export
 #' 
-ptlocator <- function(n=1, x, y, col=rgb(1,0,0,0.5), pch=20, ...){
+ptlocator <- function(n = NULL, x, y, col=rgb(1,0,0,0.5), pch=20, ...){
+  if(is.null(n)) stop("Must define n")
   xsc <- scale(x)
   ysc <- scale(y)
   pos <- seq(n)*NaN
