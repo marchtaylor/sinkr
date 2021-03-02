@@ -1,6 +1,6 @@
 #' EOF (Empirical Orthogonal Functions analysis)
 #' 
-#' This function conducts an Empirical Orthogonal Function analysis (EOF) 
+#' This function conducts an Empirical Orthogonal Function (EOF) analysis  
 #' via a covariance matrix (\code{cov4gappy} function) and is especially designed 
 #' to handle gappy data (i.e. containing missing values - NaN)
 #' 
