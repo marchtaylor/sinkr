@@ -1,8 +1,8 @@
 #' EOF (Empirical Orthogonal Functions analysis)
 #' 
 #' This function conducts an Empirical Orthogonal Function analysis (EOF) 
-#' via a covariance matrix (\code{cov4gappy} function) and is especially designed to handle 
-#' gappy data (i.e. containing missing values - NaN)
+#' via a covariance matrix (\code{cov4gappy} function) and is especially designed 
+#' to handle gappy data (i.e. containing missing values - NaN)
 #' 
 #' @param F1 A data field. The data should be arraunged as samples in the column 
 #' dimension (typically each column is a time series for a spatial location).
