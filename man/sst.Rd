@@ -4,9 +4,11 @@
 \name{sst}
 \alias{sst}
 \title{Kaplan monthly mean anomaly dataset}
-\format{A list consisting of: 1. a dataframe for lon/lat positions, 2. a vector of
+\format{
+A list consisting of: 1. a dataframe for lon/lat positions, 2. a vector of
 monthly date values, and 3. a matrix of sst anomaly values by month and lon/lat position 
-(1906 rows, 264 columns)}
+(1906 rows, 264 columns)
+}
 \source{
 \url{http://www.esrl.noaa.gov/psd/data/gridded/data.kaplan_sst.html}
 }

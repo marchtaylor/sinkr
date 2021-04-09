@@ -19,7 +19,7 @@
 #' stars(x = Pvals) # reproduce stars
 #' 
 #' 
-stars <- function(x, breaks = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
+starSym <- function(x, breaks = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
   symbols = c("***", "**", "*", ".", "")){
   siglev <- cut(x = x, breaks = breaks)
   return(symbols[as.numeric(siglev)])

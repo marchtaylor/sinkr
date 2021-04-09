@@ -4,10 +4,10 @@
 \alias{val2col}
 \title{Convert values to color levels}
 \usage{
-val2col(z, zlim, col = heat.colors(12), breaks)
+val2col(z, zlim, col = hcl.colors(12, "YlOrRd", rev = TRUE), breaks)
 }
 \arguments{
-\item{z}{A vector of values (default is 12 colors from the \code{\link[grDevices]{heat.colors}} palette).}
+\item{z}{A vector of values (default is 12 colors from the \code{\link[grDevices]{hcl.colors}} palette).}
 
 \item{zlim}{Limits of the color scale values.}
 
@@ -46,5 +46,12 @@ abline(h=c(-1,1), col=8, lty=2)
 Col <- val2col(y, col=topo.colors(6), breaks=c(-Inf, -2, -1, 0, 1, 2, Inf))
 plot(x,y, pch=21, bg=Col)
 abline(h=c(-Inf, -2, -1, 0, 1, 2, Inf), col=8, lty=2)
+
+# by default, image() and val2col() use the same palette
+grd <- expand.grid(x = seq(0, 1, length.out = nrow(volcano)), 
+  y = seq(0, 1, length.out = ncol(volcano)))
+grd$z <- c(volcano)
+image(volcano)
+points(grd, pch = 20, col = val2col(grd$z), cex = 1)
 
 }

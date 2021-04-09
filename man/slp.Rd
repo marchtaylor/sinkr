@@ -4,9 +4,11 @@
 \name{slp}
 \alias{slp}
 \title{Hadley SLP monthly mean dataset}
-\format{A list consisting of: 1. a dataframe for lon/lat positions, 2. a vector of
+\format{
+A list consisting of: 1. a dataframe for lon/lat positions, 2. a vector of
 monthly date values, and 3. a matrix of slp values by month and lon/lat position 
-(1536 rows, 231 columns)}
+(1536 rows, 231 columns)
+}
 \source{
 \url{http://www.esrl.noaa.gov/psd/gcos_wgsp/Gridded/data.hadslp2.html}
 }

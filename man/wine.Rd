@@ -4,14 +4,16 @@
 \name{wine}
 \alias{wine}
 \title{wine attributes dataset}
-\format{This data frame contains 178 rows, each corresponding to a different cultivar of 
+\format{
+This data frame contains 178 rows, each corresponding to a different cultivar of 
 wine produced in Piedmont (Italy), and 14 columns. The first column is the type of wine 
 (Type), a factor variable with the following levels: Barolo, Grignolino, Barbera. 
 The variables measured on the three types of wines are the following: 
 Alcohol, Malic acid, Ash, Alcalinity, Magnesium, Phenols, Flavanoids, 
 Nonflavanoids, Proanthocyanins, Color intensity, Hue, OD280/OD315 Dilution, Proline. 
 All variables but the label class are continuous.A data.frame consisting of wine type 
-and 13 variables their attributes}
+and 13 variables their attributes
+}
 \source{
 \url{Lichman, M. (2013). UCI Machine Learning Repository 
 [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.}

@@ -52,9 +52,9 @@ Results of \code{eof} are returned as a list containing the following components
 }
 }
 \description{
-This function conducts an Empirical Orthogonal Function analysis (EOF) 
-via a covariance matrix (\code{cov4gappy} function) and is especially designed to handle 
-gappy data (i.e. containing missing values - NaN)
+This function conducts an Empirical Orthogonal Function (EOF) analysis  
+via a covariance matrix (\code{cov4gappy} function) and is especially designed 
+to handle gappy data (i.e. containing missing values - NaN)
 }
 \details{
 Taylor et al. (2013) demonstrated that the RSEOF approach 
