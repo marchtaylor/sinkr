@@ -1,4 +1,4 @@
-#' Rotate a matrix by 90°
+#' Rotate a matrix by a quarter-turn clockwise
 #'
 #' @param mat matrix to be rotated.
 #'

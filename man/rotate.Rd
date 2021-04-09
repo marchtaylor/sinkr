@@ -2,7 +2,7 @@
 % Please edit documentation in R/rotate.R
 \name{rotate}
 \alias{rotate}
-\title{Rotate a matrix by 90°}
+\title{Rotate a matrix by a quarter-turn clockwise}
 \usage{
 rotate(mat)
 }
@@ -13,7 +13,7 @@ rotate(mat)
 matrix
 }
 \description{
-Rotate a matrix by 90°
+Rotate a matrix by a quarter-turn clockwise
 }
 \examples{
 op <- par(mfcol = c(1,2))

@@ -16,7 +16,7 @@
 #' lm.D9 <- lm(weight ~ group)
 #' summary(lm.D9) # summary table shows stars for signifcance levels
 #' Pvals <- summary(lm.D9)[[4]][,4] # extract p-values
-#' stars(x = Pvals) # reproduce stars
+#' starSym(x = Pvals) # reproduce stars
 #' 
 #' 
 starSym <- function(x, breaks = c(0, 0.001, 0.01, 0.05, 0.1, 1), 
