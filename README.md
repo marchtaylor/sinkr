@@ -13,7 +13,7 @@ library(devtools)
 install_github("marchtaylor/sinkr")
 ```
 
-**to cite**:
+**To cite**:
 ```
 citation("sinkr")
 ```
