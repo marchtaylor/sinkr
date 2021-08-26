@@ -23,7 +23,7 @@ set.seed(1)
 n <- 100
 a <- 3
 b <- 5
-x <- rnorm(n)
+x <- rnorm(n, mean = 10)
 y <- a + b*x + rnorm(n, sd=2)
 fit <- lm(y ~ x)
 
@@ -45,6 +45,12 @@ par(op)
 plot(x, y)
 abline(fit, lty=2, col=8)
 reltext(c(0,0.95), c(0.95, 0.05), pos=c(4,3), col=c(3,4), labels=c("text1", "text2"))
+
+
+# plot when axes are log-scaled
+plot(x, y, log = "xy")
+reltext(c(0,0.95), c(0.95, 0.05), pos=c(4,3), col=c(3,4), labels=c("text1", "text2"))
+
 
 }
 \keyword{plotting}

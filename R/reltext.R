@@ -16,7 +16,7 @@
 #' n <- 100
 #' a <- 3
 #' b <- 5
-#' x <- rnorm(n)
+#' x <- rnorm(n, mean = 10)
 #' y <- a + b*x + rnorm(n, sd=2)
 #' fit <- lm(y ~ x)
 #' 
@@ -39,10 +39,20 @@
 #' abline(fit, lty=2, col=8)
 #' reltext(c(0,0.95), c(0.95, 0.05), pos=c(4,3), col=c(3,4), labels=c("text1", "text2"))
 #' 
+#' 
+#' # plot when axes are log-scaled
+#' plot(x, y, log = "xy")
+#' reltext(c(0,0.95), c(0.95, 0.05), pos=c(4,3), col=c(3,4), labels=c("text1", "text2"))
+#' 
+#' 
 reltext <- function(relx=0.5, rely=0.5, labels = seq_along(relx), ...){
   usr <- par("usr")
+  xlog <- par("xlog")
+  ylog <- par("ylog")
   x <- usr[1] + relx*(usr[2]-usr[1])
   y <- usr[3] + rely*(usr[4]-usr[3])
+  if(xlog){ x <- 10^x }
+  if(ylog){ y <- 10^y }
   text(x, y, labels, ...)
 }
 
