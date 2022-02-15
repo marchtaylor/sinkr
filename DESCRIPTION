@@ -21,4 +21,4 @@ Description: The sinkr package contains a collection of functions with
     some emphasis on multivariate methods and handling of geographic data fields.
 License: GPL-3
 URL: https://github.com/marchtaylor/sinkr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
