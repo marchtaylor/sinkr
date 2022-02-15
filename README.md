@@ -5,7 +5,7 @@
 [![GitHub release](https://img.shields.io/github/release/marchtaylor/sinkr.svg)](https://github.com/marchtaylor/sinkr/releases)
 
 
-*sinkr*: A collection of functions with emphasis on multivariate methods and handling of geographic datasets.
+*sinkr*: Collection of functions with emphasis in multivariate data analysis.
 
 **To install** (using `devtools`):
 ```
