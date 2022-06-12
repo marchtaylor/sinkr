@@ -53,9 +53,6 @@ imageDimnames(
 
 \item{...}{other arguments to pass to image}
 }
-\value{
-
-}
 \description{
 Create an image of matrix or 2-D array with labels
 }
