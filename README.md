@@ -15,6 +15,6 @@ install_github("marchtaylor/sinkr")
 
 **To cite**:
 ```
-citation("sinkr")
+citation("sinkr") 
 ```
 
