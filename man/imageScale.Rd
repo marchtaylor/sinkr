@@ -54,7 +54,7 @@ defined, breaks overrides zlim. All arguments are similar to those in the
 pal.1=colorRampPalette(c("green4", "orange", "red", "white"), space="rgb", bias=0.5)
 pal.2=colorRampPalette(c("blue", "cyan", "yellow", "red", "pink"), space="rgb")
 
-# Make images with corrsponding scales
+# Make images with corresponding scales
 op <- par(no.readonly = TRUE)
 layout(matrix(c(1,2,3,0,4,0), nrow=2, ncol=3), widths=c(4,4,1), heights=c(4,1))
 #layout.show(4)
@@ -88,6 +88,9 @@ axis(4,at=breaks, las=2)
 box()
 abline(h=levs)
 par(op)
+
+
+
 
 
 }

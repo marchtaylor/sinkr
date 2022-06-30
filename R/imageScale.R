@@ -30,7 +30,7 @@
 #' pal.1=colorRampPalette(c("green4", "orange", "red", "white"), space="rgb", bias=0.5)
 #' pal.2=colorRampPalette(c("blue", "cyan", "yellow", "red", "pink"), space="rgb")
 #' 
-#' # Make images with corrsponding scales
+#' # Make images with corresponding scales
 #' op <- par(no.readonly = TRUE)
 #' layout(matrix(c(1,2,3,0,4,0), nrow=2, ncol=3), widths=c(4,4,1), heights=c(4,1))
 #' #layout.show(4)
@@ -66,6 +66,9 @@
 #' par(op)
 #' 
 #' 
+#' 
+#' 
+#' 
 imageScale <- function(z, zlim, col = hcl.colors(12, "YlOrRd", rev = TRUE),
 breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
  if(!missing(breaks)){
@@ -87,7 +90,7 @@ breaks, axis.pos=1, add.axis=TRUE, xlim=NULL, ylim=NULL, ...){
  if(!missing(ylim)){ YLIM <- ylim }
  if(!missing(xlim)){ XLIM <- xlim }
 
- plot(1, 1, t="n", ylim=YLIM, xlim=XLIM, axes=FALSE, xlab="", ylab="", xaxs="i", yaxs="i", ...)  
+ plot(1, 1, t="n", ylim=YLIM, xlim=XLIM, axes=FALSE, xlab="", ylab="", xaxs="i", yaxs="i", ...)
  for(i in seq(poly)){
   if(axis.pos %in% c(1,3)){
    polygon(poly[[i]], c(0,0,1,1), col=col[i], border=col[i], lwd = 0.01)
