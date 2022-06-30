@@ -10,31 +10,17 @@ embedPlot(
     
     text(1, 1, font = 3, labels = "embedPlot error:\\nexpression\\nnot defined")
  }),
-  relx0 = 0.5,
-  relx1 = 0.95,
-  rely0 = 0.6,
-  rely1 = 0.95,
-  revert_mai = TRUE
+  at = c(0.5, 0.95, 0.6, 0.95)
 )
 }
 \arguments{
 \item{expr}{expression. Defines a call to a new plot (must contain a 
-high-level call). Use curly brackets to contain multiple line evaluations.}
+high-level call). Use curly brackets to contain multiple line evaluations.
+Other `par()` changes should be done outside of the call to `embedPlot`.}
 
-\item{relx0}{numeric. Value between 0-1 defining the position of 
-the left boundary of the new plot relative to the original plot region.}
-
-\item{relx1}{numeric. Value between 0-1 defining the position of 
-the right boundary of the new plot relative to the original plot region}
-
-\item{rely0}{numeric. Value between 0-1 defining the position of 
-the lower boundary of the new plot relative to the original plot region}
-
-\item{rely1}{numeric. Value between 0-1 defining the position of 
-the upper boundary of the new plot relative to the original plot region}
-
-\item{revert_mai}{logical. Should the function revert to the par of the 
-original plot on exit.}
+\item{at}{numeric vector. Four values between 0-1 
+(`at = c(x0, x1, y0, y1)`), defining the region of the new plot relative 
+to the original plot region.}
 }
 \value{
 An embedded plot in a relative position of the existing plot.
@@ -44,33 +30,41 @@ Embed a new plot in a relative position of an existing plot region
 }
 \examples{
 
-op <- par(no.readonly = TRUE) # original pars for resetting
-
 # error given when expression argument missing
 image(volcano)
 embedPlot()
 
 # addition of histogram
 image(volcano)
-embedPlot(expr = expression(hist(c(volcano), main = "", xlab = "")), 
-  relx0 = 0.6, relx1 = 0.95, rely0 = 0.6, rely1 = 0.95)
+embedPlot(
+  expr = expression(hist(c(volcano), main = "", xlab = "")), 
+  at = c(0.6, 0.95, 0.6, 0.95))
 
 # addition of elevation scale
 image(volcano)
-embedPlot(expr = expression({
+embedPlot(
+  expr = expression({
     imageScale(volcano, axis.pos = 1)
     mtext("Elevation [m]", side = 1, line = 2)}), 
-  relx0 = 0.5, relx1 = 0.95, rely0 = 0.9, rely1 = 0.95)
-
-# revert_mai = FALSE allows further lower level calls to new plot region
-image(volcano)
-embedPlot(expr = expression({
-    imageScale(volcano, axis.pos = 1)}), 
-  relx0 = 0.5, relx1 = 0.95, rely0 = 0.9, rely1 = 0.95, 
-  revert_mai = FALSE)
-abline(v = seq(100,200, 20))
-mtext("Elevation [m]", side = 1, line = 2) # additions outside of embedPlot
-par(op) # reset to original par
+  at = c(0.5, 0.95, 0.9, 0.95))
 
 
+# example mixing log scales, and demo of par changes
+set.seed(1)
+x = runif(100, min = 1, max = 1e5)
+y = runif(100, min = 1, max = 1e5)
+plot(x, y, log = "xy", xlab = "", ylab = "", col = 2)
+tmp <- par(ps = 8, no.readonly = TRUE)
+embedPlot(expression(plot(x, y, xlab = "", ylab = "", cex = 0.5)), 
+  at = c(0.1, 0.5, 0.2, 0.5))
+par(tmp)
+embedPlot(expression(plot(x, y, xlab = "", ylab = "", cex = 0.5, 
+  log = "xy")), at = c(0.1, 0.5, 0.65, 0.95))
+
+
+
+}
+\references{
+Inspired by Stackoverflow answer by Allan Cameron: 
+  (\url{https://stackoverflow.com/a/63114977/1199289})
 }
