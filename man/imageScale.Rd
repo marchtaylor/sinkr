@@ -76,21 +76,41 @@ box()
 breaks <- c(0,100, 150, 170, 190, 200)
 par(mar=c(1,1,1,1))
 image(seq(dim(volcano)[1]), seq(dim(volcano)[2]), volcano, 
-col=pal.2(length(breaks)-1), breaks=breaks-1e-8, xaxt="n", yaxt="n", ylab="", xlab="")
+  col=pal.2(length(breaks)-1), breaks=breaks-1e-8, xaxt="n", yaxt="n", ylab="", xlab="")
 #Add additional graphics
 levs=breaks
 contour(seq(dim(volcano)[1]), seq(dim(volcano)[2]), volcano, levels=levs, add=TRUE)
 #Add scale
 par(mar=c(1,0,1,3))
 imageScale(volcano, col=pal.2(length(breaks)-1), breaks=breaks-1e-8, 
-axis.pos=4, add.axis=FALSE)
+  axis.pos=4, add.axis=FALSE)
 axis(4,at=breaks, las=2)
 box()
 abline(h=levs)
 par(op)
 
+# examples of adding inside the plot region
+op <- par(no.readonly = TRUE)
+par(mar = c(1,1,1,1))
+image(volcano, axes = FALSE, ylab="", xlab="")
+box()
+embedPlot(
+  expr = expression({
+    imageScale(volcano)
+    mtext(text = "Elevation [m]", side = 1, line = 2)}), 
+  at = c(0.5,0.98,0.15,0.2))
+par(op)
 
-
+op <- par(no.readonly = TRUE)
+par(mar = c(1,1,1,1))
+image(volcano, axes = FALSE, ylab="", xlab="")
+box()
+embedPlot(
+  expr = expression({
+    imageScale(volcano, axis.pos = 2)
+    mtext(text = "Elevation [m]", side = 2, line = 2)}), 
+  at = c(0.94,0.98,0.05,0.75))
+par(op)
 
 
 }
