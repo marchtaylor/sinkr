@@ -1,7 +1,5 @@
 #' @name wine 
 #' @title wine attributes dataset
-#' 
-#' 
 #' @description The \code{wine} data are the results of a chemical analysis of wines 
 #' grown in the same region in Italy but derived from three different cultivars. 
 #' The analysis determined the quantities of 13 constituents found in each of the 
@@ -33,8 +31,9 @@
 #' Nonflavanoids, Proanthocyanins, Color intensity, Hue, OD280/OD315 Dilution, Proline. 
 #' All variables but the label class are continuous.A data.frame consisting of wine type 
 #' and 13 variables their attributes 
-#' @source \url{Lichman, M. (2013). UCI Machine Learning Repository 
-#' [http://archive.ics.uci.edu/ml]. Irvine, CA: University of California, School of Information and Computer Science.}
+#' @source Lichman, M. (2013). UCI Machine Learning Repository.
+#'   \url{http://archive.ics.uci.edu/ml} Irvine, CA: University of California, 
+#'   School of Information and Computer Science.
 #' @references 
 #' Forina M., Lanteri S. Armanino C., Casolino C., Casale M., Oliveri, P. (2008). 
 #' V-PARVUS. An Extendible Pachage of programs for esplorative data analysis, 

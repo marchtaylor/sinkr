@@ -1,7 +1,5 @@
 #' @name sst 
 #' @title Kaplan monthly mean anomaly dataset
-#' 
-#' 
 #' @description The \code{sst} data set contains monthly sea surface temperature anomaly data 
 #' for the Equatorial Pacific
 #' within the lat/lon range 180 W - 70 W and 30 S - 30 N, and spanning the years 1956-2014.

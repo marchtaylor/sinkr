@@ -1,5 +1,4 @@
-#' Create an image of matrix or 2-D array with labels
-#'
+#' @title Create an image of matrix or 2-D array with labels
 #' @param mat matrix or 2-D array
 #' @param xlab label for x-axis
 #' @param ylab label for y-axis
@@ -16,7 +15,7 @@
 #' @param labelCol color for grid labels 
 #' @param labelFont font for grid labels
 #'
-#' @return
+#' @return image plot
 #' @export
 #' 
 #' @importFrom graphics image abline
@@ -29,6 +28,8 @@
 #' imageDimnames(mat, labelCol = c(1,2)[(c(mat) < 0)+1], borderLwd = 2)
 #' 
 #' imageDimnames(volcano, drawBorders = FALSE, addLabels = FALSE, axisLas = 2)
+#' 
+#' imageDimnames(provideDimnames(volcano), addLabels = FALSE)
 #' 
 #' tmp <- tapply(warpbreaks$breaks, warpbreaks[,-1], sum)
 #' imageDimnames(tmp, labelCol = 4)

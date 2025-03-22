@@ -18,10 +18,10 @@ values are to be predicted based on the EOF loadings of a the EOF object
 (see \link[sinkr]{eofPred}).}
 
 \item{uncenter}{Logical. Should reconstructed matrix be un-centered (e.g. if 
-\code{centered = TRUE} was used in link{eof}). Default is \code{TRUE}.}
+\code{centered = TRUE} was used in \link[sinkr]{eof}). Default is \code{TRUE}.}
 
 \item{unscale}{Logical. Should reconstructed matrix be un-centered (e.g. if 
-\code{scaled = TRUE} was used in link{eof}). Default is \code{TRUE}.}
+\code{scaled = TRUE} was used in \link[sinkr]{eof}). Default is \code{TRUE}.}
 }
 \description{
 This function reconstructs the original field from an EOF object of the 
