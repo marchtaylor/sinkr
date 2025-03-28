@@ -33,4 +33,11 @@ yeardec2dateSeq(2000, 2010, by = "year")
 # use other 'by' settings
 yeardec2dateSeq(2000, 2001.99, by = "month")
 
+# use in defining gridlines
+set.seed(1)
+x <- seq.Date(as.Date("2000-01-01"), as.Date("2003-12-31"), by = "day")
+y <- cumsum(rnorm(length(x)))
+plot(x,y, t = "l")
+abline(v = yeardec2dateSeq(2000, 2010, by = "3 month"), lty = 3, col = 8)
+
 }
