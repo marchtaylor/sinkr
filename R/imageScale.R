@@ -1,12 +1,13 @@
 #' @title Make a color scale to accompany an image or other plot
 #' @description The \code{imageScale} function is wrapper for 
-#' \code{imageScale} and accepts the same arguments. 
+#' \code{\link[graphics]{image}} and accepts the same arguments. 
 #' It converts a vector of values (\code{z}) 
 #' to a vector of color levels. One must define the number of colors. 
 #' The limits of the color scale ("zlim") or the break points for the 
 #' color changes("breaks") can also be defined. When breaks and zlim are 
 #' defined, breaks overrides zlim. All arguments are similar to those in the
-#' \code{image} function. Appearance is best when incorporated with \code{\link[graphics]{layout}}.
+#' \code{image} function. Can be used together with \code{\link[graphics]{layout}} 
+#' or \code{\link[sinkr]{embedPlot}} to combine with other plots.
 #' @param z A vector or matrix of values.
 #' @param zlim Limits of the color scale values.
 #' @param col Vector of color values (default is 12 colors 
