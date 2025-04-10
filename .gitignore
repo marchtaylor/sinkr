@@ -4,5 +4,6 @@
 
 working
 
-inst
+inst/*
+
 !inst/citations.md
