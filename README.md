@@ -11,10 +11,14 @@ library(devtools)
 install_github("marchtaylor/sinkr")
 ```
 
-**To cite**:
+**How to cite**:
 
 ```         
 citation("sinkr") 
 ```
 
-[List of citing papers](inst/citations.md)
+Taylor M (2025). *sinkr: Collection of functions with emphasis on multivariate data analysis*. R package version 0.7.4, <https://github.com/marchtaylor/sinkr>
+
+
+
+**Literature citing** *sinkr*: [inst/citations.md](inst/citations.md)
