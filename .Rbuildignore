@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^hexSticker
 ^working
+^inst
 
 .travis.yml
 _config.yml
