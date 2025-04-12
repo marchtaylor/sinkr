@@ -3,7 +3,3 @@
 .RData
 
 working
-
-inst/*
-
-!inst/citations.md

@@ -35,7 +35,7 @@
 #'   at = c(0.5, 0.95, 0.9, 0.95))
 #' 
 #' # addition of elevation scale and profile
-#' # Note that yyou may need to add a background box manually
+#' # Note that you may need to add a background box manually
 #' image(volcano, xlab = "X", ylab = "Y")
 #' embedPlot(
 #'   expr = expression({
