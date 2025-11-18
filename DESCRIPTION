@@ -1,8 +1,8 @@
 Package: sinkr
 Type: Package
 Title: Collection of functions with emphasis on multivariate data analysis   
-Version: 0.7.4
-Date: 2025-04-10
+Version: 0.7.5
+Date: 2025-11-18
 Author: Marc Taylor <ningkiling@gmail.com>
 Maintainer: Marc Taylor <ningkiling@gmail.com>
 Depends:
