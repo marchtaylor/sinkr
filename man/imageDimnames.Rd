@@ -11,11 +11,11 @@ imageDimnames(
   xaxisSide = 1,
   yaxisSide = 2,
   axisLas = 1,
-  drawBorders = TRUE,
+  drawBorders = FALSE,
   borderCol = 1,
   borderLty = 1,
   borderLwd = 1,
-  addLabels = TRUE,
+  addLabels = FALSE,
   labels = sinkr::ac(c(mat)),
   labelCol = "black",
   labelFont = 1,
@@ -62,15 +62,17 @@ Create an image of matrix or 2-D array with labels
 \examples{
 
 mat <- matrix(-8:7, 4, 4)
-imageDimnames(mat)
-imageDimnames(mat, labelCol = c(1,2)[(c(mat) < 0)+1])
-imageDimnames(mat, labelCol = c(1,2)[(c(mat) < 0)+1], borderLwd = 2)
+imageDimnames(mat, drawBorders = TRUE, addLabels = TRUE)
+imageDimnames(mat, drawBorders = TRUE, addLabels = TRUE,
+  labelCol = c(1,2)[(c(mat) < 0)+1])
+imageDimnames(mat, , drawBorders = TRUE, addLabels = TRUE,
+  labelCol = c(1,2)[(c(mat) < 0)+1], borderLwd = 2)
 
-imageDimnames(volcano, drawBorders = FALSE, addLabels = FALSE, axisLas = 2)
+imageDimnames(volcano, axisLas = 2)
 
-imageDimnames(provideDimnames(volcano), addLabels = FALSE)
+imageDimnames(provideDimnames(volcano))
 
 tmp <- tapply(warpbreaks$breaks, warpbreaks[,-1], sum)
-imageDimnames(tmp, labelCol = 4)
+imageDimnames(tmp, drawBorders = TRUE, addLabels = TRUE, labelCol = 4)
 
 }
