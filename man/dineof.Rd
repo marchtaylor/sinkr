@@ -92,7 +92,7 @@ Xo <- replace(Xp, gaps, NaN)
 
 # The dineof "interpolated" field
 set.seed(1)
-RES <- dineof(Xo, delta.rms = 1e-02) # lower 'delta.rms' for higher resolved interpolation
+RES <- dineof(Xo, delta.rms = 1e-05) # lower 'delta.rms' for higher resolved interpolation
 Xa <- RES$Xa
 
 # Visualization all fields
@@ -132,22 +132,15 @@ gaps <- sample(seq(length(iris2)), frac.gaps*length(iris2))
 iris2g <- replace(iris2, gaps, NaN)
 
 # The dineof "interpolated" field
-# irlba should produce warning due to large percentage of total singular values
-# used in interpolation
+# using method = "svd" is more stable if neof might reach nmax
 set.seed(1)
-RES <- dineof(iris2g, delta.rms = 1e-02) 
-
-# using method="svd" is better
-set.seed(1)
-RES <- dineof(iris2g, delta.rms = 1e-02, method="svd",
- ref.pos = RES$ref.pos
-)  
+RES <- dineof(iris2g, delta.rms = 1e-05, method="svd")  
 
 # plot results
-op <- par(mfrow=c(1,2), mar=c(3,3,3,1))
+op <- par(mfrow = c(1,2), mar = c(3,3,3,1))
 plot(iris2, RES$Xa, 
-     col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
-     pch=as.numeric(iris$Species), main = "Imputation w/ DINEOF"
+   col = rep(rainbow(ncol(iris2)), each = nrow(iris2)),
+   pch = as.numeric(iris$Species), main = "Imputation w/ DINEOF"
 )
 abline(0,1,col=8, lty=1)
 legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
@@ -173,8 +166,8 @@ R[-gaps] <- iris2g[-gaps] # replace non-gap values
 
 # plot interpolated values
 plot(iris2, R, 
-     col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
-     pch=as.numeric(iris$Species), main = "Recon. w/ sig. EOFS only"
+   col = rep(rainbow(ncol(iris2)), each = nrow(iris2)),
+   pch = as.numeric(iris$Species), main = "Recon. w/ sig. EOFS only"
 )
 abline(0,1,col=8, lty=1)
 legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
@@ -182,6 +175,7 @@ legend("bottomright", legend=levels(iris$Species), pch=1:3, bty = "n")
 sqrt(mean((iris2[gaps] - R[gaps])^2, na.rm=TRUE)) # root mean square error
 
 par(op)
+
 
 
 }

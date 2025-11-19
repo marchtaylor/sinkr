@@ -47,6 +47,12 @@ for details}
 \item{nperm}{Numeric. The number of null model permutations to calculate.}
 }
 \description{
+Note that leave-one-out or k-fold cross validation is likely the 
+  more robust approach (\url{http://stats.stackexchange.com/a/115477/10675}).
+  Similarly, the imputation approach of \code{\link[sinkr]{dineof}} should 
+  produce similar results, by identifying the number of
+}
+\details{
 The \code{eofNull} function uses a randomization approach to 
 calculate a null model for use in Empirical Orthogonal Function analysis (EOF) 
 with the \code{eof} function. EOF mode significance is assessed against the 

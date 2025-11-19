@@ -19,10 +19,11 @@
 #' \code{method = NULL} and \code{recursive = TRUE}.
 #' Use of \code{"svds"} or \code{"irlba"} calculates a partial SVD, which is 
 #' recommended when \code{recursive = TRUE} due to faster computation speed.
-#' @param recursive Logical. When \code{TRUE}, the function follows the method of
+#' @param recursive logical. When \code{TRUE}, the function follows the method of
 #' "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF) (Taylor et al. 2013). 
 #' RSEOF is a modification of a least squares EOF approach for gappy data (LSEOF)
 #' (see von Storch and Zwiers 1999)
+#' @param verbose logical. Should progress be printed (when \code{"recursive = TRUE"}).
 #' 
 #' @details Taylor et al. (2013) demonstrated that the RSEOF approach 
 #' (i.e. \code{recursive = TRUE}) more accurately estimates EOFs from a 
@@ -141,8 +142,9 @@
 #' @export
 #' 
 eof <- function(F1,
-centered=TRUE, scaled=FALSE,
-nu=NULL, method=NULL, recursive=FALSE
+  centered = TRUE, scaled = FALSE,
+  nu=NULL, method=NULL, recursive = FALSE,
+  verbose = FALSE
 ){
 
   if(is.null(method) & recursive){
@@ -211,7 +213,10 @@ nu=NULL, method=NULL, recursive=FALSE
 
 			rm(L)
 
-			print(paste(i, "(", round(i/nu*100), "% )", "of", nu, "iterations completed"))
+			if(verbose){
+  			cat(sprintf("%d (%d%%) of %d iterations completed\r", i, round(i/nu*100), nu))
+  			flush.console()
+			}
 		}
 	}
 

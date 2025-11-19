@@ -75,7 +75,10 @@ prcompNull <- function(x, retx = TRUE, center = TRUE, scale. = FALSE,
                     tol = tol)
     #record Lambda
     Lambda[p,] <- E.tmp$sdev^2
-    print(paste("permutation", p, "of", nperm, "is completed"))      
+
+    cat(sprintf("permutation %d of %d is completed\r", p, nperm))
+    flush.console()       
+    
   }
   
   result <- list(Lambda=Lambda, Lambda.orig=E$sdev^2)

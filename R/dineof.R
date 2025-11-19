@@ -79,7 +79,7 @@
 #' 
 #' # The dineof "interpolated" field
 #' set.seed(1)
-#' RES <- dineof(Xo, delta.rms = 1e-02) # lower 'delta.rms' for higher resolved interpolation
+#' RES <- dineof(Xo, delta.rms = 1e-05) # lower 'delta.rms' for higher resolved interpolation
 #' Xa <- RES$Xa
 #' 
 #' # Visualization all fields
@@ -119,22 +119,15 @@
 #' iris2g <- replace(iris2, gaps, NaN)
 #' 
 #' # The dineof "interpolated" field
-#' # irlba should produce warning due to large percentage of total singular values
-#' # used in interpolation
+#' # using method = "svd" is more stable if neof might reach nmax
 #' set.seed(1)
-#' RES <- dineof(iris2g, delta.rms = 1e-02) 
-#' 
-#' # using method="svd" is better
-#' set.seed(1)
-#' RES <- dineof(iris2g, delta.rms = 1e-02, method="svd",
-#'  ref.pos = RES$ref.pos
-#' )  
+#' RES <- dineof(iris2g, delta.rms = 1e-05, method="svd")  
 #' 
 #' # plot results
-#' op <- par(mfrow=c(1,2), mar=c(3,3,3,1))
+#' op <- par(mfrow = c(1,2), mar = c(3,3,3,1))
 #' plot(iris2, RES$Xa, 
-#'      col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
-#'      pch=as.numeric(iris$Species), main = "Imputation w/ DINEOF"
+#'    col = rep(rainbow(ncol(iris2)), each = nrow(iris2)),
+#'    pch = as.numeric(iris$Species), main = "Imputation w/ DINEOF"
 #' )
 #' abline(0,1,col=8, lty=1)
 #' legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
@@ -160,8 +153,8 @@
 #' 
 #' # plot interpolated values
 #' plot(iris2, R, 
-#'      col=rep(rainbow(ncol(iris2)), each=nrow(iris2)),
-#'      pch=as.numeric(iris$Species), main = "Recon. w/ sig. EOFS only"
+#'    col = rep(rainbow(ncol(iris2)), each = nrow(iris2)),
+#'    pch = as.numeric(iris$Species), main = "Recon. w/ sig. EOFS only"
 #' )
 #' abline(0,1,col=8, lty=1)
 #' legend("topleft", legend=colnames(iris2), col=rainbow(ncol(iris2)), lty=1, bty = "n")
@@ -169,6 +162,7 @@
 #' sqrt(mean((iris2[gaps] - R[gaps])^2, na.rm=TRUE)) # root mean square error
 #' 
 #' par(op)
+#' 
 #' 
 #' 
 #' @references
@@ -184,82 +178,118 @@
 #' @export
 #' 
 #'
-dineof <- function(Xo, n.max=NULL, ref.pos=NULL, delta.rms=1e-5, method="svds"){
+dineof <- function(Xo, n.max = NULL, ref.pos = NULL, delta.rms = 1e-5, method = "svds") {
+  
+  if (is.null(n.max)) n.max <- ncol(Xo)
 
-	if(is.null(n.max)){
-		n.max=dim(Xo)[2]
-	}	
+  na.true <- which(is.na(Xo))
+  na.false <- which(!is.na(Xo))
+  if (is.null(ref.pos)) ref.pos <- sample(na.false, max(30, 0.01 * length(na.false)))
 
-	na.true <- which(is.na(Xo))
-	na.false <- which(!is.na(Xo))
-	if(is.null(ref.pos)) ref.pos <- sample(na.false, max(30, 0.01*length(na.false)))
+  Xa <- Xo
+  Xa[c(ref.pos, na.true)] <- 0
+  attributes(Xa) <- NULL
 
-	Xa <- replace(Xo, c(ref.pos, na.true), 0)
-	rms.prev <- Inf
-	rms.now <- sqrt(mean((Xa[ref.pos] - Xo[ref.pos])^2))
-	n.eof <- 1
-	RMS <- rms.now
-	NEOF <- n.eof
-	Xa.best <- Xa
-	n.eof.best <- n.eof	
-	while(rms.prev - rms.now > delta.rms & n.max > n.eof){ #loop for increasing number of EOFs
-		while(rms.prev - rms.now > delta.rms){ #loop for EOF refinement
-			rms.prev <- rms.now
-			if(method == "irlba"){
-			  SVDi <- irlba::irlba(Xa, nu=n.eof, nv=n.eof)	  
-			}
-			if(method == "svd"){
-			  SVDi <- svd(Xa)	  
-			}
-			if(method == "svds"){
-			  SVDi <- RSpectra::svds(Xa, k=n.eof)	  
-			}
-			RECi <- as.matrix(SVDi$u[,seq(n.eof)]) %*% as.matrix(diag(SVDi$d[seq(n.eof)], n.eof, n.eof)) %*% t(as.matrix(SVDi$v[,seq(n.eof)]))
-			Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]
-			rms.now <- sqrt(mean((Xa[ref.pos] - Xo[ref.pos])^2))
-			print(paste(n.eof, "EOF", "; RMS =", round(rms.now, 8)))
-			RMS <- c(RMS, rms.now)
-			NEOF <- c(NEOF, n.eof)
-			gc()
-			if(rms.now == min(RMS)) {
-				Xa.best <- Xa
-				n.eof.best <- n.eof
-			}
-		}
-	  # Add EOF and check for improvement
-		n.eof <- n.eof + 1
-		rms.prev <- rms.now
-		if(method == "irlba"){
-		  SVDi <- irlba::irlba(Xa, nu=n.eof, nv=n.eof)	  
-		}
-		if(method == "svd"){
-		  SVDi <- svd(Xa)	  
-		}
-		if(method == "svds"){
-		  SVDi <- RSpectra::svds(Xa, k=n.eof)	  
-		}
-		RECi <- as.matrix(SVDi$u[,seq(n.eof)]) %*% as.matrix(diag(SVDi$d[seq(n.eof)], n.eof, n.eof)) %*% t(as.matrix(SVDi$v[,seq(n.eof)]))
-		Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]
-		rms.now <- sqrt(mean((Xa[ref.pos] - Xo[ref.pos])^2))
-		print(paste(n.eof, "EOF", "; RMS =", round(rms.now, 8)))
-		RMS <- c(RMS, rms.now)
-		NEOF <- c(NEOF, n.eof)
-		gc()
-		if(rms.now == min(RMS)) {
-			Xa.best <- Xa
-			n.eof.best <- n.eof
-		}
-	}
-	
-	Xa <- Xa.best
-	n.eof <- n.eof.best
-	rm(list=c("Xa.best", "n.eof.best", "SVDi", "RECi"))
+  # function to compute SVD
+  compute_svd <- function(X, n.eof, method) {
+    if (method == "irlba") return(irlba::irlba(X, nu = n.eof, nv = n.eof))
+    if (method == "svd") return(svd(X))
+    if (method == "svds") return(RSpectra::svds(X, k = n.eof))
+    stop("Unknown method")
+  }
 
-	Xa[ref.pos] <- Xo[ref.pos]
+  # function to reconstruct using EOFs
+  reconstruct_eof <- function(SVDi, n.eof) {
+    SVDi$u[, seq_len(n.eof), drop = FALSE] %*%
+      diag(SVDi$d[seq_len(n.eof)], n.eof, n.eof) %*%
+      t(SVDi$v[, seq_len(n.eof), drop = FALSE])
+  }
 
-	RESULT <- list(
-		Xa=Xa, n.eof=n.eof, RMS=RMS, NEOF=NEOF, ref.pos=ref.pos
-	)
-	
-	RESULT
+  # function to compute rms over reference positions
+  compute_rms <- function(Xa, Xo, ref.pos) {
+    sqrt(mean((Xa[ref.pos] - Xo[ref.pos])^2))
+  }
+
+  # Helper function to print RMS status
+  print_rms <- function(n.eof, rms, refining = TRUE) {
+    if (refining) {
+      cat(sprintf("%d EOF (refining); RMS = %f\r", n.eof, rms))
+    } else {
+      cat(sprintf("%d EOF (finalized); RMS = %f\n", n.eof, rms))
+    }
+    flush.console()
+  }
+
+  rms.prev <- Inf
+  rms.now <- compute_rms(Xa, Xo, ref.pos)
+  n.eof <- 1
+  RMS <- rms.now
+  NEOF <- n.eof
+  Xa.best <- Xa
+  n.eof.best <- n.eof
+  best_rms <- rms.now
+
+  # Outer loop: increase number of EOFs
+  while ((rms.prev - rms.now) > delta.rms && n.eof <= n.max) {
+
+    # Inner loop: refine current EOF reconstruction
+    while ((rms.prev - rms.now) > delta.rms) {
+      rms.prev <- rms.now
+
+      SVDi <- compute_svd(Xa, n.eof, method)
+      RECi <- reconstruct_eof(SVDi, n.eof)
+      Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]
+
+      rms.now <- compute_rms(Xa, Xo, ref.pos)
+      print_rms(n.eof, rms.now, refining = TRUE)
+
+      RMS <- c(RMS, rms.now)
+      NEOF <- c(NEOF, n.eof)
+
+      # Update best reconstruction if improved
+      if (rms.now < best_rms) {
+        best_rms <- rms.now
+        Xa.best <- Xa
+        n.eof.best <- n.eof
+      }
+    }
+
+    # Print finalized RMS for current EOF
+    print_rms(n.eof, rms.now, refining = FALSE)
+
+    # Prepare for next EOF
+    n.eof <- n.eof + 1
+    if (n.eof > n.max) break
+
+    rms.prev <- rms.now
+    SVDi <- compute_svd(Xa, n.eof, method)
+    RECi <- reconstruct_eof(SVDi, n.eof)
+    Xa[c(ref.pos, na.true)] <- RECi[c(ref.pos, na.true)]
+    rms.now <- compute_rms(Xa, Xo, ref.pos)
+    print_rms(n.eof, rms.now, refining = TRUE)
+
+    RMS <- c(RMS, rms.now)
+    NEOF <- c(NEOF, n.eof)
+
+    if (rms.now < best_rms) {
+      best_rms <- rms.now
+      Xa.best <- Xa
+      n.eof.best <- n.eof
+    }
+  }
+
+  # Finalize results
+  Xa <- Xa.best
+  n.eof <- n.eof.best
+  rm(list = c("Xa.best", "n.eof.best", "SVDi", "RECi"))
+
+  Xa[ref.pos] <- Xo[ref.pos]
+
+  list(
+    Xa = Xa,
+    n.eof = n.eof,
+    RMS = RMS,
+    NEOF = NEOF,
+    ref.pos = ref.pos
+  )
 }

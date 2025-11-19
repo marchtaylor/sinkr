@@ -90,7 +90,7 @@ eofBoot <- function(
            recursive = recursive)
   
   Lambda <- matrix(NaN, nrow=nperm, ncol=length(E$Lambda))
-  #For each permutation
+  # For each permutation
   for(p in seq(nperm)){
     # Randomly subsample rows of scaled field
     # (with replacement; i.e. non-parametric bootstrapping) 
@@ -102,7 +102,9 @@ eofBoot <- function(
                  recursive = recursive)
     # Record Lambda
     Lambda[p,] <- E.tmp$Lambda
-    print(paste("permutation", p, "of", nperm, "is completed")) 
+    
+    cat(sprintf("permutation %d of %d is completed\r", p, nperm))
+    flush.console() 
   }
   
   result <- list(Lambda=Lambda, Lambda.orig=E$Lambda)

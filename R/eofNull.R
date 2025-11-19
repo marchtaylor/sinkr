@@ -30,6 +30,12 @@
 #' for details
 #' @param nperm Numeric. The number of null model permutations to calculate.
 #' 
+#' @description Note that leave-one-out or k-fold cross validation is likely the 
+#'   more robust approach (\url{http://stats.stackexchange.com/a/115477/10675}).
+#'   Similarly, the imputation approach of \code{\link[sinkr]{dineof}} should 
+#'   produce similar results, by identifying the number of 
+#' 
+#' 
 #' @examples
 #' # Generate data
 #' m=50
@@ -81,7 +87,7 @@ eofNull <- function(
            recursive = recursive)
   
   Lambda <- matrix(NaN, nrow=nperm, ncol=length(E$Lambda))
-  #For each permutation
+  # For each permutation
   for(p in seq(nperm)){
     # Randomly shuffle values in each column of scaled field
     tmp <- vector("list", ncol(F1))
@@ -94,9 +100,11 @@ eofNull <- function(
     # Conduct EOF
     E.tmp <- eof(F1.tmp, centered = centered, scaled = scaled, 
                  nu = nu, method = method, recursive = recursive)
-    #record Lambda
+    # record Lambda
     Lambda[p,] <- E.tmp$Lambda
-    print(paste("permutation", p, "of", nperm, "is completed"))      
+    
+    cat(sprintf("permutation %d of %d is completed\r", p, nperm))
+    flush.console()      
   }
   
   result <- list(Lambda=Lambda, Lambda.orig=E$Lambda)

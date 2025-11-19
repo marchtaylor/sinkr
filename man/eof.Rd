@@ -10,7 +10,8 @@ eof(
   scaled = FALSE,
   nu = NULL,
   method = NULL,
-  recursive = FALSE
+  recursive = FALSE,
+  verbose = FALSE
 )
 }
 \arguments{
@@ -34,10 +35,12 @@ Defaults to \code{"svd"} when \code{method = NULL} and \code{"svds"} when
 Use of \code{"svds"} or \code{"irlba"} calculates a partial SVD, which is 
 recommended when \code{recursive = TRUE} due to faster computation speed.}
 
-\item{recursive}{Logical. When \code{TRUE}, the function follows the method of
+\item{recursive}{logical. When \code{TRUE}, the function follows the method of
 "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF) (Taylor et al. 2013). 
 RSEOF is a modification of a least squares EOF approach for gappy data (LSEOF)
 (see von Storch and Zwiers 1999)}
+
+\item{verbose}{logical. Should progress be printed (when \code{"recursive = TRUE"}).}
 }
 \value{
 Results of \code{eof} are returned as a list containing the following components:
