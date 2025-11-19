@@ -188,8 +188,7 @@ dineof <- function(Xo, n.max = NULL, ref.pos = NULL, delta.rms = 1e-5, method = 
 
   Xa <- Xo
   Xa[c(ref.pos, na.true)] <- 0
-  attributes(Xa) <- NULL
-
+  
   # function to compute SVD
   compute_svd <- function(X, n.eof, method) {
     if (method == "irlba") return(irlba::irlba(X, nu = n.eof, nv = n.eof))
