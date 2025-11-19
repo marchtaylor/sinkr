@@ -57,9 +57,9 @@ pca_loocv <- function(X, npc.max=ncol(X)){
     }
   }
   res <- list(
-    error1=error1,
-    error2=error2,
-    error3=error3
+    naive=error1,
+    approximate=error2,
+    pseudoinverse=error3
   )
   return(res)
 }
