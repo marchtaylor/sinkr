@@ -9,7 +9,7 @@ bib <- read.bib(bib_file)
 format_authors <- function(authors) {
   formatted_authors <- sapply(authors, function(author) {
     last_name <- author$family
-    initials <- paste(substr(author$given, 1, 1), ".", sep = "")
+    initials <- paste(paste0(substr(author$given, 1, 1), "."), collapse = " ")
     paste(last_name, initials, collapse = " ")
   })
   paste(formatted_authors, collapse = ", ")
