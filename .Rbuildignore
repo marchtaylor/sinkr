@@ -3,6 +3,8 @@
 ^hexSticker
 ^working
 ^inst
+^doc$
+^Meta$
 
 .travis.yml
 _config.yml
