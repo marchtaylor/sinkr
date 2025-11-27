@@ -13,7 +13,7 @@
 #' consider unique \code{format(x,"\%m\%d")} strings.
 #' 
 #' @examples
-### create synthetic data (contains annual and day signal)
+#' # create synthetic data (contains annual and day signal)
 #' set.seed(1)
 #' Time <- seq.Date(as.Date("1990-01-01"), as.Date("1996-12-31"), by="day")
 #' Space <- seq(pi,2*pi,,10)

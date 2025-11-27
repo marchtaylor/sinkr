@@ -40,7 +40,8 @@ recommended when \code{recursive = TRUE} due to faster computation speed.}
 RSEOF is a modification of a least squares EOF approach for gappy data (LSEOF)
 (see von Storch and Zwiers 1999)}
 
-\item{verbose}{logical. Should progress be printed (when \code{"recursive = TRUE"}).}
+\item{verbose}{logical. Should progress be printed 
+(when \code{"recursive = TRUE"}, Default: verbose = TRUE).}
 }
 \value{
 Results of \code{eof} are returned as a list containing the following components:

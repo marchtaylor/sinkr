@@ -1,39 +1,41 @@
 #' Calculate number of non-mixed EOFs (eof version)
 #' 
 #' The \code{eofBoot} function uses a bootstrap randomization approach to 
-#' calculate distributions of Empirical Orthogonal Function analysis (EOF) 
-#' singular values with the \code{\link[sinkr]{eof}} function.
-#' EOF mode significance is assessed against the distributions of 
-#' neighboring EOF singular values ("Lambda") calculated by the permutated 
-#' models. A bootstrap routine follows the procedure of Babamoradi et al. (2013) whereby 
-#' permutations sample rows (samples) more than once, which is a non-parametric 
-#' approach does not make assumptions about the distribution of data.
+#'   calculate distributions of Empirical Orthogonal Function analysis (EOF) 
+#'   singular values with the \code{\link[sinkr]{eof}} function.
+#'   EOF mode significance is assessed against the distributions of 
+#'   neighboring EOF singular values ("Lambda") calculated by the permutated 
+#'   models. A bootstrap routine follows the procedure of 
+#'   Babamoradi et al. (2013) whereby permutations sample rows (samples) more 
+#'   than once, which is a non-parametric approach does not make assumptions 
+#'   about the distribution of data.
 #'
 #' @param F1 A data field. The data should be arraunged as samples in the column 
-#' dimension (typically each column is a time series for a spatial location).
+#'   dimension (typically each column is a time series for a spatial location).
 #' @param centered Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-#' centered prior to the analysis. Defaults to 'TRUE'
+#'   centered prior to the analysis. Defaults to 'TRUE'
 #' @param scaled Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-#' scaled prior to the analysis. Defaults to 'TRUE'
+#'   scaled prior to the analysis. Defaults to 'TRUE'
 #' @param nu Numeric value. Defines the number of EOFs to return. Defaults to 
-#' return the full set of EOFs.
+#'   return the full set of EOFs.
 #' @param method Method for matrix decomposition ('\code{svd}', '\code{eigen}', 
 #' '\code{irlba}'). Defaults to 'svd' when \code{method = NULL}. Use of 'irlba' can 
-#' dramatically speed up computation time when \code{recursive = TRUE} but may
-#' produce errors in computing trailing EOFs. Therefore, this option is only advisable when
-#' the field \code{F1} is large and when only a partial decomposition is desired
-#' (i.e. \code{nu << dim(F1)[2]}). All methods should give identical 
-#' results when \code{recursive=TRUE}.
+#'   dramatically speed up computation time when \code{recursive = TRUE} but may
+#'   produce errors in computing trailing EOFs. Therefore, this option is only 
+#'   advisable when the field \code{F1} is large and when only a partial 
+#'   decomposition is desired (i.e. \code{nu << dim(F1)[2]}). 
+#'   All methods should give identical results when \code{recursive=TRUE}.
 #' \code{svd} and \code{eigen} give similar results for non-gappy fields, 
-#' but will differ slightly with gappy fields due to decomposition of a 
-#' nonpositive definite covariance matrix. Specifically, \code{eigen}  will produce 
-#' negative eigenvalues for trailing EOFs, while singular values derived from \code{svd} 
-#' will be strictly positive.
-#' @param recursive Logical. When \code{TRUE}, the function follows the method of
-#' "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF). See \code{\link[sinkr]{eof}}
-#' for details
+#'   but will differ slightly with gappy fields due to decomposition of a 
+#'   non-positive definite covariance matrix. Specifically, \code{eigen}  will 
+#'   produce negative eigenvalues for trailing EOFs, while singular values 
+#'   derived from \code{svd} be strictly positive.
+#' @param recursive Logical. When \code{TRUE}, the function follows the method 
+#'   of "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF). 
+#'   See \code{\link[sinkr]{eof}} for details.
 #' @param nperm Numeric. The number of null model permutations to calculate.
-#'
+#' @param verbose logical. Print progress (Default: verbose = TRUE).
+#' 
 #' @references
 #' Babamoradi, H., van den Berg, F., Rinnan, A, 2013. Bootstrap based 
 #' confidence limits in principal component analysis - A case study, 
@@ -41,37 +43,18 @@
 #' pp. 97-105. doi:10.1016/j.chemolab.2012.10.007.
 #'
 #' @examples
-#' # Generate data
-#' m=50
-#' n=100
-#' frac.gaps <- 0.5 # the fraction of data with NaNs
-#' N.S.ratio <- 0.1 # the Noise to Signal ratio for adding noise to data
-#' x <- (seq(m)*2*pi)/m
-#' t <- (seq(n)*2*pi)/n
+#' data(Xt)
 #' 
-#' # True field
-#' Xt <- 
-#'   outer(sin(x), sin(t)) + 
-#'   outer(sin(2.1*x), sin(2.1*t)) + 
-#'   outer(sin(3.1*x), sin(3.1*t)) +
-#'   outer(tanh(x), cos(t)) + 
-#'   outer(tanh(2*x), cos(2.1*t)) + 
-#'   outer(tanh(4*x), cos(0.1*t)) + 
-#'   outer(tanh(2.4*x), cos(1.1*t)) + 
-#'   tanh(outer(x, t, FUN="+")) + 
-#'   tanh(outer(x, 2*t, FUN="+"))
+#' # The "noisy" field
+#' # noise standard deviation at 10% noise-to-signal ratio
+#' noise_sd <- 0.1 * sd(as.vector(Xt))
 #' 
-#' Xt <- t(Xt)
+#' # Add Gaussian noise
+#' set.seed(123)  # For reproducibility
+#' Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
+#' Xn <- array(Xn, dim = dim(Xt))
 #' 
-#' # Noise field
-#' set.seed(1)
-#' RAND <- matrix(runif(length(Xt), min=-1, max=1), nrow=nrow(Xt), ncol=ncol(Xt))
-#' R <- RAND * N.S.ratio * Xt
-#'
-#' # True field + Noise field
-#' Xp <- Xt + R
-#' 
-#' res <- eofBoot(Xp, centered=FALSE, scaled=FALSE, nperm=499)
+#' res <- eofBoot(Xn, centered=FALSE, scaled=FALSE, nperm=499)
 #' ylim <- range(res$Lambda.orig, res$Lambda)
 #' boxplot(res$Lambda, log="y", col=8, border=2, outpch="", ylim=ylim)
 #' points(res$Lambda.orig)
@@ -84,7 +67,7 @@
 #' 
 eofBoot <- function(
   F1, centered = TRUE, scaled = FALSE, nu = NULL, method = NULL,
-  recursive = FALSE, nperm=99
+  recursive = FALSE, nperm=99, verbose = TRUE
 ){
   E <- eof(F1=F1, centered = centered, scaled = scaled, nu = nu, method = method,
            recursive = recursive)
@@ -99,12 +82,15 @@ eofBoot <- function(
     
     # Conduct EOF
     E.tmp <- eof(F1.tmp, centered = centered, scaled = scaled, nu = nu, method = method,
-                 recursive = recursive)
+      recursive = recursive, verbose = FALSE)
+    
     # Record Lambda
     Lambda[p,] <- E.tmp$Lambda
     
-    cat(sprintf("permutation %d of %d is completed\r", p, nperm))
-    flush.console() 
+    if(verbose){
+      cat(sprintf("permutation %d of %d is completed\r", p, nperm))
+      flush.console()
+    }
   }
   
   result <- list(Lambda=Lambda, Lambda.orig=E$Lambda)

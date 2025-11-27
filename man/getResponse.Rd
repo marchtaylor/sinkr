@@ -25,9 +25,9 @@ getResponse(formula(y1 + y2 ~ x)) # multiple response variables
 x <- runif(10)
 y <- 2*x + rnorm(10)
 fit <- lm(y ~ x)
-getResponse(fit) # usin a fitted lm model
+getResponse(fit) # using a fitted lm model
 
 fit <- glm(y ~ x)
-getResponse(fit) # usin a fitted glm model
+getResponse(fit) # using a fitted glm model
 
 }

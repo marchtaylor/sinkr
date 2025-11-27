@@ -3,6 +3,7 @@
 #' @param X Matrix to be subjected to svd
 #' @param ks Number of k-fold groups to use. Default=2. (see \code{\link[sinkr]{kfold}})
 #' @param npc.max The maximum number of principal components to test. Default=ncol(X)
+#' @param verbose logical. Should progress be printed 
 #'
 #' @return Matrix of square error values for each element in X  
 #' 
@@ -33,7 +34,7 @@
 #' par(op)
 #' 
 #' 
-pca_kcv <- function(X, ks=2, npc.max=ncol(X)){
+pca_kcv <- function(X, ks=2, npc.max=ncol(X), verbose = TRUE){
   kgroups <- kfold(n = nrow(X), k = ks)
   error1 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
   error2 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
@@ -56,7 +57,11 @@ pca_kcv <- function(X, ks=2, npc.max=ncol(X)){
       error1[kgroups[[n]],j] <- error1[kgroups[[n]],j] + rowSums(sqrt(err1^2))
       error2[kgroups[[n]],j] <- error2[kgroups[[n]],j] + rowSums(sqrt(err2^2))
       error3[kgroups[[n]],j] <- error3[kgroups[[n]],j] + rowSums(sqrt(err3^2))
-      print(paste("n =", n, "; j =", j))
+      
+      if(verbose){
+  			cat(sprintf("n = %d; j = %d\r", n, j))
+  			flush.console()
+      }
     }
   }
   res <- list(

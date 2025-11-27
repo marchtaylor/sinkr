@@ -1,4 +1,4 @@
-<img src="hexSticker/hexSticker_sinkr.png" width="250"/>
+<img src=".github/figures/hexSticker_sinkr.png" width="250"/>
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0) [![GitHub release](https://img.shields.io/github/release/marchtaylor/sinkr.svg)](https://github.com/marchtaylor/sinkr/releases)
 
@@ -21,4 +21,4 @@ Taylor M (2025). *sinkr: Collection of functions with emphasis on multivariate d
 
 
 
-**Literature citing** *sinkr*: [inst/citations.md](inst/citations.md)
+**Literature citing** *sinkr*: [.github/citations.md](.github/citations.md)

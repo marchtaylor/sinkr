@@ -1,22 +1,25 @@
 Package: sinkr
 Type: Package
 Title: Collection of functions with emphasis on multivariate data analysis   
-Version: 0.7.5
-Date: 2025-11-18 
+Version: 0.8.0
+Date: 2025-11-27 
 Author: Marc Taylor <ningkiling@gmail.com>
 Maintainer: Marc Taylor <ningkiling@gmail.com>
 Depends:
-    R (>= 2.10)
+    R (>= 3.5.0)
 Imports:
     irlba,
     RSpectra,
     vegan,
-    Matrix,
     nlme,
-    GA
 Suggests:
     maps,
-    png
+    pals,
+    png,
+    ggplot2,
+    knitr, 
+    rmarkdown
+VignetteBuilder: knitr
 Description: The sinkr package contains a personal collection of functions with
     some emphasis on multivariate methods and handling of geographic data fields.
 License: GPL-3 + file LICENSE

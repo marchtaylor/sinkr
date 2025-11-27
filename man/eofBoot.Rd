@@ -11,7 +11,8 @@ eofBoot(
   nu = NULL,
   method = NULL,
   recursive = FALSE,
-  nperm = 99
+  nperm = 99,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -29,65 +30,49 @@ return the full set of EOFs.}
 
 \item{method}{Method for matrix decomposition ('\code{svd}', '\code{eigen}', 
 '\code{irlba}'). Defaults to 'svd' when \code{method = NULL}. Use of 'irlba' can 
-dramatically speed up computation time when \code{recursive = TRUE} but may
-produce errors in computing trailing EOFs. Therefore, this option is only advisable when
-the field \code{F1} is large and when only a partial decomposition is desired
-(i.e. \code{nu << dim(F1)[2]}). All methods should give identical 
-results when \code{recursive=TRUE}.
+  dramatically speed up computation time when \code{recursive = TRUE} but may
+  produce errors in computing trailing EOFs. Therefore, this option is only 
+  advisable when the field \code{F1} is large and when only a partial 
+  decomposition is desired (i.e. \code{nu << dim(F1)[2]}). 
+  All methods should give identical results when \code{recursive=TRUE}.
 \code{svd} and \code{eigen} give similar results for non-gappy fields, 
-but will differ slightly with gappy fields due to decomposition of a 
-nonpositive definite covariance matrix. Specifically, \code{eigen}  will produce 
-negative eigenvalues for trailing EOFs, while singular values derived from \code{svd} 
-will be strictly positive.}
+  but will differ slightly with gappy fields due to decomposition of a 
+  non-positive definite covariance matrix. Specifically, \code{eigen}  will 
+  produce negative eigenvalues for trailing EOFs, while singular values 
+  derived from \code{svd} be strictly positive.}
 
-\item{recursive}{Logical. When \code{TRUE}, the function follows the method of
-"Recursively Subtracted Empirical Orthogonal Functions" (RSEOF). See \code{\link[sinkr]{eof}}
-for details}
+\item{recursive}{Logical. When \code{TRUE}, the function follows the method 
+of "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF). 
+See \code{\link[sinkr]{eof}} for details.}
 
 \item{nperm}{Numeric. The number of null model permutations to calculate.}
+
+\item{verbose}{logical. Print progress (Default: verbose = TRUE).}
 }
 \description{
 The \code{eofBoot} function uses a bootstrap randomization approach to 
-calculate distributions of Empirical Orthogonal Function analysis (EOF) 
-singular values with the \code{\link[sinkr]{eof}} function.
-EOF mode significance is assessed against the distributions of 
-neighboring EOF singular values ("Lambda") calculated by the permutated 
-models. A bootstrap routine follows the procedure of Babamoradi et al. (2013) whereby 
-permutations sample rows (samples) more than once, which is a non-parametric 
-approach does not make assumptions about the distribution of data.
+  calculate distributions of Empirical Orthogonal Function analysis (EOF) 
+  singular values with the \code{\link[sinkr]{eof}} function.
+  EOF mode significance is assessed against the distributions of 
+  neighboring EOF singular values ("Lambda") calculated by the permutated 
+  models. A bootstrap routine follows the procedure of 
+  Babamoradi et al. (2013) whereby permutations sample rows (samples) more 
+  than once, which is a non-parametric approach does not make assumptions 
+  about the distribution of data.
 }
 \examples{
-# Generate data
-m=50
-n=100
-frac.gaps <- 0.5 # the fraction of data with NaNs
-N.S.ratio <- 0.1 # the Noise to Signal ratio for adding noise to data
-x <- (seq(m)*2*pi)/m
-t <- (seq(n)*2*pi)/n
+data(Xt)
 
-# True field
-Xt <- 
-  outer(sin(x), sin(t)) + 
-  outer(sin(2.1*x), sin(2.1*t)) + 
-  outer(sin(3.1*x), sin(3.1*t)) +
-  outer(tanh(x), cos(t)) + 
-  outer(tanh(2*x), cos(2.1*t)) + 
-  outer(tanh(4*x), cos(0.1*t)) + 
-  outer(tanh(2.4*x), cos(1.1*t)) + 
-  tanh(outer(x, t, FUN="+")) + 
-  tanh(outer(x, 2*t, FUN="+"))
+# The "noisy" field
+# noise standard deviation at 10\% noise-to-signal ratio
+noise_sd <- 0.1 * sd(as.vector(Xt))
 
-Xt <- t(Xt)
+# Add Gaussian noise
+set.seed(123)  # For reproducibility
+Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
+Xn <- array(Xn, dim = dim(Xt))
 
-# Noise field
-set.seed(1)
-RAND <- matrix(runif(length(Xt), min=-1, max=1), nrow=nrow(Xt), ncol=ncol(Xt))
-R <- RAND * N.S.ratio * Xt
-
-# True field + Noise field
-Xp <- Xt + R
-
-res <- eofBoot(Xp, centered=FALSE, scaled=FALSE, nperm=499)
+res <- eofBoot(Xn, centered=FALSE, scaled=FALSE, nperm=499)
 ylim <- range(res$Lambda.orig, res$Lambda)
 boxplot(res$Lambda, log="y", col=8, border=2, outpch="", ylim=ylim)
 points(res$Lambda.orig)

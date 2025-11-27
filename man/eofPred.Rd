@@ -35,9 +35,6 @@ valid <- iris[-tmp,1:4] # validation set
 Efull <- eof(iris[,1:4], centered=TRUE, scaled=TRUE) # EOF of full data
 Etrain <- eof(train, centered=TRUE, scaled=TRUE) # EOF of training data
 
-# Null model
-Efull.n.sig <- eofNull(iris[,1:4], centered=TRUE, scaled=TRUE, nperm = 99)$n.sig
-Etrain.n.sig <- eofNull(train, centered=TRUE, scaled=TRUE, nperm = 99)$n.sig
 
 # Predict PCs of validation set
 pred <- eofPred(Etrain, newdata=valid)
@@ -55,7 +52,7 @@ SIGN <- diag(sign(diag(cor(Efull$A, pred)))) # correction for differing sign
 matplot(Efull$A \%*\% SIGN, pred)
 abline(0,1, col=8)
 legend("topleft", legend=paste("PC", seq(ncol(pred))), 
-       col=seq(ncol(pred)), lty=0, pch=1)
+  col=seq(ncol(pred)), lty=0, pch=1)
 
 
 ### gappy example
@@ -73,9 +70,6 @@ validg <- irisg[-tmp,] # validation set
 Efullg <- eof(irisg, centered=TRUE, scaled=TRUE, recursive=TRUE) # EOF of full data
 Etraing <- eof(traing, centered=TRUE, scaled=TRUE, recursive=TRUE) # EOF of training data
 
-# EOF Null model
-EfullgNull <- eofNull(irisg, centered=TRUE, scaled=TRUE, recursive=TRUE, nperm=99)
-EtraingNull <- eofNull(traing, centered=TRUE, scaled=TRUE, recursive=TRUE, nperm=99)
 
 # Predict PCs of validation set
 pred <- eofPred(Etrain, newdata=validg)
@@ -84,14 +78,14 @@ SIGN <- diag(sign(diag(cor(Efullg$A[-tmp,], pred)))) # correction for differing 
 matplot(Efullg$A[-tmp,] \%*\% SIGN, pred)
 abline(0,1, col=8)
 legend("topleft", legend=paste("PC", seq(ncol(pred))), 
-       col=seq(ncol(pred)), lty=0, pch=1)
+  col=seq(ncol(pred)), lty=0, pch=1)
 
 # Reconstruction and measurement of error against non-gappy data
 usePCs <- seq(1) # Efull.n.sig = 1
 Rg <- eofRecon(Etrain, pcs=seq(usePCs), newpcs=pred)
 plot( c(as.matrix(iris[-tmp,1:4])), c(Rg) )
 abline(0,1, col=8)
-rmse <- sqrt( mean( ( c(as.matrix(iris[-tmp,1:4])) - c(Rg)   )^2, na.rm=TRUE) )
+rmse <- sqrt( mean( ( c(as.matrix(iris[-tmp,1:4])) - c(Rg) )^2, na.rm=TRUE) )
 rmse
 
 

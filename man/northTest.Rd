@@ -16,56 +16,38 @@ need to be squared from their standard deviation values
 }
 \description{
 The \code{northTest} function assesses the uniqueness of EOF modes through
-assumptions of error on singular values ("Lambda") as described by 
-North et al (1982). Overlapping error limits between 
-neighboring Lambda values indicates a possible mixure of signals. A similar test 
-via bootstrapping method can be done with the \code{\link[sinkr]{prcompBoot}} 
-or \code{\link[sinkr]{eofBoot}} functions.
+  assumptions of error on singular values ("Lambda") as described by 
+  North et al (1982). Overlapping error limits between 
+  neighbouring Lambda values indicates a possible mixture of signals. 
+  A similar test via a bootstrapping approach (possibly more robust) 
+  can be done with the \code{\link[sinkr]{prcompBoot}} or 
+  \code{\link[sinkr]{eofBoot}} functions.
 }
 \examples{
-# Generate data
-m=50
-n=100
-frac.gaps <- 0.5 # the fraction of data with NaNs
-N.S.ratio <- 0.1 # the Noise to Signal ratio for adding noise to data
-x <- (seq(m)*2*pi)/m
-t <- (seq(n)*2*pi)/n
+data(Xt)
 
-# True field
-Xt <- 
-  outer(sin(x), sin(t)) + 
-  outer(sin(2.1*x), sin(2.1*t)) + 
-  outer(sin(3.1*x), sin(3.1*t)) +
-  outer(tanh(x), cos(t)) + 
-  outer(tanh(2*x), cos(2.1*t)) + 
-  outer(tanh(4*x), cos(0.1*t)) + 
-  outer(tanh(2.4*x), cos(1.1*t)) + 
-  tanh(outer(x, t, FUN="+")) + 
-  tanh(outer(x, 2*t, FUN="+"))
+# The "noisy" field
+# noise standard deviation at 10\% noise-to-signal ratio
+noise_sd <- 0.1 * sd(as.vector(Xt))
 
-Xt <- t(Xt)
-
-# Noise field
-set.seed(1)
-RAND <- matrix(runif(length(Xt), min=-1, max=1), nrow=nrow(Xt), ncol=ncol(Xt))
-R <- RAND * N.S.ratio * Xt
-
-# True field + Noise field
-Xp <- Xt + R
+# Add Gaussian noise
+set.seed(123)  # For reproducibility
+Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
+Xn <- array(Xn, dim = dim(Xt))
 
 # eof + northTest 
-E <- eof(Xp, centered=FALSE, scaled=FALSE)
+E <- eof(Xn, centered=FALSE, scaled=FALSE)
 L <- E$Lambda # Lambdas
-res <- northTest(Xp, L)
+res <- northTest(Xn, L)
 plot(L, ylim=range(c(L+res$upper.lim, L-res$lower.lim)), log="y")
 segments(seq(L), L-res$lower.lim, seq(L), L+res$upper.lim, col=2)
 abline(v=res$n.sig+0.5, lty=2, col=4)
 mtext(paste("Non-mixed PCs =", res$n.sig), side=3, line=0.5, col=4)
 
 # prcomp + northTest 
-E <- prcomp(Xp, center=FALSE, scale=FALSE)
+E <- prcomp(Xn, center=FALSE, scale=FALSE)
 L <- E$sdev^2 # Lambdas
-res <- northTest(Xp, L)
+res <- northTest(Xn, L)
 plot(L, ylim=range(c(L+res$upper.lim, L-res$lower.lim)), log="y")
 segments(seq(L), L-res$lower.lim, seq(L), L+res$upper.lim, col=2)
 abline(v=res$n.sig+0.5, lty=2, col=4)

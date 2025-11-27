@@ -23,7 +23,8 @@
 #' "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF) (Taylor et al. 2013). 
 #' RSEOF is a modification of a least squares EOF approach for gappy data (LSEOF)
 #' (see von Storch and Zwiers 1999)
-#' @param verbose logical. Should progress be printed (when \code{"recursive = TRUE"}).
+#' @param verbose logical. Should progress be printed 
+#'   (when \code{"recursive = TRUE"}, Default: verbose = TRUE).
 #' 
 #' @details Taylor et al. (2013) demonstrated that the RSEOF approach 
 #' (i.e. \code{recursive = TRUE}) more accurately estimates EOFs from a 
