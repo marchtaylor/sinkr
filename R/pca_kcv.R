@@ -3,6 +3,11 @@
 #' @param X Matrix to be subjected to svd
 #' @param ks Number of k-fold groups to use. Default=2. (see \code{\link[sinkr]{kfold}})
 #' @param npc.max The maximum number of principal components to test. Default=ncol(X)
+#' @param center logical. Should data be centered (See \code{\link[base]{scale}}; 
+#'   Default: center = TRUE)
+#' @param scale logical. Should data be scaled (See \code{\link[base]{scale}}; 
+#'   Default: scale = FALSE)
+#' @param verbose logical. Should progress be printed 
 #'
 #' @return Matrix of square error values for each element in X  
 #' 
@@ -33,36 +38,59 @@
 #' par(op)
 #' 
 #' 
-pca_kcv <- function(X, ks=2, npc.max=ncol(X)){
-  kgroups <- kfold(n = nrow(X), k = ks)
-  error1 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
-  error2 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
-  error3 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
+
+pca_kcv <- function(X, ks = 2, npc.max = ncol(X), 
+  center = TRUE, scale = FALSE, verbose = TRUE){ 
+  
+  kgroups <- kfold(n = nrow(X), k = ks) 
+  error1 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max)) 
+  error2 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max)) 
+  error3 <- matrix(0, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max)) 
+  
   for(n in seq(kgroups)){
     Xtrain = X[-kgroups[[n]],]
-    Xtrain = scale(Xtrain, center=TRUE, scale=FALSE)
-    V = svd(Xtrain)$v
+    Xtrain = scale(Xtrain, center = center, scale = scale)
+    V = svd(Xtrain)$v 
+    
     Xtest = X[kgroups[[n]],,drop = FALSE]
-    Xtest = scale(Xtest, center=attr(Xtrain, "scaled:center"), scale=FALSE)
-    for(j in 1:min(dim(V)[2],npc.max)){
-      P = V[,1:j] %*% t(V[,1:j])
-      err1 <- Xtest %*% (diag(length(diag(P))) - P)
-      err2 <- Xtest %*% (diag(length(diag(P))) - P + diag(diag(P)))
-      err3 <- array(NaN, dim=dim(Xtest))
-      for(k in 1:dim(Xtest)[2]){
-        proj = Xtest[,-k] %*% t(expmat(V[-k,1:j])) %*% t(V[,1:j])
-        err3[,k] = Xtest[,k] - proj[,k]
-      }
-      error1[kgroups[[n]],j] <- error1[kgroups[[n]],j] + rowSums(sqrt(err1^2))
-      error2[kgroups[[n]],j] <- error2[kgroups[[n]],j] + rowSums(sqrt(err2^2))
-      error3[kgroups[[n]],j] <- error3[kgroups[[n]],j] + rowSums(sqrt(err3^2))
-      print(paste("n =", n, "; j =", j))
-    }
-  }
-  res <- list(
-    naive=error1,
-    approximate=error2,
-    pseudoinverse=error3
-  )
-  return(res)
+    
+    # add scaling to Xtest
+    if(!is.null(attr(Xtrain, "scaled:center"))){ 
+      CENTER <- attr(Xtrain, "scaled:center") 
+    }else{ 
+      CENTER <- FALSE 
+    } 
+    if(!is.null(attr(Xtrain, "scaled:scale"))){ 
+      SCALE <- attr(Xtrain, "scaled:scale") 
+    }else{ 
+      SCALE <- FALSE 
+    } 
+    Xtest = scale(Xtest, center = CENTER, scale = SCALE) 
+    
+    for(j in 1:min(dim(V)[2],npc.max)){ 
+      P = V[,1:j] %*% t(V[,1:j]) 
+      err1 <- Xtest %*% (diag(length(diag(P))) - P) 
+      err2 <- Xtest %*% (diag(length(diag(P))) - P + diag(diag(P))) 
+      err3 <- array(NaN, dim=dim(Xtest)) 
+      
+      for(k in 1:dim(Xtest)[2]){ 
+        proj = Xtest[,-k] %*% t(expmat(V[-k,1:j])) %*% t(V[,1:j]) 
+        err3[,k] = Xtest[,k] - proj[,k] 
+      } 
+      
+      error1[kgroups[[n]],j] <- error1[kgroups[[n]],j] + rowSums(sqrt(err1^2)) 
+      error2[kgroups[[n]],j] <- error2[kgroups[[n]],j] + rowSums(sqrt(err2^2)) 
+      error3[kgroups[[n]],j] <- error3[kgroups[[n]],j] + rowSums(sqrt(err3^2)) 
+      
+      if(verbose){ 
+        cat(sprintf("n = %d; j = %d\r", n, j)) 
+        flush.console() 
+      } 
+    } 
+  } 
+  
+  res <- list( naive=error1, approximate=error2, pseudoinverse=error3 ) 
+  return(res) 
 }
+
+

@@ -23,9 +23,12 @@
 #' @examples
 #' 
 #' mat <- matrix(-8:7, 4, 4)
+#' 
 #' imageDimnames(mat, drawBorders = TRUE, addLabels = TRUE)
+#' 
 #' imageDimnames(mat, drawBorders = TRUE, addLabels = TRUE,
 #'   labelCol = c(1,2)[(c(mat) < 0)+1])
+#' 
 #' imageDimnames(mat, , drawBorders = TRUE, addLabels = TRUE,
 #'   labelCol = c(1,2)[(c(mat) < 0)+1], borderLwd = 2)
 #' 

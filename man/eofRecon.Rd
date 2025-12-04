@@ -4,7 +4,7 @@
 \alias{eofRecon}
 \title{EOF reconstruction (Empirical Orthogonal Functions analysis)}
 \usage{
-eofRecon(EOF, pcs = NULL, newpcs = NULL, uncenter = TRUE, unscale = TRUE)
+eofRecon(EOF, pcs = NULL, newpcs = NULL, unscale = TRUE, uncenter = TRUE)
 }
 \arguments{
 \item{EOF}{An object resulting from the function \link[sinkr]{eof}.}
@@ -17,11 +17,11 @@ reconstruction. This would typically come from a gappy dataset whose missing
 values are to be predicted based on the EOF loadings of a the EOF object 
 (see \link[sinkr]{eofPred}).}
 
-\item{uncenter}{Logical. Should reconstructed matrix be un-centered (e.g. if 
-\code{centered = TRUE} was used in \link[sinkr]{eof}). Default is \code{TRUE}.}
+\item{unscale}{logical. Should reconstruction be unscaled 
+(reverses scaling; Default: `unscale = TRUE`).}
 
-\item{unscale}{Logical. Should reconstructed matrix be un-centered (e.g. if 
-\code{scaled = TRUE} was used in \link[sinkr]{eof}). Default is \code{TRUE}.}
+\item{uncenter}{logical. Should reconstruction be uncentered 
+(reverses centering; Default: `uncenter = TRUE`).}
 }
 \description{
 This function reconstructs the original field from an EOF object of the 

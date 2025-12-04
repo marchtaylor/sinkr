@@ -4,7 +4,14 @@
 \alias{pca_kcv}
 \title{Principal component analysis k-fold cross-validation}
 \usage{
-pca_kcv(X, ks = 2, npc.max = ncol(X))
+pca_kcv(
+  X,
+  ks = 2,
+  npc.max = ncol(X),
+  center = TRUE,
+  scale = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{X}{Matrix to be subjected to svd}
@@ -12,6 +19,14 @@ pca_kcv(X, ks = 2, npc.max = ncol(X))
 \item{ks}{Number of k-fold groups to use. Default=2. (see \code{\link[sinkr]{kfold}})}
 
 \item{npc.max}{The maximum number of principal components to test. Default=ncol(X)}
+
+\item{center}{logical. Should data be centered (See \code{\link[base]{scale}}; 
+Default: center = TRUE)}
+
+\item{scale}{logical. Should data be scaled (See \code{\link[base]{scale}}; 
+Default: scale = FALSE)}
+
+\item{verbose}{logical. Should progress be printed}
 }
 \value{
 Matrix of square error values for each element in X

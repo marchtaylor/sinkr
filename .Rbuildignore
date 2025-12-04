@@ -1,10 +1,15 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^hexSticker
-^working
-^inst
+^working$
+^.github$
 ^doc$
+^data-raw$
 ^Meta$
+^man/figures$
+^vignettes/.*\.R$
+^vignettes/.*\.html$
+^vignettes/.*\.tex$
+^vignettes/cache/
 
 .travis.yml
 _config.yml

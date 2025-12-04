@@ -6,8 +6,8 @@
 \usage{
 eof(
   F1,
-  centered = TRUE,
-  scaled = FALSE,
+  center = TRUE,
+  scale = FALSE,
   nu = NULL,
   method = NULL,
   recursive = FALSE,
@@ -18,11 +18,11 @@ eof(
 \item{F1}{A data field. The data should be arraunged as samples in the column 
 dimension (typically each column is a time series for a spatial location).}
 
-\item{centered}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-centered prior to the analysis. Defaults to \code{TRUE}}
+\item{center}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+centered prior to the analysis. Defaults to \code{center = TRUE}}
 
-\item{scaled}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-scaled prior to the analysis. Defaults to \code{TRUE}}
+\item{scale}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+scaled prior to the analysis. Defaults to \code{scale = FALSE}}
 
 \item{nu}{Numeric value. Defines the number of EOFs to return. Defaults to 
 return the full set of EOFs.}
@@ -40,7 +40,8 @@ recommended when \code{recursive = TRUE} due to faster computation speed.}
 RSEOF is a modification of a least squares EOF approach for gappy data (LSEOF)
 (see von Storch and Zwiers 1999)}
 
-\item{verbose}{logical. Should progress be printed (when \code{"recursive = TRUE"}).}
+\item{verbose}{logical. Should progress be printed 
+(when \code{"recursive = TRUE"}, Default: verbose = TRUE).}
 }
 \value{
 Results of \code{eof} are returned as a list containing the following components:
@@ -102,21 +103,6 @@ plot(Et$A, col=iris$Species)
 plot(Eg$A, col=iris$Species)
 par(op)
 
-# Compare Non-gappy vs. Gappy EOF loadings
-op <- par(no.readonly = TRUE)
-layout(matrix(c(1,2,1,3),2,2), widths=c(3,3), heights=c(1,4))
-par(mar=c(0,0,0,0))
-plot(1, t="n", axes=FALSE, ann=FALSE)
-legend("center", ncol=4, legend=colnames(iris.gappy), border=1, bty="n", 
-fill=rainbow(4))
-par(mar=c(6,3,2,1))
-barplot(Et$u, beside=TRUE, col=rainbow(4), ylim=range(Et$u)*c(1.15,1.15))
-mtext("Non-gappy", side=3, line=0)
-axis(1, labels=paste("EOF", 1:4), at=c(3, 8, 13, 18), las=2, tick=FALSE)
-barplot(Eg$u, beside=TRUE, col=rainbow(4), ylim=range(Et$u)*c(1.15,1.15))
-mtext("Gappy", side=3, line=0)
-axis(1, labels=paste("EOF", 1:4), at=c(3, 8, 13, 18), las=2, tick=FALSE)
-par(op)
 
 
 ### EOF of climate field example

@@ -20,37 +20,18 @@
 #' pp. 97-105. doi:10.1016/j.chemolab.2012.10.007.
 #'
 #' @examples
-#' # Generate data
-#' m=50
-#' n=100
-#' frac.gaps <- 0.5 # the fraction of data with NaNs
-#' N.S.ratio <- 0.1 # the Noise to Signal ratio for adding noise to data
-#' x <- (seq(m)*2*pi)/m
-#' t <- (seq(n)*2*pi)/n
+#' data(Xt)
 #' 
-#' # True field
-#' Xt <- 
-#'   outer(sin(x), sin(t)) + 
-#'   outer(sin(2.1*x), sin(2.1*t)) + 
-#'   outer(sin(3.1*x), sin(3.1*t)) +
-#'   outer(tanh(x), cos(t)) + 
-#'   outer(tanh(2*x), cos(2.1*t)) + 
-#'   outer(tanh(4*x), cos(0.1*t)) + 
-#'   outer(tanh(2.4*x), cos(1.1*t)) + 
-#'   tanh(outer(x, t, FUN="+")) + 
-#'   tanh(outer(x, 2*t, FUN="+"))
+#' # The "noisy" field
+#' # noise standard deviation at 10% noise-to-signal ratio
+#' noise_sd <- 0.1 * sd(as.vector(Xt))
 #' 
-#' Xt <- t(Xt)
+#' # Add Gaussian noise
+#' set.seed(123)  # For reproducibility
+#' Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
+#' Xn <- array(Xn, dim = dim(Xt))
 #' 
-#' # Noise field
-#' set.seed(1)
-#' RAND <- matrix(runif(length(Xt), min=-1, max=1), nrow=nrow(Xt), ncol=ncol(Xt))
-#' R <- RAND * N.S.ratio * Xt
-#'
-#' # True field + Noise field
-#' Xp <- Xt + R
-#' 
-#' res <- prcompBoot(Xp, center=FALSE, scale=FALSE, nperm=499)
+#' res <- prcompBoot(Xn, center=FALSE, scale=FALSE, nperm=499)
 #' ylim <- range(res$Lambda.orig, res$Lambda)
 #' boxplot(res$Lambda, log="y", col=8, border=2, outpch="", ylim=ylim)
 #' points(res$Lambda.orig)

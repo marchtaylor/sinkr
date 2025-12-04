@@ -1,0 +1,434 @@
+---
+title: "PCA tools in *sinkr*"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{PCA tools in *sinkr*}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE, echo=FALSE, results='hide'}
+knitr::opts_chunk$set(
+	fig.align = "center",
+	fig.height = 4.5,
+	fig.path = "tex/man-",
+	fig.width = 6,
+	message = FALSE,
+	warning = FALSE,
+	cache = FALSE,
+	cache.path = "cache/",
+	comment = NA
+)
+```
+
+
+
+
+# Introduction
+
+The following vignette provides an overview of the functions in `sinkr` with specific relevance for Principal Component Analysis (PCA), which is sometimes referred to as Empirical Orthogonal Function (EOF) analysis in the climate sciences. 
+
+For most cases, R's base `prcomp` function is all that is needed to conduct PCA. What `sinkr` provides is additional functionality in a few aspects:
+
+1. Determining "significant" principal components (PCs), *i.e.*, those dimensions that carry signal above background noise.
+2. Determine "non-mixed" PCA patterns; *i.e.*, those whose explained variance is significantly different from neighbouring patterns, and thus may be interpreted more directly (more often a focus in understanding field variability patterns in climate sciences).
+3. Conduct PCA on gappy" data; *i.e.*, containing missing values (NAs). 
+
+This vignette will demonstrate the use of functions for use in each of these aspects. The following packages should be installed and loaded in order to reproduce the examples:
+
+```{r}
+library(sinkr) # https://github.com/marchtaylor/sinkr
+library(pals)
+library(maps)
+library(ggplot2)
+```
+
+
+# Example datasets
+
+Three main data sets will be used in the examples:
+
+ - `iris` - available with the base installation of R, containing morphometric data from 3 species of iris
+ - `wine` - available in `sinkr`, containing chemical properties of 3 different varieties of Italian wine
+ - `Xt` - available in `sinkr`, containing a larger synthetic example of a matrix comprised of 9 mixed signals
+
+The following code chunk loads these data sets, and applies some pre-processing.
+
+In PCA, centering (subtracting the mean) is typically done to focus the analysis on the covariances among variables (i.e. columns in the matrix). Additional scaling of variables (dividing by the standard deviation) may be done to remove potential differences in units, but also to focus on correlation patterns rather than covariance. Centering and scaling options are applied internally by the two main PCA functions used in the vignette (`prcomp` and `eof`), but also conducted here before visualizing the `iris` and `wine` data sets.
+
+
+```{r}
+# iris morphology
+iris2 <- iris[,1:4]
+
+# wine characteristics
+data(wine)
+wine2 <- wine[,names(wine)!="Type"]
+
+# Synthetic data field
+data(Xt)
+
+# The "noisy" field
+# noise standard deviation at 10% noise-to-signal ratio
+noise_sd <- 0.1 * sd(as.vector(Xt))
+
+# Add Gaussian noise
+set.seed(123)  # For reproducibility
+Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
+Xn <- array(Xn, dim = dim(Xt))
+
+par(mfrow = c(1,3), mar = c(3,3,2,1), mgp = c(2,0.5,0))
+image(t(as.matrix(scale(iris2))), col = viridis(100), axes = F)
+mtext("iris2 (scaled)", line = 0.5)
+image(t(as.matrix(scale(wine2))), col = viridis(100), axes = F)
+mtext("wine2 (scaled)", line = 0.5)
+image(t(Xn), col = viridis(100), axes = F)
+mtext("Synthetic", line = 0.5)
+mtext(text = "columns", side = 1, line = -2, outer = TRUE)
+mtext(text = "rows", side = 2, line = -2, outer = TRUE)
+```
+
+  
+  
+
+# Determining significant patterns
+
+PCA will identify patterns that explain the largest variability in a data set, and translates these into a new coordinate system. In this new coordinate system, principal components (PCs) are orthogonal to one another (*i.e.* uncorrelated) and ranked according to decreasing explained variation. 
+
+In many cases, users may be primarily interested in the leading patterns to help with understanding relations in the higher dimensional data set. However, later patterns may be of interest as carriers of information. The process of identifying "significant" PCs may be desired to help differentiate signal from noise. This may be important for guiding interpretation of patterns, but also has applications in further analyses that benefit from the reduced dimensionality of the PCs. 
+
+A relatively straight-forward approach is to plot the variance explained by each PCA pattern (`prcomp()$sdev^2` or `eof()$Lambda`), referred to as a "Scree plot". These plots often use a log-scale, whereby the transition to a linear slope may be associated with the point at which subsequent patterns are only describing small-scale feature or noise.
+
+The following examples show Scree plots for the three example datasets (both the true and noisy versions of the synthetic data are shown). As you can see, eye-balling the transition to noisy patterns is not always straightforward. 
+
+
+```{r}
+p_iris2 <- prcomp(iris2, center = TRUE, scale. = TRUE)
+p_wine2 <- prcomp(wine2, center = TRUE, scale. = TRUE)
+p_Xt <- prcomp(Xt)
+p_Xn <- prcomp(Xn)
+
+par(mfcol = c(1,3), mar = c(3,3,2,1), mgp = c(2,0.5,0))
+plot(p_iris2$sdev^2, t = "b", log = "y", ylab = "Variances (log-scaled)")
+mtext("iris2 (scaled)", line = 0.5)
+plot(p_wine2$sdev^2, t = "b", log = "y", ylab = "Variances (log-scaled)")
+mtext("wine2 (scaled)", line = 0.5)
+plot(p_Xt$sdev[1:20]^2, t = "b", log = "y", ylab = "Variances (log-scaled)")
+mtext("Synthetic", line = 0.5)
+lines(p_Xn$sdev[1:20]^2, t = "b", col = 2, pch = 2)
+legend("bottomleft", legend = c("Xt (True)", "Xn (w/ noise)"), pch = c(1,2), col = 1:2, bty = "n")
+
+```
+
+As an alternative, `sinkr` offers two main approaches for determining "significant" PCA patterns: *cross validation* and *imputation*.
+
+For the cross-validation option, leave-one-out (`pca_loocv`) or k-fold (`pca_kcv`) functions are available, while `dineof` is used for imputation.
+
+Depending on the size of the data set, one or the other approach may be preferable; `dineof` can be much faster, but requires a somewhat subjective decision in the convergence threshold (`rms.delta`).
+
+For cross validation, while leave-one-out (`pca_loocv`) may be somewhat more robust, k-fold (`pca_kcv`) offers similar performance, while being faster.
+
+Both `pca_loocv` and `pca_kcv` arrive at lowest squared error for holout data with 3 PCA patterns. 
+
+
+```{r}
+res_loocv <- pca_loocv(wine2, center = TRUE, scale = TRUE)
+res_loocv <- lapply(res_loocv, colSums)$pseudoinverse
+loocv_nsig <- which(res_loocv==min(res_loocv))
+
+set.seed(1)
+res_kcv <- pca_kcv(wine2, ks = 5, center = TRUE, scale = TRUE, verbose = FALSE)
+res_kcv <- lapply(res_kcv, colSums)$pseudoinverse
+kcv_nsig <- which(res_kcv==min(res_kcv))
+
+par(mar = c(4,4,1,1))
+plot(res_loocv, log = "y", t = "b", pch = 21, col = 3, bg = c(NA,3)[(seq(res_loocv)==loocv_nsig)+1])
+lines(res_kcv, t = "b", pch = 21, col = 4, bg = c(NA,4)[(seq(res_kcv)==kcv_nsig)+1])
+
+```
+
+
+`dineof` was mainly developed to allow for the interpolation of missing data by means of PCA; however, the function will work on full (complete) data sets in the same way. 
+
+The function requires the definition of reference data points (`ref.pos`) by which to measure convergence. By default the function will choose 30 values or 1% of the values, whichever is larger, but users can also supply their own matrix positions for reference. The algorithm sets these reference values (and any missing values) to zero, and then iteratively runs a PCA followed by a reconstruction of their values using a truncated number of PCs. The error of the reconstruction of reference values is evaluated for convergence, whereby additional PCs are added if error of the reconstruction is further reduced. Thus, the maximum number of PCs that minimizes the reconstruction error can be used to define the threshold between larger scale signals and noise   
+
+The choice of reference points will influence the convergence criteria, and thus should be carefully chosen. For most cases, randomly selected values is likely to be appropriate. A sufficient fraction of the data set should also be selected to provide a good representation of the full set, although similar results are observed across a range of percentages (e.g. 1-20%, depending on the size of the data).
+
+The following example uses a similar approach to the k-fold cross validation, but uses each fold's holdout set as the reference data. Using a 20-fold cross-validation, ~5% of the data is held out for each fold. The function returns the optimal number of patterns (`dineof()$n.eof`). Some variability is seem among folds, but the median value of the solution provides a more robust overall result. 
+
+Note that `dineof` returns an interpolated matrix (`dineof()$Xa`) rather than PCs etc., and thus requires a subsequent call to `prcomp` or `eof` on the interpolated matrix if desired. Furthermore all centering or scaling of the data must be currently done preliminarily, outside of the `dineof` function. 
+
+Similar to the cross-validation approaches, 3 PCA patterns are identified for the `wine` data set.
+
+```{r}
+set.seed(2)
+wine2sc <- as.matrix(scale(wine2))
+ks <- kfold(length(as.matrix(wine2sc)), k = 20)
+dineof_nsig <- lapply(ks, FUN = function(x){
+  dineof(as.matrix(wine2sc), ref.pos = x, delta.rms = 1e-2, verbose = FALSE)$n.eof
+})
+unlist(dineof_nsig)
+median(unlist(dineof_nsig))
+```
+
+
+
+
+## Compare methods to all example data
+
+The following table shows the number of significant PCA patterns identified by `pca_kcv` and `dineof` as applied to all data sets. 
+
+Both approaches arrive at the same number of PCA patterns for `iris` and `wine`. In the case of the synthetic example, where the true field, `Xt`, is comprised on 9 signals, some differences are shown. In the case of `pca_kcv`, the number reflects the number of variance carrying PCs seen in the Scree plot above, the number being higher than 9, possibly due to mixtures of signals that become non-linear. `dineof` identifies less than 9 signals, which has to do with the error threshold used (`delta.rms = 1e-2`), essentially converging before the addition of the less important trailing PCs. In the noisy version of the data, `Xn`, these trailing signals are overcome by noise, and both approaches return the same number of PCA patterns.
+
+
+```{r echo=FALSE}
+iris2sc <- as.matrix(scale(iris2))
+wine2sc <- as.matrix(scale(wine2))
+
+df <- expand.grid(
+  method = c("pca_kcv", "dineof"), 
+  dataset = c("iris2sc", "wine2sc", "Xt", "Xn"), 
+  stringsAsFactors = F)
+df$nsig <- NaN
+for(i in seq(nrow(df))){
+  # print(i)
+  dat <- as.matrix(get(df$dataset[i]))
+  meth <- df$method[i]
+  
+  if(meth == "pca_kcv"){
+    set.seed(3)
+    res <- pca_kcv(dat, ks = 5, center = FALSE, scale = FALSE, verbose = FALSE)
+    res <- lapply(res, colSums)$pseudoinverse
+    res <- which(res == min(res))
+    df$nsig[i] <- res
+  }
+  
+  if(meth == "dineof"){
+    set.seed(3)
+    ks <- kfold(length(as.matrix(dat)), k = 20)
+    res <- lapply(ks, FUN = function(x){
+      dineof(dat, ref.pos = x, delta.rms = 1e-2, verbose = FALSE)$n.eof
+    })
+    res <- median(unlist(res))
+    df$nsig[i] <- res
+  }
+
+}
+
+df
+
+```
+
+
+## A largish example
+
+EOF is the terminology used in meteorological disciplines, and typically refers to the decomposition of a spatiotemporal field. The following example uses monthly seas surface temperature anomaly data from the Equatorial Pacific (included in `sinkr`).
+
+Columns usually represent spatial dimension and rows are the temporal dimension; *i.e.* each column is a time series for a given location. 
+
+The example shows the rough equivalence between the `prcomp` and `eof` functions. Scaling is not used in order to focus the analysis on spatial covariance - rather than correlation (unitless). This is followed by a visualization of the patterns in space (EOFs) and time (PCs).
+
+```{r}
+data(sst)
+
+# prcomp(sst$field) # this would fail due to empty columns
+
+# remove empty columns for prcomp
+incl <- which(colSums(is.na(sst$field)) == 0)
+dat <- sst$field[,incl]
+P <- prcomp(dat, center = TRUE, scale = FALSE)
+
+# or use eof directly
+E <- eof(sst$field, center = TRUE, scale = FALSE)
+
+# results are nearly identical
+par(mar = c(4,4,1,1))
+plot(P$sdev[1:50]^2, E$Lambda[1:50], log = "xy")
+abline(0,1)
+
+```
+
+
+```{r, fig.height=6}
+eof.num <- 1 # EOF number to plot
+par(no.readonly=TRUE, mgp = c(2,0.5,0))
+layout(matrix(c(1,3,2,3),nrow=2, ncol=2), widths=c(5,1), heights=c(3,3), respect = TRUE)
+par(cex=1, mar=c(4,4,1,1))
+PAL <- colorPalette(c("blue", "cyan", "grey90", "yellow", "red"), c(10,1,1,10))
+ZLIM <- c(-1,1)*max(abs(E$u[,eof.num]))
+COL <- val2col(E$u[,eof.num], col=PAL(100), zlim=ZLIM)
+plot(lat ~ lon, data=sst$grid, pch=22, bg=COL, col=COL, cex=2)
+mtext(paste("EOF", eof.num))
+map("world", add=TRUE)
+par(mar=c(4,0,1,4))
+imageScale(E$u[,eof.num], col=PAL(100), zlim=ZLIM, axis.pos=4)
+par(mar=c(4,4,1,4))
+plot(sst$date, E$A[,eof.num], t="l", xlab = "", ylab = "")
+lines(loess.smooth(sst$date, E$A[,eof.num], span=1/3), col=rgb(0.5,0.5,1), lwd=2) # smoothed signal
+abline(h=0, v=seq(as.Date("1000-01-01"), as.Date("2100-01-01"), by="10 years"), col=8, lty=3)
+mtext(paste0("PC ", eof.num, " (expl. var = ", 
+  round((E$Lambda[eof.num]/E$tot.var)*100, 1), "%)"))
+```
+
+The data matrix is quite large (`r paste(dim(dat), collapse = " x ")`), and is likely to contain many potential signals across space and time - where potentially a *high-rank* model with many significant dimensions to explain it's modes of variability.
+
+With such a large matrix, `pca_kcv` and `pca_loocv` may take too long, and `dineof` may be preferred. Here is an example with a single `dineof` iteration with 5% of the data used as the reference holdout set. The setting for `delta.rms` can be important, and some knowledge about the field's parameter could guide this level of precision.
+
+As before, the holdout data is randomly selected, which should cover a large degree of spatiotemporal locations to prevent overfitting to some local dynamic.
+
+
+```{r, fig.width=7}
+datsc <- scale(dat, center = TRUE, scale = FALSE)
+set.seed(3)
+ks <- kfold(length(as.matrix(dat)), k = 10)
+D <- dineof(datsc, delta.rms = 1e-2, ref.pos = ks[[1]], verbose = F)
+
+par(mar = c(4,4,2,1), mfcol = c(1,2))
+plot(E$Lambda[1:40]/E$tot.var*100, log = "y", ylab = "Expl. var (log-scaled) [%]")
+abline(v = D$n.eof, lty = 2)
+
+plot(cumsum(E$Lambda[1:40]/E$tot.var*100), xlab = "", ylab = "Cum. expl. var. [%]")
+abline(v = D$n.eof, lty = 2)
+
+
+```
+
+`r D$n.eof` patterns were identified, although some of these trailing patterns are likely smaller-scale features given that they lie on the linearly decreasing part of the Scree plot (left). Depending on the focus of the analysis, other truncation thresholds may be preferred.
+
+
+
+# PCA/EOF on gappy data
+
+Finally, one of the main features offered by `sinkr` is when conducting PCA on "gappy" data - *i.e.* containing missing values. 
+
+We will start with the `wine` data set, and add some gaps (20%)
+
+```{r}
+
+dat <- as.matrix(wine2)
+
+set.seed(6)
+
+# 20% gaps
+frac_gaps <- 0.2
+gaps <- sample(length(dat), length(dat)*frac_gaps)
+dat_g <- dat
+dat_g[gaps] <- NaN
+
+image(t(scale(dat_g)), col = viridis(100))
+mtext("wine2 (scaled) with 20% gaps", line = 0.5)
+
+```
+
+Two approaches are available in `sinkr`. The first is the previously used `dineof` (*Data Interpolating Empirical Orthogonal Functions*), where both gaps and reference values are interpolated. This is then followed by a call to another PCA function on the interpolated matrix (e.g. `prcomp`). 
+
+The second approach uses `eof`, which always calculates PCA via a covariance matrix; specifically `cov4gappy`, which can handle missing values. Using the argument `recursive = TRUE`, the function calculates *Recursively Subtracted Empirical Orthogonal Functions* (rseof), which performs better on covariance matrices that are not positive definite (as is typically the case).
+
+The following shows the application of both approaches.
+
+
+```{r}
+# Method #1: dineof to interpolate, then prcomp
+# data should probably be pre-processed - centered and (possibly) scaled
+dat_g_sc <- scale(dat_g)
+
+# 10% of non-gaps as reference
+ref.pos <- sample(seq(dat_g)[-gaps], sum(!is.na(dat_g))*0.1)
+
+D <- dineof(dat_g_sc, ref.pos = ref.pos, delta.rms = 1e-3, verbose = F, method = "svds")
+Xa <- unscale(D$Xa) # unscale data
+P <- prcomp(Xa, center = T, scale. = T)
+
+# Method # 2: direct rseof  
+E <- eof(dat_g, recursive = TRUE, center = T, scale = T)
+```
+
+
+
+## Compare PC patterns
+
+Both approaches produce leading PCs that are highly correlated with those of the full, non-gappy data set, with some lower correlations in the intermediate PCs.
+
+```{r, fig.width=7}
+# PCA on full data set for comparison
+Pfull <- prcomp(wine2, center = TRUE, scale. = TRUE)
+
+# prep of pc loadings
+mat1 <- Pfull$rot
+mat2 <- E$u
+dimnames(mat2) <- dimnames(mat1)
+mat3 <- P$rot
+dimnames(mat3) <- dimnames(mat1)
+
+# calculation of correlation among pc loadings between full and gappy data sets 
+tmp1 <- as.data.frame(as.table(
+  abs(cor(mat1, mat3))))
+names(tmp1) <- c("loadings_full", "loadings_gappy", "abs_cor")
+tmp1$method <- "dineof+prcomp"
+tmp2 <- as.data.frame(as.table(
+  abs(cor(mat1, mat2))))
+names(tmp2) <- c("loadings_full", "loadings_gappy", "abs_cor")
+tmp2$method <- "rseof"
+tmp <- merge(tmp1, tmp2, all = T)
+
+ggplot(tmp) + aes(x = loadings_full, y = loadings_gappy, fill = abs_cor) +
+  facet_wrap(~method) +
+  geom_tile() + 
+  scale_fill_viridis_c() + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+
+
+## Compare reconstruction error
+
+Finally, we can see how the two approaches do in terms of reconstruction. The following plots show the error in the reconstructed data values as compared to the full (true) data. Error is shown as a function of using progressively more PCA patterns for the reconstruction, and uses the functions `prcompRecon` and `eofRecon` for PCA results derived from `prcomp` and `eof`, respectively.
+
+The results show very similar results for both approaches. A minimum error in gaps is observed using around 4-7 PCs, while error in non-gaps show a similar decrease with increasing PCs.
+
+```{r gappy_recon}
+res <- expand.grid(n = seq(E$Lambda), method = c("dineof+prcomp", "rseof"),
+  data = c("gaps", "non-gaps", "all"), stringsAsFactors = FALSE)
+res$rmse <- NaN
+
+for(i in seq(E$Lambda)){
+  R1 <- prcompRecon(P, pcs = seq(i), unscale = T, uncenter = T)
+  R2 <- eofRecon(E, pcs = seq(i), uncenter = T, unscale = T)
+  
+  # gaps
+  idx <- which(res$n == i & res$method == "dineof+prcomp" & res$data == "gaps")
+  res$rmse[idx] <- sqrt(mean((dat[gaps] - R1[gaps])^2))
+  idx <- which(res$n == i & res$method == "rseof" & res$data == "gaps")
+  res$rmse[idx] <- sqrt(mean((dat[gaps] - R2[gaps])^2))
+  
+  # non-gaps
+  idx <- which(res$n == i & res$method == "dineof+prcomp" & res$data == "non-gaps")
+  res$rmse[idx] <- sqrt(mean((dat[-gaps] - R1[-gaps])^2))
+  idx <- which(res$n == i & res$method == "rseof" & res$data == "non-gaps")
+  res$rmse[idx] <- sqrt(mean((dat[-gaps] - R2[-gaps])^2))
+  
+  # all
+  idx <- which(res$n == i & res$method == "dineof+prcomp" & res$data == "all")
+  res$rmse[idx] <- sqrt(mean((dat[] - R1[])^2))
+  idx <- which(res$n == i & res$method == "rseof" & res$data == "all")
+  res$rmse[idx] <- sqrt(mean((dat[] - R2[])^2))
+  
+}
+
+ggplot(res) + aes(x = n, y = rmse, group = method, color = method) +
+  facet_grid(~data) +
+  geom_vline(xintercept = D$n.eof, lty = 2) +
+  geom_line() + 
+  labs(title = "Reconstruction error", x = "Principal Components [n]",
+    y = "Root mean squared error (RMSE)")
+
+```
+
+
+
+
+
+
+
+
+

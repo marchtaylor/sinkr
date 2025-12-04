@@ -17,15 +17,17 @@ expmat(MAT, EXP = -1, tol = NULL)
 A matrix
 }
 \description{
-The expmat function performs can calculate the pseudoinverse (i.e. "Moore-Penrose pseudoinverse") 
-of a matrix (\code{EXP=-1}) and other exponents of matrices, 
-such as square roots (\code{EXP=0.5}) or square root of its inverse (\code{EXP=-0.5}). 
-The function arguments are a matrix (\code{MAT}), an exponent (\code{EXP}), and a tolerance
-level for non-zero singular values. 
-The function follows three steps: 
-1) Singular Value Decomposition (SVD) of the matrix; 
-2) Exponentiation of the singular values; 
-3) Re-calculation of the matrix with the new singular values
+The expmat function can calculate the pseudoinverse 
+  (i.e. "Moore-Penrose pseudoinverse") 
+  of a matrix (\code{EXP=-1}) and other exponents of matrices, 
+  such as square roots (\code{EXP=0.5}) or square root of its inverse 
+  (\code{EXP=-0.5}). 
+  The function arguments are a matrix (\code{MAT}), an exponent (\code{EXP}), 
+  and a tolerance level for non-zero singular values. 
+  The function follows three steps: 
+  1) Singular Value Decomposition (SVD) of the matrix; 
+  2) Exponentiation of the singular values; 
+  3) Re-calculation of the matrix with the new singular values
 }
 \examples{
 # Example matrix from Wilks (2006)

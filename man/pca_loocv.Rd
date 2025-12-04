@@ -4,12 +4,19 @@
 \alias{pca_loocv}
 \title{Principal component analysis "leave-one-out" cross-validation}
 \usage{
-pca_loocv(X, npc.max = ncol(X))
+pca_loocv(X, npc.max = ncol(X), center = TRUE, scale = FALSE)
 }
 \arguments{
 \item{X}{Matrix to be subjected to svd}
 
-\item{npc.max}{The maximum number of principal components to test. Default=ncol(X)}
+\item{npc.max}{The maximum number of principal components to test. 
+Default=ncol(X)}
+
+\item{center}{logical. Should data be centered (See \code{\link[base]{scale}}; 
+Default: center = TRUE)}
+
+\item{scale}{logical. Should data be scaled (See \code{\link[base]{scale}}; 
+Default: scale = FALSE)}
 }
 \value{
 Matrix of square error values for each element in X

@@ -6,10 +6,10 @@
 #' 
 #' @param F1 A data field. The data should be arraunged as samples in the column 
 #' dimension (typically each column is a time series for a spatial location).
-#' @param centered Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-#' centered prior to the analysis. Defaults to \code{TRUE}
-#' @param scaled Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
-#' scaled prior to the analysis. Defaults to \code{TRUE}
+#' @param center Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+#' centered prior to the analysis. Defaults to \code{center = TRUE}
+#' @param scale Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+#' scaled prior to the analysis. Defaults to \code{scale = FALSE}
 #' @param nu Numeric value. Defines the number of EOFs to return. Defaults to 
 #' return the full set of EOFs.
 #' @param method Method for matrix decomposition (\code{\link[base]{svd}}, 
@@ -23,7 +23,8 @@
 #' "Recursively Subtracted Empirical Orthogonal Functions" (RSEOF) (Taylor et al. 2013). 
 #' RSEOF is a modification of a least squares EOF approach for gappy data (LSEOF)
 #' (see von Storch and Zwiers 1999)
-#' @param verbose logical. Should progress be printed (when \code{"recursive = TRUE"}).
+#' @param verbose logical. Should progress be printed 
+#'   (when \code{"recursive = TRUE"}, Default: verbose = TRUE).
 #' 
 #' @details Taylor et al. (2013) demonstrated that the RSEOF approach 
 #' (i.e. \code{recursive = TRUE}) more accurately estimates EOFs from a 
@@ -79,21 +80,6 @@
 #' plot(Eg$A, col=iris$Species)
 #' par(op)
 #' 
-#' # Compare Non-gappy vs. Gappy EOF loadings
-#' op <- par(no.readonly = TRUE)
-#' layout(matrix(c(1,2,1,3),2,2), widths=c(3,3), heights=c(1,4))
-#' par(mar=c(0,0,0,0))
-#' plot(1, t="n", axes=FALSE, ann=FALSE)
-#' legend("center", ncol=4, legend=colnames(iris.gappy), border=1, bty="n", 
-#' fill=rainbow(4))
-#' par(mar=c(6,3,2,1))
-#' barplot(Et$u, beside=TRUE, col=rainbow(4), ylim=range(Et$u)*c(1.15,1.15))
-#' mtext("Non-gappy", side=3, line=0)
-#' axis(1, labels=paste("EOF", 1:4), at=c(3, 8, 13, 18), las=2, tick=FALSE)
-#' barplot(Eg$u, beside=TRUE, col=rainbow(4), ylim=range(Et$u)*c(1.15,1.15))
-#' mtext("Gappy", side=3, line=0)
-#' axis(1, labels=paste("EOF", 1:4), at=c(3, 8, 13, 18), las=2, tick=FALSE)
-#' par(op)
 #' 
 #' 
 #' ### EOF of climate field example
@@ -142,8 +128,8 @@
 #' @export
 #' 
 eof <- function(F1,
-  centered = TRUE, scaled = FALSE,
-  nu=NULL, method=NULL, recursive = FALSE,
+  center = TRUE, scale = FALSE,
+  nu = NULL, method = NULL, recursive = FALSE,
   verbose = FALSE
 ){
 
@@ -151,12 +137,12 @@ eof <- function(F1,
     method <- "svds"
   } else {
     if(is.null(method)){
-          method <- "svd"
+      method <- "svd"
     }
   }
 
 	F1 <- as.matrix(F1)
-	F1 <- scale(F1, center=centered, scale=scaled)
+	F1 <- scale(F1, center = center, scale = scale)
 	
 	F1_center <- attr(F1,"scaled:center")
 	F1_scale <- attr(F1,"scaled:scale")
