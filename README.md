@@ -16,8 +16,12 @@ install_github("marchtaylor/sinkr")
 ```         
 citation("sinkr") 
 ```
-
 Taylor M (2025). *sinkr: Collection of functions with emphasis on multivariate data analysis*. R package version 0.8.0, <https://github.com/marchtaylor/sinkr>
+
+
+
+**Vignettes**:
+-  [PCA tools in *sinkr*](https://raw.githack.com/marchtaylor/sinkr/master/vignettes/pca_tools.html)
 
 
 
