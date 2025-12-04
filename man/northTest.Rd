@@ -36,7 +36,7 @@ Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
 Xn <- array(Xn, dim = dim(Xt))
 
 # eof + northTest 
-E <- eof(Xn, centered=FALSE, scaled=FALSE)
+E <- eof(Xn, center=FALSE, scale=FALSE)
 L <- E$Lambda # Lambdas
 res <- northTest(Xn, L)
 plot(L, ylim=range(c(L+res$upper.lim, L-res$lower.lim)), log="y")

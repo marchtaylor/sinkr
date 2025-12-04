@@ -4,13 +4,19 @@
 \alias{prcompRecon}
 \title{prcomp object reconstruction}
 \usage{
-prcompRecon(pca, pcs = NULL)
+prcompRecon(pca, pcs = NULL, unscale = TRUE, uncenter = TRUE)
 }
 \arguments{
 \item{pca}{An object resulting from the function \code{\link[stats]{prcomp}}.}
 
 \item{pcs}{The principal components ("PCs") to use in the reconstruction 
 (defaults to the full set of PCs: \code{pcs=seq(pca$sdev))})}
+
+\item{unscale}{logical. Should reconstruction be unscaled 
+(reverses scaling; Default: `unscale = TRUE`).}
+
+\item{uncenter}{logical. Should reconstruction be uncentered 
+(reverses centering; Default: `uncenter = TRUE`).}
 }
 \description{
 This function reconstructs the original field from an EOF object of the 
@@ -22,7 +28,8 @@ P <- prcomp(iris[,1:4])
 
 # Full reconstruction
 R <- prcompRecon(P)
-plot(as.matrix(iris[,1:4]), R, xlab="original data", ylab="reconstructed data")
+plot(as.matrix(iris[,1:4]), R, xlab = "original data", 
+  ylab = "reconstructed data")
 abline(0, 1, col=2)
 
 # Partial reconstruction

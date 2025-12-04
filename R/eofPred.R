@@ -21,8 +21,8 @@
 #' valid <- iris[-tmp,1:4] # validation set
 #' 
 #' # EOF analysis
-#' Efull <- eof(iris[,1:4], centered=TRUE, scaled=TRUE) # EOF of full data
-#' Etrain <- eof(train, centered=TRUE, scaled=TRUE) # EOF of training data
+#' Efull <- eof(iris[,1:4], center=TRUE, scale=TRUE) # EOF of full data
+#' Etrain <- eof(train, center=TRUE, scale=TRUE) # EOF of training data
 #' 
 #' 
 #' # Predict PCs of validation set
@@ -56,8 +56,8 @@
 #' validg <- irisg[-tmp,] # validation set
 #' 
 #' # EOF analysis
-#' Efullg <- eof(irisg, centered=TRUE, scaled=TRUE, recursive=TRUE) # EOF of full data
-#' Etraing <- eof(traing, centered=TRUE, scaled=TRUE, recursive=TRUE) # EOF of training data
+#' Efullg <- eof(irisg, center = TRUE, scale = TRUE, recursive = TRUE) # EOF of full data
+#' Etraing <- eof(traing, center = TRUE, scale = TRUE, recursive = TRUE) # EOF of training data
 #' 
 #' 
 #' # Predict PCs of validation set

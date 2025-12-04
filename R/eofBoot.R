@@ -12,9 +12,9 @@
 #'
 #' @param F1 A data field. The data should be arraunged as samples in the column 
 #'   dimension (typically each column is a time series for a spatial location).
-#' @param centered Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+#' @param center Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
 #'   centered prior to the analysis. Defaults to 'TRUE'
-#' @param scaled Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+#' @param scale Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
 #'   scaled prior to the analysis. Defaults to 'TRUE'
 #' @param nu Numeric value. Defines the number of EOFs to return. Defaults to 
 #'   return the full set of EOFs.
@@ -54,7 +54,7 @@
 #' Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
 #' Xn <- array(Xn, dim = dim(Xt))
 #' 
-#' res <- eofBoot(Xn, centered=FALSE, scaled=FALSE, nperm=499)
+#' res <- eofBoot(Xn, center = FALSE, scale = FALSE, nperm=499)
 #' ylim <- range(res$Lambda.orig, res$Lambda)
 #' boxplot(res$Lambda, log="y", col=8, border=2, outpch="", ylim=ylim)
 #' points(res$Lambda.orig)
@@ -66,10 +66,10 @@
 #' @export
 #' 
 eofBoot <- function(
-  F1, centered = TRUE, scaled = FALSE, nu = NULL, method = NULL,
+  F1, center = TRUE, scale = FALSE, nu = NULL, method = NULL,
   recursive = FALSE, nperm=99, verbose = TRUE
 ){
-  E <- eof(F1=F1, centered = centered, scaled = scaled, nu = nu, method = method,
+  E <- eof(F1=F1, center = center, scale = scale, nu = nu, method = method,
            recursive = recursive)
   
   Lambda <- matrix(NaN, nrow=nperm, ncol=length(E$Lambda))
@@ -81,7 +81,7 @@ eofBoot <- function(
     F1.tmp  <- F1[samp.p,]
     
     # Conduct EOF
-    E.tmp <- eof(F1.tmp, centered = centered, scaled = scaled, nu = nu, method = method,
+    E.tmp <- eof(F1.tmp, center = center, scale = scale, nu = nu, method = method,
       recursive = recursive, verbose = FALSE)
     
     # Record Lambda

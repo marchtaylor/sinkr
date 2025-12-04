@@ -8,6 +8,9 @@ working
 % vignettes
 vignettes/tex
 vignettes/cache
+vignettes/*R
+
+/cache/
 
 Meta
 /doc/

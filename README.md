@@ -17,7 +17,7 @@ install_github("marchtaylor/sinkr")
 citation("sinkr") 
 ```
 
-Taylor M (2025). *sinkr: Collection of functions with emphasis on multivariate data analysis*. R package version 0.7.4, <https://github.com/marchtaylor/sinkr>
+Taylor M (2025). *sinkr: Collection of functions with emphasis on multivariate data analysis*. R package version 0.8.0, <https://github.com/marchtaylor/sinkr>
 
 
 

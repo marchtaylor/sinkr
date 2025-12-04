@@ -10,10 +10,10 @@
 #' reconstruction. This would typically come from a gappy dataset whose missing 
 #' values are to be predicted based on the EOF loadings of a the EOF object 
 #' (see \link[sinkr]{eofPred}).
-#' @param uncenter Logical. Should reconstructed matrix be un-centered (e.g. if 
-#' \code{centered = TRUE} was used in \link[sinkr]{eof}). Default is \code{TRUE}.
-#' @param unscale Logical. Should reconstructed matrix be un-centered (e.g. if 
-#' \code{scaled = TRUE} was used in \link[sinkr]{eof}). Default is \code{TRUE}.
+#' @param unscale logical. Should reconstruction be unscaled 
+#'   (reverses scaling; Default: `unscale = TRUE`).
+#' @param uncenter logical. Should reconstruction be uncentered 
+#'   (reverses centering; Default: `uncenter = TRUE`).
 #' 
 #'   
 #' @examples
@@ -47,7 +47,8 @@
 #' 
 #' @export
 #' 
-eofRecon <- function(EOF, pcs=NULL, newpcs=NULL, uncenter=TRUE, unscale=TRUE){
+eofRecon <- function(EOF, pcs = NULL, newpcs = NULL, unscale = TRUE, 
+  uncenter = TRUE){
 
 	if(is.null(pcs) & is.null(newpcs)){
 	  pcs <- seq(ncol(EOF$u))
@@ -56,7 +57,7 @@ eofRecon <- function(EOF, pcs=NULL, newpcs=NULL, uncenter=TRUE, unscale=TRUE){
 	  pcs <- seq(ncol(newpcs))
 	}
 
-	#F1 reconstruction then reverse scale then reverse center
+	# F1 reconstruction then reverse scale then reverse center
 	if(is.null(newpcs)){
 	  F1_recon <- EOF$A[,pcs] %*% t(EOF$u[,pcs])  
 	}
@@ -68,9 +69,9 @@ eofRecon <- function(EOF, pcs=NULL, newpcs=NULL, uncenter=TRUE, unscale=TRUE){
 	attr(F1_recon, "scaled:center") <- EOF$F1_center
   attr(F1_recon, "scaled:scale") <- EOF$F1_scale
 
-  #un-center and un-scale
-	if(uncenter | unscale){
-	  F1_recon <- unscale(x=F1_recon, uncenter=uncenter, unscale=unscale)
+  # uncenter and unscale
+	if(unscale | uncenter){
+	  F1_recon <- unscale(x = F1_recon, unscale = unscale, uncenter = uncenter)
 	}
 
 	return(F1_recon)

@@ -1,7 +1,12 @@
 #' Principal component analysis "leave-one-out" cross-validation
 #'
 #' @param X Matrix to be subjected to svd
-#' @param npc.max The maximum number of principal components to test. Default=ncol(X)
+#' @param npc.max The maximum number of principal components to test. 
+#'   Default=ncol(X)
+#' @param center logical. Should data be centered (See \code{\link[base]{scale}}; 
+#'   Default: center = TRUE)
+#' @param scale logical. Should data be scaled (See \code{\link[base]{scale}}; 
+#'   Default: scale = FALSE)
 #'
 #' @return Matrix of square error values for each element in X  
 #' 
@@ -32,16 +37,30 @@
 #' par(op)
 #' 
 #' 
-pca_loocv <- function(X, npc.max=ncol(X)){
+pca_loocv <- function(X, npc.max=ncol(X), center = TRUE, scale = FALSE){
   error1 <- matrix(NaN, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
   error2 <- matrix(NaN, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
   error3 <- matrix(NaN, nrow=dim(X)[1], ncol=min(dim(X)[2],npc.max))
   for(n in 1:dim(X)[1]){
     Xtrain = X[-n,]
-    Xtrain = scale(Xtrain, center=TRUE, scale=FALSE)
+    Xtrain = scale(Xtrain, center = center, scale = scale)
     V = svd(Xtrain)$v
     Xtest = X[n,,drop = FALSE]
-    Xtest = scale(Xtest, center=attr(Xtrain, "scaled:center"), scale=FALSE)
+    
+    # add scaling to Xtest
+    if(!is.null(attr(Xtrain, "scaled:center"))){
+      CENTER <- attr(Xtrain, "scaled:center")
+    }else{
+      CENTER <- FALSE
+    }
+    
+    if(!is.null(attr(Xtrain, "scaled:scale"))){
+      SCALE <- attr(Xtrain, "scaled:scale")
+    }else{
+      SCALE <- FALSE
+    }
+    Xtest = scale(Xtest, center = CENTER, scale = SCALE)
+    
     for(j in 1:min(dim(V)[2],npc.max)){
         P = V[,1:j] %*% t(V[,1:j])
         err1 <- Xtest %*% (diag(length(diag(P))) - P)

@@ -6,6 +6,10 @@
 #' @param pca An object resulting from the function \code{\link[stats]{prcomp}}.
 #' @param pcs The principal components ("PCs") to use in the reconstruction 
 #' (defaults to the full set of PCs: \code{pcs=seq(pca$sdev))})
+#' @param unscale logical. Should reconstruction be unscaled 
+#'   (reverses scaling; Default: `unscale = TRUE`).
+#' @param uncenter logical. Should reconstruction be uncentered 
+#'   (reverses centering; Default: `uncenter = TRUE`).
 #' 
 #' @examples
 #' # prcomp
@@ -13,7 +17,8 @@
 #' 
 #' # Full reconstruction
 #' R <- prcompRecon(P)
-#' plot(as.matrix(iris[,1:4]), R, xlab="original data", ylab="reconstructed data")
+#' plot(as.matrix(iris[,1:4]), R, xlab = "original data", 
+#'   ylab = "reconstructed data")
 #' abline(0, 1, col=2)
 #' 
 #' # Partial reconstruction
@@ -27,16 +32,18 @@
 #' 
 #' @export
 #' 
-prcompRecon <- function(pca, pcs=NULL){
+prcompRecon <- function(pca, pcs = NULL, unscale = TRUE, uncenter = TRUE){
   if(is.null(pcs)) pcs <- seq(pca$sdev)
   recon <- as.matrix(pca$x[,pcs]) %*% t(as.matrix(pca$rotation[,pcs]))
-  if(pca$scale[1] != FALSE){
-  	recon <- scale(recon , center=FALSE, scale=1/pca$scale)
-  	attr(recon, "scaled:scale") <- NULL
-  }
-  if(pca$center[1] != FALSE){
-	  recon <- scale(recon , center=-pca$center, scale=FALSE)
-	  attr(recon, "scaled:center") <- NULL
-  }
+  
+	# add center and scale attributes
+  if(pca$center[1] != FALSE){attr(recon, "scaled:center") <- pca$center}
+  if(pca$scale[1] != FALSE){attr(recon, "scaled:scale") <- pca$scale}
+  
+  # uncenter and unscale
+	if(unscale | uncenter){
+	  recon <- unscale(x = recon, unscale = unscale, uncenter = uncenter)
+	}
+
   recon
 }

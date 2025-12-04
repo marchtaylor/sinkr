@@ -6,8 +6,8 @@
 \usage{
 eofBoot(
   F1,
-  centered = TRUE,
-  scaled = FALSE,
+  center = TRUE,
+  scale = FALSE,
   nu = NULL,
   method = NULL,
   recursive = FALSE,
@@ -19,10 +19,10 @@ eofBoot(
 \item{F1}{A data field. The data should be arraunged as samples in the column 
 dimension (typically each column is a time series for a spatial location).}
 
-\item{centered}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+\item{center}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
 centered prior to the analysis. Defaults to 'TRUE'}
 
-\item{scaled}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
+\item{scale}{Logical (\code{TRUE/FALSE}) to define if \code{F1} should be 
 scaled prior to the analysis. Defaults to 'TRUE'}
 
 \item{nu}{Numeric value. Defines the number of EOFs to return. Defaults to 
@@ -72,7 +72,7 @@ set.seed(123)  # For reproducibility
 Xn <- Xt + rnorm(length(Xt), mean = 0, sd = noise_sd)
 Xn <- array(Xn, dim = dim(Xt))
 
-res <- eofBoot(Xn, centered=FALSE, scaled=FALSE, nperm=499)
+res <- eofBoot(Xn, center = FALSE, scale = FALSE, nperm=499)
 ylim <- range(res$Lambda.orig, res$Lambda)
 boxplot(res$Lambda, log="y", col=8, border=2, outpch="", ylim=ylim)
 points(res$Lambda.orig)
